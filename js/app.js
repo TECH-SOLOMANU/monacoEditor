@@ -10,39 +10,10 @@ import { showToast } from "./features/toast.js";
 
 let editor;
 
-<<<<<<< HEAD
-const scriptSources = [
-  'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.js',
-  'js/core/editor-data.js',
-  'js/core/editor-theme.js',
-  'js/core/editor-setup.js',
-  'js/features/toast.js',
-  'js/features/clipboard.js',
-  'js/features/download.js'
-];
-
-function loadScript(source) {
-  return new Promise((resolve, reject) => {
-    const script = document.createElement('script');
-    script.src = source;
-    script.onload = resolve;
-    script.onerror = () => reject(new Error(`Failed to load ${source}`));
-    document.head.appendChild(script);
-  });
-}
-
-async function loadScriptsInOrder(sources) {
-  for (const source of sources) {
-    await loadScript(source);
-  }
-}
-=======
 const VS_PATH =
   "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs";
->>>>>>> 40aef2b (Refactor Monaco Editor using ES module imports)
 
 function bootstrap() {
-  const appDependencies = window.MonacoEditorApp;
   const amdRequire = window.require;
 
   amdRequire.config({
@@ -85,15 +56,6 @@ function bootstrap() {
   });
 }
 
-<<<<<<< HEAD
-loadScriptsInOrder(scriptSources)
-  .then(bootstrap)
-  .catch(error => {
-    console.error(error);
-    document.getElementById('line-count').textContent = 'Failed to load editor';
-  });
-=======
 if (window.require) {
   bootstrap();
 }
->>>>>>> 40aef2b (Refactor Monaco Editor using ES module imports)
