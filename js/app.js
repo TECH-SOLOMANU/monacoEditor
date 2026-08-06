@@ -1,73 +1,53 @@
-const scriptSources = [
-  'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.js',
-  'js/core/editor-data.js',
-  'js/core/editor-theme.js',
-  'js/core/editor-setup.js',
-  'js/features/toast.js',
-  'js/features/clipboard.js',
-  'js/features/download.js'
-];
+import { editorData } from "./core/editor-data.js";
+import { defineTheme } from "./core/editor-theme.js";
+import {
+  createEditor,
+  bindLineCounter
+} from "./core/editor-setup.js";
+import { showToast } from "./features/toast.js";
+import { copy } from "./features/clipboard.js";
+import { download } from "./features/download.js";
 
-function loadScript(source) {
-  return new Promise((resolve, reject) => {
-    const script = document.createElement('script');
-    script.src = source;
-    script.onload = resolve;
-    script.onerror = () => reject(new Error(`Failed to load ${source}`));
-    document.head.appendChild(script);
-  });
-}
+const elements = {
+  editorContainer: document.getElementById("editor-container"),
+  lineCounter: document.getElementById("line-count"),
+  copyButton: document.getElementById("copy-button"),
+  downloadButton: document.getElementById("download-button")
+};
 
-async function loadScriptsInOrder(sources) {
-  for (const source of sources) {
-    await loadScript(source);
-  }
-}
-
-function getEditorElements() {
-  return {
-    editorContainer: document.getElementById('editor-container'),
-    lineCounter: document.getElementById('line-count'),
-    copyButton: document.getElementById('copy-button'),
-    downloadButton: document.getElementById('download-button')
-  };
-}
-
-function bindToolbarActions(editor, editorData, elements) {
-  elements.copyButton.addEventListener('click', () => {
-    window.MonacoEditorClipboard.copy(editor, window.MonacoEditorToast.show);
+function initializeEditor() {
+  require.config({
+    paths: {
+      vs: "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs"
+    }
   });
 
-  elements.downloadButton.addEventListener('click', () => {
-    window.MonacoEditorDownload.download(editor, editorData.fileName, window.MonacoEditorToast.show);
-  });
-}
+  require(["vs/editor/editor.main"], () => {
+    const theme = defineTheme(monaco);
 
-function bootstrapEditorApp() {
-  const editorData = window.MonacoEditorData;
-  const amdRequire = window.require;
-  const elements = getEditorElements();
-
-  amdRequire.config({ paths: { vs: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs' } });
-
-  amdRequire(['vs/editor/editor.main'], function () {
-    const themeName = window.MonacoEditorTheme.define(window.monaco);
-    const editor = window.MonacoEditorSetup.createEditor({
-      monaco: window.monaco,
+    const editor = createEditor({
+      monaco,
       container: elements.editorContainer,
       value: editorData.fileCode,
       language: editorData.language,
-      theme: themeName
+      theme
     });
 
-    window.MonacoEditorSetup.bindLineCounter(editor, elements.lineCounter);
-    bindToolbarActions(editor, editorData, elements);
+    bindLineCounter(editor, elements.lineCounter);
+
+    elements.copyButton.addEventListener("click", () => {
+      copy(editor, showToast);
+    });
+
+    elements.downloadButton.addEventListener("click", () => {
+      download(editor, editorData.fileName, showToast);
+    });
   });
 }
 
-loadScriptsInOrder(scriptSources)
-  .then(bootstrapEditorApp)
-  .catch(error => {
-    console.error(error);
-    document.getElementById('line-count').textContent = 'Failed to load editor';
-  });
+try {
+  initializeEditor();
+} catch (error) {
+  console.error(error);
+  elements.lineCounter.textContent = "Failed to load editor";
+}
