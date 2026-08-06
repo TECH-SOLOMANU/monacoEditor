@@ -8,9 +8,10 @@ window.MonacoEditorClipboard = {
       navigator.clipboard.writeText(text)
         .then(() => showToast('Code copied to clipboard!'))
         .catch(() => fallbackCopy(text, showToast));
-    } else {
-      fallbackCopy(text, showToast);
+      return;
     }
+
+    fallbackCopy(text, showToast);
   }
 };
 

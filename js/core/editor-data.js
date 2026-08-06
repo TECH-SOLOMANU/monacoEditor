@@ -1,8 +1,7 @@
-window.MonacoEditorApp = {
-  data: {
-    fileName: 'end-points.js',
-    language: 'javascript',
-    fileCode: `import express from 'express';
+window.MonacoEditorData = {
+  fileName: 'end-points.js',
+  language: 'javascript',
+  fileCode: `import express from 'express';
 
 import funcFromshowAll from './showAll/controller.js';
 import funcFrominsertWithMeta from './insertWithMeta/controller.js';
@@ -21,5 +20,4 @@ router.delete('/del/:pk', (req, res) => funcFromdel({ req, res, inTablePath: tab
 router.put('/modify', express.json(), (req, res) => funcFrommodify({ req, res, inTablePath: tablePath, inConfigPath: configPath }));
 
 export { router };`
-  }
 };

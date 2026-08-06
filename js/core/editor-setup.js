@@ -15,8 +15,10 @@ window.MonacoEditorSetup = {
   },
 
   bindLineCounter(editor, lineCounterElement) {
+    const model = editor.getModel();
+
     const updateLineCounter = () => {
-      const lineCount = editor.getModel().getLineCount();
+      const lineCount = model.getLineCount();
       lineCounterElement.textContent = `Lines: ${lineCount}`;
     };
 

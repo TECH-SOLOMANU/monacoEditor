@@ -2,9 +2,9 @@ window.MonacoEditorDownload = {
   download(editor, fileName, showToast) {
     if (!editor) return;
 
+    const blob = new Blob([editor.getValue()], { type: 'text/javascript' });
     const element = document.createElement('a');
-    const file = new Blob([editor.getValue()], { type: 'text/javascript' });
-    element.href = URL.createObjectURL(file);
+    element.href = URL.createObjectURL(blob);
     element.download = fileName;
     document.body.appendChild(element);
     element.click();

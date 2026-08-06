@@ -1,5 +1,3 @@
-let editor;
-
 const scriptSources = [
   'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.js',
   'js/core/editor-data.js',
@@ -26,35 +24,35 @@ async function loadScriptsInOrder(sources) {
   }
 }
 
-function bootstrap() {
-  const appDependencies = window.MonacoEditorApp;
+function bootstrapEditorApp() {
+  const editorData = window.MonacoEditorData;
   const amdRequire = window.require;
   amdRequire.config({ paths: { vs: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs' } });
 
   amdRequire(['vs/editor/editor.main'], function () {
     const themeName = window.MonacoEditorTheme.define(window.monaco);
-    editor = window.MonacoEditorSetup.createEditor({
+    const editor = window.MonacoEditorSetup.createEditor({
       monaco: window.monaco,
       container: document.getElementById('editor-container'),
-      value: appDependencies.data.fileCode,
-      language: appDependencies.data.language,
+      value: editorData.fileCode,
+      language: editorData.language,
       theme: themeName
     });
 
     window.MonacoEditorSetup.bindLineCounter(editor, document.getElementById('line-count'));
 
-    window.copyCode = function () {
+    document.getElementById('copy-button').addEventListener('click', () => {
       window.MonacoEditorClipboard.copy(editor, window.MonacoEditorToast.show);
-    };
+    });
 
-    window.downloadCode = function () {
-      window.MonacoEditorDownload.download(editor, appDependencies.data.fileName, window.MonacoEditorToast.show);
-    };
+    document.getElementById('download-button').addEventListener('click', () => {
+      window.MonacoEditorDownload.download(editor, editorData.fileName, window.MonacoEditorToast.show);
+    });
   });
 }
 
 loadScriptsInOrder(scriptSources)
-  .then(bootstrap)
+  .then(bootstrapEditorApp)
   .catch(error => {
     console.error(error);
     document.getElementById('line-count').textContent = 'Failed to load editor';
