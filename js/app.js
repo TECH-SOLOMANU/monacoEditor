@@ -24,30 +24,44 @@ async function loadScriptsInOrder(sources) {
   }
 }
 
+function getEditorElements() {
+  return {
+    editorContainer: document.getElementById('editor-container'),
+    lineCounter: document.getElementById('line-count'),
+    copyButton: document.getElementById('copy-button'),
+    downloadButton: document.getElementById('download-button')
+  };
+}
+
+function bindToolbarActions(editor, editorData, elements) {
+  elements.copyButton.addEventListener('click', () => {
+    window.MonacoEditorClipboard.copy(editor, window.MonacoEditorToast.show);
+  });
+
+  elements.downloadButton.addEventListener('click', () => {
+    window.MonacoEditorDownload.download(editor, editorData.fileName, window.MonacoEditorToast.show);
+  });
+}
+
 function bootstrapEditorApp() {
   const editorData = window.MonacoEditorData;
   const amdRequire = window.require;
+  const elements = getEditorElements();
+
   amdRequire.config({ paths: { vs: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs' } });
 
   amdRequire(['vs/editor/editor.main'], function () {
     const themeName = window.MonacoEditorTheme.define(window.monaco);
     const editor = window.MonacoEditorSetup.createEditor({
       monaco: window.monaco,
-      container: document.getElementById('editor-container'),
+      container: elements.editorContainer,
       value: editorData.fileCode,
       language: editorData.language,
       theme: themeName
     });
 
-    window.MonacoEditorSetup.bindLineCounter(editor, document.getElementById('line-count'));
-
-    document.getElementById('copy-button').addEventListener('click', () => {
-      window.MonacoEditorClipboard.copy(editor, window.MonacoEditorToast.show);
-    });
-
-    document.getElementById('download-button').addEventListener('click', () => {
-      window.MonacoEditorDownload.download(editor, editorData.fileName, window.MonacoEditorToast.show);
-    });
+    window.MonacoEditorSetup.bindLineCounter(editor, elements.lineCounter);
+    bindToolbarActions(editor, editorData, elements);
   });
 }
 
