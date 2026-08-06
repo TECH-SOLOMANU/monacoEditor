@@ -1,14 +1,29 @@
-window.MonacoEditorDownload = {
-  download(editor, fileName, showToast) {
-    if (!editor) return;
-
-    const element = document.createElement('a');
-    const file = new Blob([editor.getValue()], { type: 'text/javascript' });
-    element.href = URL.createObjectURL(file);
-    element.download = fileName;
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
-    showToast(`Downloading ${fileName}...`);
+export function download(editor, fileName, showToast) {
+  if (!editor) {
+    return;
   }
-};
+
+  const blob = new Blob(
+    [editor.getValue()],
+    {
+      type: "text/javascript"
+    }
+  );
+
+  const url = URL.createObjectURL(blob);
+
+  const anchor = document.createElement("a");
+
+  anchor.href = url;
+  anchor.download = fileName;
+
+  document.body.appendChild(anchor);
+
+  anchor.click();
+
+  document.body.removeChild(anchor);
+
+  URL.revokeObjectURL(url);
+
+  showToast(`Downloading ${fileName}...`);
+}
