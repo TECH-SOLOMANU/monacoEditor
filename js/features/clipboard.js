@@ -27,7 +27,7 @@ function fallbackCopy(text, showToast) {
   document.body.removeChild(textArea);
 }
 
-export async function copy(editor, showToast) {
+async function copy(editor, showToast) {
   if (!editor) {
     return;
   }
@@ -50,3 +50,5 @@ export async function copy(editor, showToast) {
 
   fallbackCopy(text, showToast);
 }
+
+window.copy = copy;
