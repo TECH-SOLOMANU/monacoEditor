@@ -1,4 +1,4 @@
-export const editorData = {
+window.editorData = {
   fileName: "end-points.js",
 
   language: "javascript",

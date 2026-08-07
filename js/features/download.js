@@ -1,4 +1,4 @@
-export function download(editor, fileName, showToast) {
+function download(editor, fileName, showToast) {
   if (!editor) {
     return;
   }
@@ -27,3 +27,5 @@ export function download(editor, fileName, showToast) {
 
   showToast(`Downloading ${fileName}...`);
 }
+
+window.download = download;
