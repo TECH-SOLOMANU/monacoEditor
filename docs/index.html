@@ -3,148 +3,112 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Monaco Editor - Documentation & Live Demo</title>
+  <title>AI-Driven Monaco Platform — Engineering Architecture Proposal</title>
+  <meta name="description" content="Principal Software Architecture Proposal: Next-Generation AI-First Browser Development Platform built on Monaco Editor.">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
 
-  <!-- Styles -->
-  <link rel="stylesheet" href="../style.css">
+  <!-- Architecture Documentation Stylesheet -->
+  <link rel="stylesheet" href="docs-style.css">
+
+  <!-- Mermaid.js Diagram Engine CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+
+  <!-- Monaco Editor CDN Loader -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.js"></script>
 </head>
 
 <body>
 
-  <div class="app-container">
+  <!-- Top Navigation Header -->
+  <header class="doc-header">
+    <div style="display: flex; align-items: center; gap: 0.75rem;">
+      <button id="mobile-toggle" class="mobile-toggle" aria-label="Toggle Menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
 
-    <!-- Header -->
-    <header>
-
-      <div class="brand-group">
-        <div class="logo">JS</div>
-
-        <div class="title-area">
-          <h1>end-points.js</h1>
-          <p>Local Standalone Editor Documentation Demo</p>
+      <a href="#introduction" class="brand-container">
+        <div class="brand-badge">AI</div>
+        <div>
+          <span class="brand-title">Monaco Platform</span>
         </div>
+        <span class="brand-tag">Architecture Doc</span>
+      </a>
+    </div>
+
+    <!-- Search Engine Input -->
+    <div class="header-center">
+      <div class="search-box">
+        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="search-input" type="text" class="search-input" placeholder="Search architecture specs, research, API contracts...">
       </div>
+    </div>
 
-      <div class="actions">
+    <!-- Header Actions -->
+    <div class="header-actions">
+      <button id="inspect-code-btn" class="nav-btn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        Inspect Prototype Code
+      </button>
+      <a href="../index.html" class="nav-btn nav-btn-primary" target="_blank">
+        Launch Live Editor Demo ⚡
+      </a>
+    </div>
+  </header>
 
-        <button
-          id="copy-button"
-          class="btn">
+  <!-- Main Documentation Layout Shell -->
+  <div class="doc-shell">
 
-          <svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2">
+    <!-- Sticky Sidebar Navigation -->
+    <aside id="doc-sidebar" class="doc-sidebar">
+      <div class="nav-section-title">Engineering Architecture</div>
+      <ul id="sidebar-menu" class="sidebar-menu">
+        <!-- Dynamically rendered from docs-content.js -->
+      </ul>
+    </aside>
 
-            <rect
-              x="9"
-              y="9"
-              width="13"
-              height="13"
-              rx="2"
-              ry="2">
-            </rect>
+    <!-- Main Content Container -->
+    <main class="doc-main">
 
-            <path
-              d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1">
-            </path>
+      <!-- Breadcrumbs -->
+      <nav class="breadcrumbs">
+        <a href="#introduction" class="breadcrumb-item">Architecture Blueprint</a>
+        <span class="breadcrumb-separator">/</span>
+        <span id="breadcrumb-current" class="breadcrumb-current">1. Introduction & Engineering Philosophy</span>
+      </nav>
 
-          </svg>
-
-          Copy Code
-
-        </button>
-
-        <button
-          id="download-button"
-          class="btn btn-primary">
-
-          <svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2">
-
-            <path
-              d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4">
-            </path>
-
-            <polyline
-              points="7 10 12 15 17 10">
-            </polyline>
-
-            <line
-              x1="12"
-              y1="15"
-              x2="12"
-              y2="3">
-            </line>
-
-          </svg>
-
-          Download File
-
-        </button>
-
+      <!-- Active Section View Target -->
+      <div id="doc-content-container">
+        <!-- Injected dynamically via docs-app.js -->
       </div>
-
-    </header>
-
-    <!-- Workspace -->
-    <main class="workspace">
-
-      <div id="editor-container"></div>
 
     </main>
-
-    <!-- Status Bar -->
-    <footer class="statusbar">
-
-      <div class="statusbar-item">
-        <span id="line-count">Lines: 0</span>
-      </div>
-
-      <div class="statusbar-item">
-        <span>UTF-8</span>
-        <span>JavaScript</span>
-        <span>Monaco Editor CDN</span>
-      </div>
-
-    </footer>
-
   </div>
 
-  <!-- Toast Container -->
-  <div
-    id="toast-container"
-    class="toast-container">
+  <!-- Interactive Code Inspector Modal -->
+  <div id="code-modal" class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header">
+        <span class="modal-title">Live Prototype Codebase Inspector — app.js</span>
+        <button id="modal-close-btn" class="modal-close">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+          Below is the actual initial application entry point loaded by <code>index.html</code> using standard global window functions for CORS <code>file://</code> protocol compatibility:
+        </p>
+        <div id="modal-editor-container" style="height: 420px; border-radius: 6px; overflow: hidden; border: 1px solid var(--border-dim);"></div>
+      </div>
+    </div>
   </div>
 
-  <!-- Monaco Loader CDN -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.js"></script>
-
-  <!-- Core & Features -->
-  <script src="../js/core/editor-data.js"></script>
-  <script src="../js/core/editor-theme.js"></script>
-  <script src="../js/core/editor-setup.js"></script>
-  <script src="../js/features/toast.js"></script>
-  <script src="../js/features/clipboard.js"></script>
-  <script src="../js/features/download.js"></script>
-
-  <!-- Application Entry Point -->
-  <script src="../js/app.js"></script>
+  <!-- Application Content & Routing Logic -->
+  <script src="docs-content.js"></script>
+  <script src="docs-app.js"></script>
 
 </body>
 </html>
