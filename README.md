@@ -1,60 +1,122 @@
-# Monaco Editor - Standalone JavaScript Code Editor
+<div align="center">
 
-A lightweight, modern standalone web code editor built with VS Code's **Monaco Editor** engine. Features custom dark syntax highlighting, one-click code copy, file download capability, live status bar statistics, and universal execution across both local disk files (`file://`) and web servers (`http://`).
+  <h1>⚡ Monaco Editor — Standalone Web Code Editor</h1>
+  <p><b>A lightweight, ultra-fast web-based code editor built on VS Code's Monaco Editor engine.</b></p>
+
+  <p>
+    <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" alt="HTML5" />
+    <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" alt="CSS3" />
+    <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JS" />
+    <img src="https://img.shields.io/badge/Monaco_Editor-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white" alt="Monaco" />
+    <img src="https://img.shields.io/badge/Compatibility-Universal_file%3A%2F%2F_%26_http%3A%2F%2F-success?style=for-the-badge" alt="Compatibility" />
+  </p>
+
+</div>
 
 ---
 
-## ✨ Features
+## 📖 The Project Story & Overview
 
-* 🎨 **Custom Dark Theme (`custom-dark`)**: Tailored color palette with styled keywords, strings, numbers, comments, line numbers, and custom cursor highlights.
-* 📋 **One-Click Clipboard Copy**: Instantly copy editor contents to clipboard with fallback support and animated toast notifications.
-* 💾 **File Download**: Download the current editor content directly as `end-points.js`.
-* 📊 **Live Line Counter**: Dynamic line counter in the status bar updating automatically on editor content changes.
-* ⚡ **Universal Execution**: Optimized script loading system allowing `index.html` to run seamlessly directly from Windows File Explorer (`file://`) or via HTTP local servers (e.g., Live Server).
+The **Monaco Editor Standalone Application** is designed to provide developers with a ready-to-use, zero-config web code editor directly in the browser. It features a custom-built dark UI theme, live status statistics, clipboard copy utilities, blob downloading, and modular JavaScript architecture.
 
 ---
 
-## 📁 Project Structure
+## ✨ Features & Visual Highlights
+
+<table width="100%">
+  <tr>
+    <td width="50%" valign="top">
+      <h3>🎨 Custom Dark Theme</h3>
+      <p>Custom tokenized syntax highlighting (<code>custom-dark</code>) with HSL dark mode background, active line highlights, custom cursor colors, and italicized comments.</p>
+    </td>
+    <td width="50%" valign="top">
+      <h3>📋 Copy & Download</h3>
+      <p>One-click clipboard copy with browser fallback mechanism, paired with direct Blob-based file downloading to export <code>end-points.js</code> instantly.</p>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <h3>📊 Live Line Counter</h3>
+      <p>Real-time line counter integrated into the application statusbar, updating dynamically as lines are edited or deleted.</p>
+    </td>
+    <td width="50%" valign="top">
+      <h3>⚡ Universal Dual Protocol</h3>
+      <p>Runs seamlessly via <b>File Explorer double-click</b> (<code>file://</code>) and <b>Live Server</b> (<code>http://</code>) with zero CORS issues.</p>
+    </td>
+  </tr>
+</table>
+
+---
+
+## 📂 Project Architecture
 
 ```text
-├── index.html                  # Main UI entry point
-├── style.css                   # Modern CSS layout, variables, & animations
-├── README.md                   # Project documentation
-├── LOCAL_FILE_LOADING_FIX.md   # Technical guide on local file protocol compatibility
+├── index.html                  # Main HTML structure & script execution sequence
+├── style.css                   # Glassmorphism dark layout & CSS variables
+├── README.md                   # Visual project documentation
+├── LOCAL_FILE_LOADING_FIX.md   # Technical deep-dive on file:// protocol fix
 └── js/
-    ├── app.js                  # Main application initializer & AMD loader setup
+    ├── app.js                  # Application entry point & AMD loader setup
     ├── core/
-    │   ├── editor-data.js      # Initial code sample & editor metadata
-    │   ├── editor-setup.js     # Monaco editor creation & line counter binding
-    │   └── editor-theme.js     # Custom Monaco dark theme definition
+    │   ├── editor-data.js      # Sample source code & language metadata
+    │   ├── editor-setup.js     # Monaco initialization & statusbar binding
+    │   └── editor-theme.js     # Monaco custom-dark theme definition
     ├── features/
-    │   ├── clipboard.js        # Copy code functionality with fallback
-    │   ├── download.js         # Blob-based file downloader
-    │   └── toast.js            # Animated toast notification component
+    │   ├── clipboard.js        # Copy-to-clipboard handler with fallback
+    │   ├── download.js         # Blob exporter
+    │   └── toast.js            # Animated toast notification manager
     └── samples/
         └── end-points.js       # Preloaded Express.js sample code
 ```
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Getting Started Guide
 
-No installation or build step is required! You can open the project in either of two ways:
+<details open>
+  <summary><b>Method 1: Direct File Explorer Launch (file://)</b></summary>
+  <br />
+  <ol>
+    <li>Navigate to the project root folder.</li>
+    <li>Double-click <code>index.html</code> in Windows File Explorer or macOS Finder.</li>
+    <li>The editor opens directly in your default browser without needing any local server!</li>
+  </ol>
+</details>
 
-### Option 1: Direct Local File (Double-Click)
-Double-click `index.html` directly in your file manager. The application loads Monaco Editor from CDN and runs locally without any CORS errors.
-
-### Option 2: Live Server / HTTP Web Server
-Right-click `index.html` in VS Code and select **Open with Live Server**, or serve the folder using any HTTP server:
-```bash
-# Example using npx serve
-npx serve .
-```
+<details>
+  <summary><b>Method 2: Live Server / Local Web Server (http://)</b></summary>
+  <br />
+  <ol>
+    <li>Open the project directory in VS Code.</li>
+    <li>Right-click <code>index.html</code> and select <b>Open with Live Server</b>.</li>
+    <li>Alternatively, run a static server from terminal:
+      <pre><code>npx serve .</code></pre>
+    </li>
+  </ol>
+</details>
 
 ---
 
-## 🛠️ Built With
+## 📜 Technical Fix Story: Local File Protocol (`file://`)
 
-* [Monaco Editor](https://microsoft.github.io/monaco-editor/) (`v0.45.0`) — Browser-based code editor engine.
-* [Google Fonts](https://fonts.google.com/) — Inter & Outfit typography.
-* Vanilla HTML5, CSS3, & JavaScript (ES6+).
+<details>
+  <summary><b>Click to read the CORS & Script Architecture Story</b></summary>
+  <br />
+  <h4>The Problem</h4>
+  <p>Modern browsers block ES JavaScript modules (<code>&lt;script type="module"&gt;</code> and <code>import/export</code>) on local <code>file://</code> URLs due to strict Same-Origin / CORS restrictions (origin evaluates to <code>null</code>).</p>
+  
+  <h4>The Resolution</h4>
+  <p>To eliminate CORS restrictions while keeping modularity:</p>
+  <ul>
+    <li>Script files assign their exported modules to the <code>window</code> scope (e.g., <code>window.createEditor</code>, <code>window.editorData</code>).</li>
+    <li>HTML script tags in <code>index.html</code> load core and feature scripts in ordered sequence before <code>app.js</code>.</li>
+  </ul>
+  <p>See <a href="LOCAL_FILE_LOADING_FIX.md">LOCAL_FILE_LOADING_FIX.md</a> for full technical details.</p>
+</details>
+
+---
+
+<div align="center">
+  <hr />
+  <p>Built with ❤️ using <b>HTML5</b>, <b>CSS3</b>, <b>JavaScript</b>, and <b>Monaco Editor CDN</b>.</p>
+</div>
