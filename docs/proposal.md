@@ -63,7 +63,7 @@ This makes the project suitable for students who want exposure to **real softwar
 
 Interns will contribute to the evolution of the editor.
 
-The work will not be limited to writing isolated pieces of code. Students will be expected to understand the existing architecture, identify areas for improvement, implement changes, test them, and document their work.
+The work will not be limited to writing isolated pieces of code. Students will be expected to understand the existing architecture, identify areas for improvement, implement changes, test them, an[...]
 
 Possible areas include:
 
@@ -202,7 +202,7 @@ A student may begin with a small task such as:
 7. Test it in the supported environment.
 8. Document what was changed.
 
-The existing repository already contains documentation explaining its local-file loading approach, which gives students a starting point for understanding one of the project's real technical challenges.
+The existing repository already contains documentation explaining its local-file loading approach, which gives students a starting point for understanding one of the project's real technical chal[...]
 
 ---
 
@@ -279,7 +279,7 @@ The objective is to help students develop the ability to **understand systems an
 
 # 11. Project Environment
 
-The project is publicly available on GitHub and currently contains multiple versions and supporting documentation, including the main application, JavaScript modules, documentation, and archived versions.
+The project is publicly available on GitHub and currently contains multiple versions and supporting documentation, including the main application, JavaScript modules, documentation, and archived [...] 
 
 Students will therefore get exposure to a real repository rather than a blank project created specifically for the internship.
 
@@ -325,3 +325,7 @@ It is:
 **KeshavSoft**
 
 *Building practical developer tools and giving students an opportunity to learn by contributing to real software.*
+
+---
+
+Note: Added by copilot on 2026-08-10 to create a PR.
