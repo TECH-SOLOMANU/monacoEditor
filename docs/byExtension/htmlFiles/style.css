@@ -199,3 +199,100 @@ header {
 .toast-error {
   border-left: 4px solid var(--accent-red);
 }
+/* Font Size Controls */
+.font-size-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.35rem;
+  border: 1px solid var(--card-border);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.font-size-button {
+  width: 30px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text-main);
+  font-family: var(--font-outfit);
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.font-size-button:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.font-size-value {
+  min-width: 38px;
+  text-align: center;
+  color: var(--text-muted);
+  font-family: var(--font-inter);
+  font-size: 0.75rem;
+}
+
+#html-stats {
+  color: var(--text-muted);
+}
+/* Font Size Controls */
+
+.font-size-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+
+  padding: 0.2rem 0.35rem;
+
+  border: 1px solid var(--card-border);
+  border-radius: 6px;
+
+  background: rgba(255, 255, 255, 0.03);
+}
+
+
+.font-size-button {
+  width: 30px;
+  height: 28px;
+
+  padding: 0;
+
+  border: none;
+  border-radius: 4px;
+
+  background: transparent;
+
+  color: var(--text-main);
+
+  font-family: var(--font-outfit);
+  font-size: 0.8rem;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+
+.font-size-button:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+
+.font-size-value {
+  min-width: 38px;
+
+  text-align: center;
+
+  color: var(--text-muted);
+
+  font-family: var(--font-inter);
+  font-size: 0.75rem;
+}
+
+
+#html-stats {
+  color: var(--text-muted);
+}
