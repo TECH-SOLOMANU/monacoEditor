@@ -17,6 +17,8 @@ function uploadJavaScriptFile({
 
   if (extension !== "js" && extension !== "html") {
     showToast("Please select a JavaScript (.js) or HTML (.html) file.", "error");
+  if (!file.name.toLowerCase().endsWith(".js")) {
+    showToast("Please select a JavaScript (.js) file.", "error");
     input.value = "";
     return;
   }
@@ -51,6 +53,15 @@ function uploadJavaScriptFile({
     } catch {
       showToast("File loaded in the editor. Run node server.js to save uploads.", "error");
     }
+  reader.addEventListener("load", () => {
+    const content = typeof reader.result === "string" ? reader.result : "";
+
+    editor.setValue(content);
+    editorData.fileName = file.name;
+    editorData.fileCode = content;
+    fileNameElement.textContent = file.name;
+    showToast(`${file.name} loaded successfully.`);
+    input.value = "";
   });
 
   reader.addEventListener("error", () => {
