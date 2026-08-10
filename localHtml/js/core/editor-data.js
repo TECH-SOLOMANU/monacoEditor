@@ -5,11 +5,6 @@ window.editorData = {
 
   fileCode: `import express from 'express';
 
-const router = express.Router();
-
-export { router };`,
-  fileCode1: `import express from 'express';
-
 import funcFromshowAll from './showAll/controller.js';
 import funcFrominsertWithMeta from './insertWithMeta/controller.js';
 import funcFromdel from './del/controller.js';
