@@ -57,6 +57,7 @@ function bootstrap() {
         editor,
         editorData: window.editorData,
         fileNameElement: document.getElementById("file-name"),
+        languageElement: document.getElementById("editor-language"),
         showToast: window.showToast
       });
     });
