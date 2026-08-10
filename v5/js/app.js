@@ -1,3 +1,13 @@
+import { editorData } from "./core/editor-data.js";
+import { defineTheme } from "./core/editor-theme.js";
+import {
+  createEditor,
+  bindLineCounter
+} from "./core/editor-setup.js";
+import { copy } from "./features/clipboard.js";
+import { download } from "./features/download.js";
+import { showToast } from "./features/toast.js";
+
 let editor;
 
 const VS_PATH =
@@ -13,17 +23,17 @@ function bootstrap() {
   });
 
   amdRequire(["vs/editor/editor.main"], () => {
-    const themeName = window.defineTheme(window.monaco);
+    const themeName = defineTheme(window.monaco);
 
-    editor = window.createEditor({
+    editor = createEditor({
       monaco: window.monaco,
       container: document.getElementById("editor-container"),
-      value: window.editorData.fileCode,
-      language: window.editorData.language,
+      value: editorData.fileCode,
+      language: editorData.language,
       theme: themeName
     });
 
-    window.bindLineCounter(
+    bindLineCounter(
       editor,
       document.getElementById("line-count")
     );
@@ -31,16 +41,16 @@ function bootstrap() {
     document
       .getElementById("copy-button")
       .addEventListener("click", () => {
-        window.copy(editor, window.showToast);
+        copy(editor, showToast);
       });
 
     document
       .getElementById("download-button")
       .addEventListener("click", () => {
-        window.download(
+        download(
           editor,
-          window.editorData.fileName,
-          window.showToast
+          editorData.fileName,
+          showToast
         );
       });
   });

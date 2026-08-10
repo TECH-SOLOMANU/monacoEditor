@@ -1,4 +1,4 @@
-function defineTheme(monaco) {
+export function defineTheme(monaco) {
   const themeName = "custom-dark";
 
   monaco.editor.defineTheme(themeName, {
@@ -39,5 +39,3 @@ function defineTheme(monaco) {
 
   return themeName;
 }
-
-window.defineTheme = defineTheme;

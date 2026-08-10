@@ -1,14 +1,9 @@
-window.editorData = {
+export const editorData = {
   fileName: "end-points.js",
 
   language: "javascript",
 
   fileCode: `import express from 'express';
-
-const router = express.Router();
-
-export { router };`,
-  fileCode1: `import express from 'express';
 
 import funcFromshowAll from './showAll/controller.js';
 import funcFrominsertWithMeta from './insertWithMeta/controller.js';

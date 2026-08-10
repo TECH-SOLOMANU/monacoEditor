@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -35,14 +34,29 @@
 
       <div class="actions">
 
-        <button id="copy-button" class="btn">
+        <button
+          id="copy-button"
+          class="btn">
 
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2">
 
-            <rect x="9" y="9" width="13" height="13" rx="2" ry="2">
+            <rect
+              x="9"
+              y="9"
+              width="13"
+              height="13"
+              rx="2"
+              ry="2">
             </rect>
 
-            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1">
+            <path
+              d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1">
             </path>
 
           </svg>
@@ -51,17 +65,31 @@
 
         </button>
 
-        <button id="download-button" class="btn btn-primary">
+        <button
+          id="download-button"
+          class="btn btn-primary">
 
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2">
 
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4">
+            <path
+              d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4">
             </path>
 
-            <polyline points="7 10 12 15 17 10">
+            <polyline
+              points="7 10 12 15 17 10">
             </polyline>
 
-            <line x1="12" y1="15" x2="12" y2="3">
+            <line
+              x1="12"
+              y1="15"
+              x2="12"
+              y2="3">
             </line>
 
           </svg>
@@ -99,23 +127,16 @@
   </div>
 
   <!-- Toast -->
-  <div id="toast-container" class="toast-container">
+  <div
+    id="toast-container"
+    class="toast-container">
   </div>
 
   <!-- Monaco Loader -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.js"></script>
 
-  <!-- Core & Features -->
-  <script src="./js/core/editor-data.js"></script>
-  <script src="./js/core/editor-theme.js"></script>
-  <script src="./js/core/editor-setup.js"></script>
-  <script src="./js/features/toast.js"></script>
-  <script src="./js/features/clipboard.js"></script>
-  <script src="./js/features/download.js"></script>
-
-  <!-- Application Entry -->
-  <script src="./js/app.js"></script>
+  <!-- Application -->
+  <script type="module" src="./js/app.js"></script>
 
 </body>
-
 </html>

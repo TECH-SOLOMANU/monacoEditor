@@ -17,7 +17,7 @@ function escapeHTML(text) {
   );
 }
 
-function showToast(
+export function showToast(
   message,
   type = "success"
 ) {
@@ -88,5 +88,3 @@ function showToast(
     }, 300);
   }, 3000);
 }
-
-window.showToast = showToast;

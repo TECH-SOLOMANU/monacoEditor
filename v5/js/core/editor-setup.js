@@ -1,4 +1,4 @@
-function createEditor({
+export function createEditor({
   monaco,
   container,
   value,
@@ -25,7 +25,7 @@ function createEditor({
   });
 }
 
-function bindLineCounter(
+export function bindLineCounter(
   editor,
   lineCounterElement
 ) {
@@ -47,6 +47,3 @@ function bindLineCounter(
     updateLineCounter
   );
 }
-
-window.createEditor = createEditor;
-window.bindLineCounter = bindLineCounter;
