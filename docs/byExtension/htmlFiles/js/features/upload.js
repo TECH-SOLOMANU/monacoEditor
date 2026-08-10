@@ -1,4 +1,4 @@
-function uploadJavaScriptFile({
+function uploadHTMLFile({
   input,
   editor,
   editorData,
@@ -11,8 +11,8 @@ function uploadJavaScriptFile({
     return;
   }
 
-  if (!file.name.toLowerCase().endsWith(".js")) {
-    showToast("Please select a JavaScript (.js) file.", "error");
+  if (!file.name.toLowerCase().endsWith(".html")) {
+    showToast("Please select an HTML (.html) file.", "error");
     input.value = "";
     return;
   }
@@ -20,13 +20,24 @@ function uploadJavaScriptFile({
   const reader = new FileReader();
 
   reader.addEventListener("load", () => {
-    const content = typeof reader.result === "string" ? reader.result : "";
+    const content =
+      typeof reader.result === "string" ? reader.result : "";
 
     editor.setValue(content);
+
     editorData.fileName = file.name;
     editorData.fileCode = content;
+    editorData.language = "html";
+
     fileNameElement.textContent = file.name;
+
+    window.monaco.editor.setModelLanguage(
+      editor.getModel(),
+      "html"
+    );
+
     showToast(`${file.name} loaded successfully.`);
+
     input.value = "";
   });
 
@@ -38,4 +49,4 @@ function uploadJavaScriptFile({
   reader.readAsText(file);
 }
 
-window.uploadJavaScriptFile = uploadJavaScriptFile;
+window.uploadHTMLFile = uploadHTMLFile;

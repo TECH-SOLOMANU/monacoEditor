@@ -52,7 +52,7 @@ function bootstrap() {
     });
 
     fileUploadInput.addEventListener("change", () => {
-      window.uploadJavaScriptFile({
+      window.uploadHTMLFile({
         input: fileUploadInput,
         editor,
         editorData: window.editorData,
