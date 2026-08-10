@@ -23,7 +23,7 @@ function uploadJavaScriptFile({
 
   const reader = new FileReader();
 
-  reader.addEventListener("load", () => {
+  reader.addEventListener("load", async () => {
     const content = typeof reader.result === "string" ? reader.result : "";
 
     editor.setValue(content);
@@ -33,8 +33,24 @@ function uploadJavaScriptFile({
     editorData.language = language;
     fileNameElement.textContent = file.name;
     languageElement.textContent = language === "html" ? "HTML" : "JavaScript";
-    showToast(`${file.name} loaded successfully.`);
     input.value = "";
+
+    try {
+      const response = await fetch("/api/uploads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: file.name, content })
+      });
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error);
+      }
+
+      showToast(`${file.name} saved to ${result.filePath}.`);
+    } catch {
+      showToast("File loaded in the editor. Run node server.js to save uploads.", "error");
+    }
   });
 
   reader.addEventListener("error", () => {
