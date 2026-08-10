@@ -3,7 +3,8 @@ function createEditor({
   container,
   value,
   language,
-  theme
+  theme,
+  settings
 }) {
   return monaco.editor.create(container, {
     value,
@@ -12,18 +13,35 @@ function createEditor({
 
     automaticLayout: true,
 
-    fontFamily: "'Courier New', Courier, monospace",
-    fontSize: 14,
+    fontFamily: `'${settings.fontFamily}', monospace`,
+    fontSize: settings.fontSize,
     lineHeight: 22,
-    tabSize: 2,
+    tabSize: settings.tabSize,
 
-    wordWrap: "on",
+    wordWrap: settings.wordWrap ? "on" : "off",
+
+    lineNumbers: settings.lineNumbers ? "on" : "off",
 
     minimap: {
-      enabled: true
-    }
+      enabled: settings.minimap
+    },
+
+    smoothScrolling: settings.smoothScrolling,
+
+    autoClosingBrackets:
+      settings.autoClosingBrackets
+        ? "always"
+        : "never",
+
+    autoClosingQuotes:
+      settings.autoClosingQuotes
+        ? "always"
+        : "never",
+
+    formatOnPaste: settings.formatOnPaste
   });
 }
+
 
 function bindLineCounter(
   editor,
@@ -48,5 +66,118 @@ function bindLineCounter(
   );
 }
 
-window.createEditor = createEditor;
-window.bindLineCounter = bindLineCounter;
+
+function bindHtmlStats(
+  editor,
+  statsElement
+) {
+  function updateHtmlStats() {
+    const model = editor.getModel();
+
+    if (!model) {
+      statsElement.textContent =
+        "IDs: 0   Classes: 0   Tags: 0";
+      return;
+    }
+
+    const content = model.getValue();
+
+    const parser = new DOMParser();
+
+    const document =
+      parser.parseFromString(
+        content,
+        "text/html"
+      );
+
+    const elements =
+      document.querySelectorAll("*");
+
+    const idCount =
+      document.querySelectorAll("[id]").length;
+
+    const classNames = new Set();
+
+    document
+      .querySelectorAll("[class]")
+      .forEach((element) => {
+        element.classList.forEach(
+          (className) => {
+            classNames.add(className);
+          }
+        );
+      });
+
+    statsElement.textContent =
+      `IDs: ${idCount}   Classes: ${classNames.size}   Tags: ${elements.length}`;
+  }
+
+  updateHtmlStats();
+
+  editor.onDidChangeModelContent(
+    updateHtmlStats
+  );
+}
+
+
+function bindFontSizeControls(
+  editor,
+  decreaseButton,
+  increaseButton,
+  sizeElement
+) {
+  let fontSize =
+    editor.getOption(
+      monaco.editor.EditorOption.fontSize
+    );
+
+  function updateFontSize() {
+    editor.updateOptions({
+      fontSize
+    });
+
+    sizeElement.textContent =
+      `${fontSize}px`;
+  }
+
+  decreaseButton.addEventListener(
+    "click",
+    () => {
+      if (fontSize <= 8) {
+        return;
+      }
+
+      fontSize -= 1;
+
+      updateFontSize();
+    }
+  );
+
+  increaseButton.addEventListener(
+    "click",
+    () => {
+      if (fontSize >= 32) {
+        return;
+      }
+
+      fontSize += 1;
+
+      updateFontSize();
+    }
+  );
+
+  updateFontSize();
+}
+
+
+window.createEditor =
+  createEditor;
+
+window.bindLineCounter =
+  bindLineCounter;
+
+window.bindHtmlStats =
+  bindHtmlStats;
+
+window.bindFontSizeControls =
+  bindFontSizeControls;

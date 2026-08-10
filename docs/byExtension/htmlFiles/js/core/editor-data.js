@@ -1,60 +1,47 @@
 window.editorData = {
-  fileName: "end-points.js",
 
-  language: "javascript",
+  fileName: "index.html",
 
-  fileCode: `import express from 'express';
+  language: "html",
 
-const router = express.Router();
+  fileCode: `<!DOCTYPE html>
+<html lang="en">
 
-export { router };`,
-  fileCode1: `import express from 'express';
+<head>
 
-import funcFromshowAll from './showAll/controller.js';
-import funcFrominsertWithMeta from './insertWithMeta/controller.js';
-import funcFromdel from './del/controller.js';
-import funcFrommodify from './modify/controller.js';
+  <meta charset="UTF-8">
 
-const tableName = "doctors.json";
-const tablePath = "Data/doctors.json";
-const configPath = "Config/Schemas/doctors.json";
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
 
-const router = express.Router();
+  <title>My HTML Page</title>
 
-router.get('/showAll', (req, res) =>
-  funcFromshowAll({
-    req,
-    res,
-    inTablePath: tablePath
-  })
-);
+</head>
 
-router.post('/insertWithMeta', express.json(), (req, res) =>
-  funcFrominsertWithMeta({
-    req,
-    res,
-    inTablePath: tablePath,
-    inConfigPath: configPath
-  })
-);
+<body>
 
-router.delete('/del/:pk', (req, res) =>
-  funcFromdel({
-    req,
-    res,
-    inTablePath: tablePath
-  })
-);
+  <header id="header">
 
-router.put('/modify', express.json(), (req, res) =>
-  funcFrommodify({
-    req,
-    res,
-    inTablePath: tablePath,
-    inConfigPath: configPath
-  })
-);
+    <h1 class="title">
+      Hello World
+    </h1>
 
-export { router };
-`
+  </header>
+
+  <main>
+
+    <section class="content">
+
+      <p>
+        Welcome to the HTML Editor.
+      </p>
+
+    </section>
+
+  </main>
+
+</body>
+
+</html>`
 };
