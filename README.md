@@ -9,9 +9,40 @@
     <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JS" />
     <img src="https://img.shields.io/badge/Monaco_Editor-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white" alt="Monaco" />
     <img src="https://img.shields.io/badge/Compatibility-Universal_file%3A%2F%2F_%26_http%3A%2F%2F-success?style=for-the-badge" alt="Compatibility" />
+    <img src="https://img.shields.io/badge/📚_Docs-Architecture_Platform-6366f1?style=for-the-badge" alt="Docs" />
+  </p>
+
+  <p>
+    <a href="docs/index.html">
+      <img src="https://img.shields.io/badge/📖_Open_Documentation_Platform-Click_Here-6366f1?style=for-the-badge&labelColor=1e1b4b" alt="Open Docs" />
+    </a>
   </p>
 
 </div>
+
+[📚 Open Documentation](docs/index.html)
+
+---
+
+## 📚 Documentation
+
+> Comprehensive architectural documentation for the AI-Driven Monaco Editor platform is available in the **`docs/`** folder.
+
+| Link | Description |
+|------|-------------|
+| [📖 Open Docs Site](docs/index.html) | Full interactive documentation platform with 12 sections |
+| [01 · Introduction & Philosophy](docs/index.html#introduction) | Vision, objectives, and engineering philosophy |
+| [02 · Problem Statement](docs/index.html#problem-statement) | Industry bottlenecks and developer pain points |
+| [03 · Why Beyond Editors](docs/index.html#why-beyond-editors) | The paradigm shift from IDEs to AI platforms |
+| [04 · Why Monaco Editor](docs/index.html#why-monaco) | Engine selection rationale and capabilities |
+| [05 · Existing Architecture](docs/index.html#existing-architecture) | Current prototype audit and execution sequence |
+| [06 · Current Limitations](docs/index.html#current-limitations) | 10 structural gaps and severity analysis |
+| [07 · Future AI Architecture](docs/index.html#future-architecture) | 12-subsystem CTO-level platform blueprint |
+| [08 · Research & Technology](docs/index.html#research-technology) | Technology evaluation matrix and decisions |
+| [09 · Implementation Roadmap](docs/index.html#implementation-roadmap) | Phase-by-phase build plan and milestones |
+| [10 · Risks & Challenges](docs/index.html#risks-challenges) | Risk register with mitigation strategies |
+| [11 · Future Scope](docs/index.html#future-scope) | Long-term vision and ecosystem expansion |
+| [12 · Conclusion](docs/index.html#conclusion) | Summary, next steps, and closing principles |
 
 ---
 
