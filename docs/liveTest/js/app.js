@@ -43,6 +43,23 @@ function bootstrap() {
           window.showToast
         );
       });
+
+    const uploadButton = document.getElementById("upload-button");
+    const fileUploadInput = document.getElementById("file-upload-input");
+
+    uploadButton.addEventListener("click", () => {
+      fileUploadInput.click();
+    });
+
+    fileUploadInput.addEventListener("change", () => {
+      window.uploadJavaScriptFile({
+        input: fileUploadInput,
+        editor,
+        editorData: window.editorData,
+        fileNameElement: document.getElementById("file-name"),
+        showToast: window.showToast
+      });
+    });
   });
 }
 
