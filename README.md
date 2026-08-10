@@ -11,13 +11,19 @@
     <img src="https://img.shields.io/badge/Compatibility-Universal_file%3A%2F%2F_%26_http%3A%2F%2F-success?style=for-the-badge" alt="Compatibility" />
   </p>
 
+  <p>
+    <a href="https://keshavsoft.github.io/monacoEditor/" target="_blank">
+      <img src="https://img.shields.io/badge/🚀%20Try%20Live%20Demo-GitHub%20Pages-blue?style=for-the-badge" alt="Live Demo" />
+    </a>
+  </p>
+
 </div>
 
 ---
 
 ## 📖 The Project Story & Overview
 
-The **Monaco Editor Standalone Application** is designed to provide developers with a ready-to-use, zero-config web code editor directly in the browser. It features a custom-built dark UI theme, live status statistics, clipboard copy utilities, blob downloading, and modular JavaScript architecture.
+The **Monaco Editor Standalone Application** is designed to provide developers with a ready-to-use, zero-config web code editor directly in the browser. It features a custom-built dark UI theme, l[...]
 
 ---
 
@@ -103,7 +109,7 @@ The **Monaco Editor Standalone Application** is designed to provide developers w
   <summary><b>Click to read the CORS & Script Architecture Story</b></summary>
   <br />
   <h4>The Problem</h4>
-  <p>Modern browsers block ES JavaScript modules (<code>&lt;script type="module"&gt;</code> and <code>import/export</code>) on local <code>file://</code> URLs due to strict Same-Origin / CORS restrictions (origin evaluates to <code>null</code>).</p>
+  <p>Modern browsers block ES JavaScript modules (<code>&lt;script type="module"&gt;</code> and <code>import/export</code>) on local <code>file://</code> URLs due to strict Same-Origin / CORS res[...]
   
   <h4>The Resolution</h4>
   <p>To eliminate CORS restrictions while keeping modularity:</p>
