@@ -6,7 +6,7 @@ function createEditor({
   theme,
   settings
 }) {
-  return monaco.editor.create(container, {
+  const editor = monaco.editor.create(container, {
     value,
     language,
     theme,
@@ -40,6 +40,29 @@ function createEditor({
 
     formatOnPaste: settings.formatOnPaste
   });
+
+  /*
+   * Keyboard shortcut customization
+   *
+   * Ctrl/Cmd + F -> Disabled
+   * Ctrl/Cmd + D -> Monaco Find
+   */
+
+  // Disable the default Ctrl/Cmd + F Find shortcut
+  editor.addCommand(
+    monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyF,
+    () => {}
+  );
+
+  // Open Monaco Find using Ctrl/Cmd + D
+  editor.addCommand(
+    monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyD,
+    () => {
+      editor.getAction("actions.find").run();
+    }
+  );
+
+  return editor;
 }
 
 
@@ -51,7 +74,9 @@ function bindLineCounter(
     const model = editor.getModel();
 
     if (!model) {
-      lineCounterElement.textContent = "Lines: 0";
+      lineCounterElement.textContent =
+        "Lines: 0";
+
       return;
     }
 
@@ -77,12 +102,15 @@ function bindHtmlStats(
     if (!model) {
       statsElement.textContent =
         "IDs: 0   Classes: 0   Tags: 0";
+
       return;
     }
 
-    const content = model.getValue();
+    const content =
+      model.getValue();
 
-    const parser = new DOMParser();
+    const parser =
+      new DOMParser();
 
     const document =
       parser.parseFromString(
@@ -96,7 +124,8 @@ function bindHtmlStats(
     const idCount =
       document.querySelectorAll("[id]").length;
 
-    const classNames = new Set();
+    const classNames =
+      new Set();
 
     document
       .querySelectorAll("[class]")
@@ -109,7 +138,7 @@ function bindHtmlStats(
       });
 
     statsElement.textContent =
-      `IDs: ${idCount}   Classes: ${classNames.size}   Tags: ${elements.length}`;
+      `IDs: ${idCount} Classes: ${classNames.size} Tags: ${elements.length}`;
   }
 
   updateHtmlStats();
