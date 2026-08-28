@@ -1,159 +1,65 @@
-<div align="center">
+# ⚡ Monaco Editor — Standalone Web Code Editor Platform
 
-  <h1>⚡ Monaco Editor — Standalone Web Code Editor</h1>
-  <p><b>A lightweight, ultra-fast web-based code editor built on VS Code's Monaco Editor engine.</b></p>
-
-  <p>
-    <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" alt="HTML5" />
-    <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" alt="CSS3" />
-    <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JS" />
-    <img src="https://img.shields.io/badge/Monaco_Editor-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white" alt="Monaco" />
-    <img src="https://img.shields.io/badge/Compatibility-Universal_file%3A%2F%2F_%26_http%3A%2F%2F-success?style=for-the-badge" alt="Compatibility" />
-    <img src="https://img.shields.io/badge/📚_Docs-Architecture_Platform-6366f1?style=for-the-badge" alt="Docs" />
-  </p>
-
-  <p>
-    <a href="docs/index.html">
-      <img src="https://img.shields.io/badge/📖_Open_Documentation_Platform-Click_Here-6366f1?style=for-the-badge&labelColor=1e1b4b" alt="Open Docs" />
-    </a>
-  </p>
-
-  <p>
-    <a href="https://keshavsoft.github.io/monacoEditor/" target="_blank">
-      <img src="https://img.shields.io/badge/🚀%20Try%20Live%20Demo-GitHub%20Pages-blue?style=for-the-badge" alt="Live Demo" />
-    </a>
-  </p>
-
-</div>
-
-[📚 Open Documentation](docs/index.html)
+> **Production-grade web code editor suite powered by VS Code's Monaco Engine, live `@babel/standalone` AST parse error markers, red squiggly underlines, mouse hover tooltips, AST inspector side drawer, live split preview, and multi-file tab management.**
 
 ---
 
-## 📚 Documentation
+## 🌐 Official Live Links
 
-> Comprehensive architectural documentation for the AI-Driven Monaco Editor platform is available in the **`docs/`** folder.
-
-| Link | Description |
-|------|-------------|
-| [📖 Open Docs Site](docs/index.html) | Full interactive documentation platform with 12 sections |
-| [01 · Introduction & Philosophy](docs/index.html#introduction) | Vision, objectives, and engineering philosophy |
-| [02 · Problem Statement](docs/index.html#problem-statement) | Industry bottlenecks and developer pain points |
-| [03 · Why Beyond Editors](docs/index.html#why-beyond-editors) | The paradigm shift from IDEs to AI platforms |
-| [04 · Why Monaco Editor](docs/index.html#why-monaco) | Engine selection rationale and capabilities |
-| [05 · Existing Architecture](docs/index.html#existing-architecture) | Current prototype audit and execution sequence |
-| [06 · Current Limitations](docs/index.html#current-limitations) | 10 structural gaps and severity analysis |
-| [07 · Future AI Architecture](docs/index.html#future-architecture) | 12-subsystem CTO-level platform blueprint |
-| [08 · Research & Technology](docs/index.html#research-technology) | Technology evaluation matrix and decisions |
-| [09 · Implementation Roadmap](docs/index.html#implementation-roadmap) | Phase-by-phase build plan and milestones |
-| [10 · Risks & Challenges](docs/index.html#risks-challenges) | Risk register with mitigation strategies |
-| [11 · Future Scope](docs/index.html#future-scope) | Long-term vision and ecosystem expansion |
-| [12 · Conclusion](docs/index.html#conclusion) | Summary, next steps, and closing principles |
+| Resource | Official URL | Description |
+|---|---|---|
+| 🏠 **Main Official Website** | [https://keshavsoft.github.io/monacoEditor/](https://keshavsoft.github.io/monacoEditor/) | Official project homepage & standalone editor |
+| 📁 **byExtension Portal** | [https://keshavsoft.github.io/monacoEditor/byExtension/](https://keshavsoft.github.io/monacoEditor/byExtension/index.html) | Master extension selector portal hub |
+| 🩵 **Version 8 (Ultimate Suite)** | [https://keshavsoft.github.io/monacoEditor/byExtension/v8/](https://keshavsoft.github.io/monacoEditor/byExtension/v8/jsFiles/index.html) | AST Inspector, Live Preview, Error Console & Multi-Tabs |
+| 💜 **Version 7 (byExtension)** | [https://keshavsoft.github.io/monacoEditor/byExtension/v7/](https://keshavsoft.github.io/monacoEditor/byExtension/v7/jsFiles/index.html) | Modular `byExtension` suite with `settings.html` |
+| 🔴 **Version 6 (Hover Errors)** | [https://keshavsoft.github.io/monacoEditor/v6/](https://keshavsoft.github.io/monacoEditor/v6/index.html) | Out-of-the-box JS error markers & hover tooltips |
 
 ---
 
-## 📖 The Project Story & Overview
+## 🌟 Version Evolution Matrix
 
-The **Monaco Editor Standalone Application** is designed to provide developers with a ready-to-use, zero-config web code editor directly in the browser. It features a custom-built dark UI theme, l[...]
-
----
-
-## ✨ Features & Visual Highlights
-
-<table width="100%">
-  <tr>
-    <td width="50%" valign="top">
-      <h3>🎨 Custom Dark Theme</h3>
-      <p>Custom tokenized syntax highlighting (<code>custom-dark</code>) with HSL dark mode background, active line highlights, custom cursor colors, and italicized comments.</p>
-    </td>
-    <td width="50%" valign="top">
-      <h3>📋 Copy & Download</h3>
-      <p>One-click clipboard copy with browser fallback mechanism, paired with direct Blob-based file downloading to export <code>end-points.js</code> instantly.</p>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" valign="top">
-      <h3>📊 Live Line Counter</h3>
-      <p>Real-time line counter integrated into the application statusbar, updating dynamically as lines are edited or deleted.</p>
-    </td>
-    <td width="50%" valign="top">
-      <h3>⚡ Universal Dual Protocol</h3>
-      <p>Runs seamlessly via <b>File Explorer double-click</b> (<code>file://</code>) and <b>Live Server</b> (<code>http://</code>) with zero CORS issues.</p>
-    </td>
-  </tr>
-</table>
+| Version | Architecture & Key Features |
+|---|---|
+| **v1 - v3** | Single-page Monaco Editor loading static `end-points.js` with AMD Require.js loader, custom dark theme, clipboard copy, and blob download. |
+| **v4 - v5** | Introduced modular file architecture separated into `core/`, `features/`, and `samples/`. |
+| **v6** | **Out-of-the-Box Error Markers & Mouse Hover Tooltips**: Integrated `@babel/standalone` CDN with `errorRecovery: true` and bound error line/column coordinates to Monaco via `monaco.editor.setModelMarkers()`. |
+| **v7** | **`byExtension` Architecture & Settings Suite**: Built extension-specific subfolders (`jsFiles/`, `htmlFiles/`), dedicated `settings.html` with LocalStorage persistence, `howToUse.html` guide, and live HTML stats counter (`IDs`, `Classes`, `Tags`). |
+| **v8** | **Ultimate Master Workspace**: Added **Live Split-Screen Render Preview**, **Babel AST Inspector Side Drawer**, **Clickable Error Console Drawer (Jump-to-Line)**, **Quick Presets Code Selector**, and **VS Code Multi-File Tabs with (+) New File System**. |
 
 ---
 
-## 📂 Project Architecture
+## 📂 Project Directory Structure
 
 ```text
-├── index.html                  # Main HTML structure & script execution sequence
-├── style.css                   # Glassmorphism dark layout & CSS variables
-├── README.md                   # Visual project documentation
-├── LOCAL_FILE_LOADING_FIX.md   # Technical deep-dive on file:// protocol fix
-└── js/
-    ├── app.js                  # Application entry point & AMD loader setup
-    ├── core/
-    │   ├── editor-data.js      # Sample source code & language metadata
-    │   ├── editor-setup.js     # Monaco initialization & statusbar binding
-    │   └── editor-theme.js     # Monaco custom-dark theme definition
-    ├── features/
-    │   ├── clipboard.js        # Copy-to-clipboard handler with fallback
-    │   ├── download.js         # Blob exporter
-    │   └── toast.js            # Animated toast notification manager
-    └── samples/
-        └── end-points.js       # Preloaded Express.js sample code
+monacoEditor/
+├── index.html                       # Standalone Editor Application Entry Point
+├── README.md                        # Master Project Documentation & Overview
+├── dev.md                           # Developer & Contributor Architecture Guide
+├── howto.md                         # End-User Operations & Shortcuts Guide
+├── style.css                        # Glassmorphism Dark Layout Stylesheet
+├── docs/
+│   └── byExtension/                 # GitHub Pages Live Deployment Directory
+│       ├── index.html               # Main Portal Page (with Version 1 to Version 8 links)
+│       ├── v7/                      # Version 7 byExtension Suite
+│       │   ├── jsFiles/             # JS Editor, settings.html, howToUse.html
+│       │   └── htmlFiles/           # HTML Editor, settings.html, howToUse.html
+│       └── v8/                      # Version 8 Ultimate Suite
+│           ├── jsFiles/             # Ultimate JS Editor (AST Inspector, Preview, Console)
+│           └── htmlFiles/           # Ultimate HTML Editor (Split Preview & Live Stats)
 ```
 
 ---
 
-## 🚀 Getting Started Guide
+## 🛠️ Core Technology Stack
 
-<details open>
-  <summary><b>Method 1: Direct File Explorer Launch (file://)</b></summary>
-  <br />
-  <ol>
-    <li>Navigate to the project root folder.</li>
-    <li>Double-click <code>index.html</code> in Windows File Explorer or macOS Finder.</li>
-    <li>The editor opens directly in your default browser without needing any local server!</li>
-  </ol>
-</details>
-
-<details>
-  <summary><b>Method 2: Live Server / Local Web Server (http://)</b></summary>
-  <br />
-  <ol>
-    <li>Open the project directory in VS Code.</li>
-    <li>Right-click <code>index.html</code> and select <b>Open with Live Server</b>.</li>
-    <li>Alternatively, run a static server from terminal:
-      <pre><code>npx serve .</code></pre>
-    </li>
-  </ol>
-</details>
+- **Monaco Editor (v0.45.0)**: VS Code browser editing engine loaded natively via Require.js AMD CDN.
+- **Babel Standalone (`@babel/standalone`)**: In-browser JavaScript AST parsing with `errorRecovery: true`.
+- **Tailwind CSS**: Modern utility styling for portal pages, drawers, and settings interfaces.
+- **HTML5 FileReader & Blob APIs**: 1-click file uploading and exporting.
 
 ---
 
-## 📜 Technical Fix Story: Local File Protocol (`file://`)
+## 📖 Complete Documentation Suite
 
-<details>
-  <summary><b>Click to read the CORS & Script Architecture Story</b></summary>
-  <br />
-  <h4>The Problem</h4>
-  <p>Modern browsers block ES JavaScript modules (<code>&lt;script type="module"&gt;</code> and <code>import/export</code>) on local <code>file://</code> URLs due to strict Same-Origin / CORS res[...]
-  
-  <h4>The Resolution</h4>
-  <p>To eliminate CORS restrictions while keeping modularity:</p>
-  <ul>
-    <li>Script files assign their exported modules to the <code>window</code> scope (e.g., <code>window.createEditor</code>, <code>window.editorData</code>).</li>
-    <li>HTML script tags in <code>index.html</code> load core and feature scripts in ordered sequence before <code>app.js</code>.</li>
-  </ul>
-  <p>See <a href="LOCAL_FILE_LOADING_FIX.md">LOCAL_FILE_LOADING_FIX.md</a> for full technical details.</p>
-</details>
-
----
-
-<div align="center">
-  <hr />
-  <p>Built with ❤️ using <b>HTML5</b>, <b>CSS3</b>, <b>JavaScript</b>, and <b>Monaco Editor CDN</b>.</p>
-</div>
+- [👨‍💻 Developer Guide (`dev.md`)](dev.md) — Technical architecture, AST marker integration & PR workflow.
+- [📖 User Operations Guide (`howto.md`)](howto.md) — Keyboard shortcuts, settings guide & drawer usage.
