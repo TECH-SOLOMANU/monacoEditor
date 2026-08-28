@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monaco Editor byExtension - One Workspace. Multiple Environments.</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    body {
+      font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+      background-color: #07090e;
+      background-image: 
+        radial-gradient(at 20% 20%, rgba(99, 102, 241, 0.08) 0px, transparent 50%),
+        radial-gradient(at 80% 20%, rgba(14, 165, 233, 0.08) 0px, transparent 50%);
+    }
+    code { font-family: 'Fira Code', monospace; }
+
+    .glass-card-purple {
+      background: linear-gradient(145deg, rgba(28, 22, 49, 0.6) 0%, rgba(15, 17, 28, 0.8) 100%);
+      border: 1px solid rgba(139, 92, 246, 0.25);
+      box-shadow: 0 20px 40px -15px rgba(124, 58, 237, 0.15);
+    }
+    .glass-card-purple:hover {
+      border-color: rgba(167, 139, 250, 0.5);
+      box-shadow: 0 25px 50px -12px rgba(139, 92, 246, 0.3);
+    }
+
+    .glass-card-teal {
+      background: linear-gradient(145deg, rgba(16, 42, 53, 0.6) 0%, rgba(13, 20, 31, 0.8) 100%);
+      border: 1px solid rgba(14, 165, 233, 0.25);
+      box-shadow: 0 20px 40px -15px rgba(14, 165, 233, 0.15);
+    }
+    .glass-card-teal:hover {
+      border-color: rgba(56, 189, 248, 0.5);
+      box-shadow: 0 25px 50px -12px rgba(14, 165, 233, 0.3);
+    }
+
+    .btn-purple {
+      background: linear-gradient(135deg, #7c3aed 0%, #9333ea 100%);
+      box-shadow: 0 4px 14px 0 rgba(147, 51, 234, 0.39);
+    }
+    .btn-purple:hover {
+      background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
+      box-shadow: 0 6px 20px 0 rgba(147, 51, 234, 0.6);
+    }
+
+    .btn-teal {
+      background: linear-gradient(135deg, #0284c7 0%, #06b6d4 100%);
+      box-shadow: 0 4px 14px 0 rgba(6, 182, 212, 0.39);
+    }
+    .btn-teal:hover {
+      background: linear-gradient(135deg, #0369a1 0%, #0891b2 100%);
+      box-shadow: 0 6px 20px 0 rgba(6, 182, 212, 0.6);
+    }
+  </style>
+</head>
+<body class="text-slate-100 min-h-screen flex flex-col justify-center items-center p-6 sm:p-12">
+
+  <div class="w-full max-w-5xl space-y-8">
+
+    <!-- SUBTITLE TEXT -->
+    <div class="text-center space-y-2 max-w-2xl mx-auto">
+      <p class="text-xs text-slate-400 font-mono tracking-wider uppercase">
+        Optimized for its respective language and keeps your workflow simple and focused.
+      </p>
+    </div>
+
+    <!-- MAIN TWO CARDS GRID -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+      <!-- LEFT CARD: HTML EDITOR -->
+      <div class="glass-card-purple p-8 rounded-3xl transition-all duration-300 flex flex-col justify-between space-y-8">
+        
+        <div class="space-y-6">
+          <!-- Top Badge Bar -->
+          <div class="flex items-center justify-between">
+            <div class="w-12 h-12 rounded-2xl bg-purple-950/80 border border-purple-500/40 flex items-center justify-center font-extrabold text-xs text-purple-200 tracking-wider shadow-inner">
+              HTML
+            </div>
+            <span class="text-[11px] font-mono bg-slate-900/80 border border-slate-700/60 text-slate-400 px-3 py-1 rounded-md">
+              .html / .htm
+            </span>
+          </div>
+
+          <!-- Heading & Description -->
+          <div class="space-y-2">
+            <h2 class="text-3xl font-extrabold text-white tracking-tight">HTML Editor</h2>
+            <p class="text-xs text-slate-400 leading-relaxed font-sans">
+              Build and edit HTML documents with a focused Monaco-powered environment designed for clean and efficient markup editing.
+            </p>
+          </div>
+
+          <!-- 4 Checkmark Features Grid -->
+          <div class="grid grid-cols-2 gap-3 text-xs font-sans">
+            <div class="flex items-center gap-2 text-slate-300">
+              <span class="w-4 h-4 rounded-full bg-purple-500/30 text-purple-300 flex items-center justify-center text-[10px] font-bold">✓</span>
+              <span>HTML syntax highlighting</span>
+            </div>
+            <div class="flex items-center gap-2 text-slate-300">
+              <span class="w-4 h-4 rounded-full bg-purple-500/30 text-purple-300 flex items-center justify-center text-[10px] font-bold">✓</span>
+              <span>Live HTML statistics</span>
+            </div>
+            <div class="flex items-center gap-2 text-slate-300">
+              <span class="w-4 h-4 rounded-full bg-purple-500/30 text-purple-300 flex items-center justify-center text-[10px] font-bold">✓</span>
+              <span>File upload &amp; download</span>
+            </div>
+            <div class="flex items-center gap-2 text-slate-300">
+              <span class="w-4 h-4 rounded-full bg-purple-500/30 text-purple-300 flex items-center justify-center text-[10px] font-bold">✓</span>
+              <span>Editor customization</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card Footer -->
+        <div class="pt-6 border-t border-purple-500/10 flex items-center justify-between">
+          <span class="text-[11px] font-mono text-slate-500 uppercase tracking-wider">HTML environment</span>
+          <a href="htmlFiles/index.html" class="btn-purple px-5 py-2.5 rounded-xl text-xs font-bold text-white transition flex items-center gap-2 group text-decoration-none">
+            <span>Open HTML Editor</span>
+            <span class="group-hover:translate-x-1 transition-transform">&rarr;</span>
+          </a>
+        </div>
+
+      </div>
+
+      <!-- RIGHT CARD: JAVASCRIPT EDITOR -->
+      <div class="glass-card-teal p-8 rounded-3xl transition-all duration-300 flex flex-col justify-between space-y-8">
+        
+        <div class="space-y-6">
+          <!-- Top Badge Bar -->
+          <div class="flex items-center justify-between">
+            <div class="w-12 h-12 rounded-2xl bg-cyan-950/80 border border-cyan-500/40 flex items-center justify-center font-extrabold text-xs text-cyan-200 tracking-wider shadow-inner">
+              JS
+            </div>
+            <span class="text-[11px] font-mono bg-slate-900/80 border border-slate-700/60 text-slate-400 px-3 py-1 rounded-md">
+              .js
+            </span>
+          </div>
+
+          <!-- Heading & Description -->
+          <div class="space-y-2">
+            <h2 class="text-3xl font-extrabold text-white tracking-tight">JavaScript Editor</h2>
+            <p class="text-xs text-slate-400 leading-relaxed font-sans">
+              Write and edit JavaScript files in a dedicated Monaco-powered environment with a clean, developer-focused interface.
+            </p>
+          </div>
+
+          <!-- 4 Checkmark Features Grid -->
+          <div class="grid grid-cols-2 gap-3 text-xs font-sans">
+            <div class="flex items-center gap-2 text-slate-300">
+              <span class="w-4 h-4 rounded-full bg-cyan-500/30 text-cyan-300 flex items-center justify-center text-[10px] font-bold">✓</span>
+              <span>JavaScript syntax highlighting</span>
+            </div>
+            <div class="flex items-center gap-2 text-slate-300">
+              <span class="w-4 h-4 rounded-full bg-cyan-500/30 text-cyan-300 flex items-center justify-center text-[10px] font-bold">✓</span>
+              <span>JavaScript file support</span>
+            </div>
+            <div class="flex items-center gap-2 text-slate-300">
+              <span class="w-4 h-4 rounded-full bg-cyan-500/30 text-cyan-300 flex items-center justify-center text-[10px] font-bold">✓</span>
+              <span>File upload &amp; download</span>
+            </div>
+            <div class="flex items-center gap-2 text-slate-300">
+              <span class="w-4 h-4 rounded-full bg-cyan-500/30 text-cyan-300 flex items-center justify-center text-[10px] font-bold">✓</span>
+              <span>Monaco Editor experience</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card Footer -->
+        <div class="pt-6 border-t border-cyan-500/10 flex items-center justify-between">
+          <span class="text-[11px] font-mono text-slate-500 uppercase tracking-wider">JavaScript environment</span>
+          <a href="jsFiles/index.html" class="btn-teal px-5 py-2.5 rounded-xl text-xs font-bold text-white transition flex items-center gap-2 group text-decoration-none">
+            <span>Open JS Editor</span>
+            <span class="group-hover:translate-x-1 transition-transform">&rarr;</span>
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- BOTTOM WORKSPACE BANNER CARD -->
+    <div class="bg-slate-900/60 border border-slate-800/80 p-6 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div class="space-y-1">
+        <h4 class="text-sm font-bold text-white">One workspace. Multiple environments.</h4>
+        <p class="text-xs text-slate-400 font-sans">
+          Choose the file type you are working with and jump directly into the corresponding editor.
+        </p>
+      </div>
+      <span class="text-xs font-mono text-emerald-400 bg-emerald-950/80 px-3 py-1.5 rounded-lg border border-emerald-800/60 font-bold whitespace-nowrap">
+        Local &amp; Standalone
+      </span>
+    </div>
+
+  </div>
+
+</body>
+</html>
