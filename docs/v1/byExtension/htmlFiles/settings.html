@@ -1,0 +1,1458 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Settings - Monaco Editor</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <style>
+
+    :root {
+      --bg-color: #0b0f19;
+      --panel-bg: #111827;
+      --card-bg: rgba(255, 255, 255, 0.03);
+      --card-border: rgba(255, 255, 255, 0.08);
+
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+
+      --primary: #8b5cf6;
+      --primary-hover: #7c3aed;
+      --primary-glow: rgba(139, 92, 246, 0.2);
+
+      --accent-green: #10b981;
+
+      --font-outfit: "Outfit", sans-serif;
+      --font-inter: "Inter", sans-serif;
+    }
+
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+
+    body {
+      min-height: 100vh;
+
+      background-color: var(--bg-color);
+
+      background-image:
+        radial-gradient(
+          at 0% 0%,
+          rgba(139, 92, 246, 0.1) 0px,
+          transparent 50%
+        ),
+        radial-gradient(
+          at 100% 100%,
+          rgba(6, 182, 212, 0.1) 0px,
+          transparent 50%
+        );
+
+      color: var(--text-main);
+
+      font-family: var(--font-inter);
+    }
+
+
+    .app-container {
+      min-height: 100vh;
+
+      display: flex;
+      flex-direction: column;
+    }
+
+
+    /* Header */
+
+    header {
+      height: 78px;
+
+      padding: 1rem 2rem;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      background: rgba(17, 24, 39, 0.85);
+
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+
+      border-bottom: 1px solid var(--card-border);
+    }
+
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+
+      gap: 0.75rem;
+    }
+
+
+    .logo {
+      width: 38px;
+      height: 38px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 8px;
+
+      background: linear-gradient(
+        135deg,
+        var(--primary) 0%,
+        #06b6d4 100%
+      );
+
+      color: #fff;
+
+      font-family: var(--font-outfit);
+
+      font-size: 0.8rem;
+      font-weight: 800;
+
+      box-shadow:
+        0 4px 12px var(--primary-glow);
+    }
+
+
+    .title-area h1 {
+      font-family: var(--font-outfit);
+
+      font-size: 1.35rem;
+      font-weight: 700;
+    }
+
+
+    .title-area p {
+      margin-top: 2px;
+
+      color: var(--text-muted);
+
+      font-size: 0.75rem;
+    }
+
+
+    .back-button {
+      padding: 0.6rem 1.1rem;
+
+      border: 1px solid var(--card-border);
+      border-radius: 6px;
+
+      background: rgba(255, 255, 255, 0.03);
+
+      color: var(--text-main);
+
+      font-family: var(--font-outfit);
+
+      font-size: 0.85rem;
+      font-weight: 600;
+
+      text-decoration: none;
+
+      transition: all 0.2s ease;
+    }
+
+
+    .back-button:hover {
+      background: rgba(255, 255, 255, 0.08);
+
+      transform: translateY(-1px);
+    }
+
+
+    /* Main */
+
+    .settings-wrapper {
+      width: 100%;
+      max-width: 1000px;
+
+      margin: 0 auto;
+
+      padding: 40px 24px 60px;
+    }
+
+
+    .page-heading {
+      margin-bottom: 28px;
+    }
+
+
+    .page-heading h2 {
+      margin-bottom: 6px;
+
+      font-family: var(--font-outfit);
+
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+
+
+    .page-heading p {
+      color: var(--text-muted);
+
+      font-size: 0.9rem;
+    }
+
+
+    /* Settings Section */
+
+    .settings-section {
+      margin-bottom: 20px;
+
+      background: var(--card-bg);
+
+      border: 1px solid var(--card-border);
+
+      border-radius: 10px;
+
+      overflow: hidden;
+    }
+
+
+    .section-header {
+      padding: 18px 22px;
+
+      background: rgba(255, 255, 255, 0.02);
+
+      border-bottom: 1px solid var(--card-border);
+    }
+
+
+    .section-header h3 {
+      font-family: var(--font-outfit);
+
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+
+    .section-header p {
+      margin-top: 4px;
+
+      color: var(--text-muted);
+
+      font-size: 0.75rem;
+    }
+
+
+    .settings-list {
+      padding: 4px 22px;
+    }
+
+
+    .setting-row {
+      min-height: 68px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      gap: 30px;
+
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+
+    .setting-row:last-child {
+      border-bottom: none;
+    }
+
+
+    .setting-info {
+      flex: 1;
+    }
+
+
+    .setting-title {
+      display: block;
+
+      font-family: var(--font-outfit);
+
+      font-size: 0.88rem;
+      font-weight: 600;
+    }
+
+
+    .setting-description {
+      display: block;
+
+      margin-top: 3px;
+
+      color: var(--text-muted);
+
+      font-size: 0.72rem;
+
+      line-height: 1.4;
+    }
+
+
+    /* Select */
+
+    select {
+      min-width: 160px;
+
+      padding: 8px 10px;
+
+      border: 1px solid var(--card-border);
+
+      border-radius: 6px;
+
+      outline: none;
+
+      background: #151d2d;
+
+      color: var(--text-main);
+
+      font-family: var(--font-inter);
+
+      font-size: 0.8rem;
+
+      cursor: pointer;
+    }
+
+
+    select:focus {
+      border-color: var(--primary);
+
+      box-shadow:
+        0 0 0 2px var(--primary-glow);
+    }
+
+
+    /* Range */
+
+    .range-control {
+      min-width: 230px;
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 12px;
+    }
+
+
+    input[type="range"] {
+      width: 170px;
+
+      accent-color: var(--primary);
+
+      cursor: pointer;
+    }
+
+
+    .range-value {
+      width: 42px;
+
+      text-align: right;
+
+      color: var(--text-muted);
+
+      font-size: 0.8rem;
+
+      font-weight: 600;
+    }
+
+
+    /* Toggle */
+
+    .toggle {
+      position: relative;
+
+      width: 42px;
+      height: 23px;
+
+      flex-shrink: 0;
+    }
+
+
+    .toggle input {
+      width: 0;
+      height: 0;
+
+      opacity: 0;
+    }
+
+
+    .slider {
+      position: absolute;
+
+      inset: 0;
+
+      border-radius: 20px;
+
+      background: #374151;
+
+      cursor: pointer;
+
+      transition: 0.2s ease;
+    }
+
+
+    .slider::before {
+      content: "";
+
+      position: absolute;
+
+      width: 17px;
+      height: 17px;
+
+      left: 3px;
+      top: 3px;
+
+      border-radius: 50%;
+
+      background: #fff;
+
+      transition: 0.2s ease;
+    }
+
+
+    .toggle input:checked + .slider {
+      background: var(--primary);
+    }
+
+
+    .toggle input:checked + .slider::before {
+      transform: translateX(19px);
+    }
+
+
+    /* Bottom Actions */
+
+    .actions {
+      margin-top: 30px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+    }
+
+
+    .action-group {
+      display: flex;
+
+      gap: 10px;
+    }
+
+
+    .button {
+      padding: 0.65rem 1.25rem;
+
+      border-radius: 6px;
+
+      font-family: var(--font-outfit);
+
+      font-size: 0.85rem;
+
+      font-weight: 600;
+
+      cursor: pointer;
+
+      transition: all 0.2s ease;
+    }
+
+
+    .save-button {
+      border: none;
+
+      background: linear-gradient(
+        135deg,
+        var(--primary),
+        var(--primary-hover)
+      );
+
+      color: #fff;
+
+      box-shadow:
+        0 4px 12px var(--primary-glow);
+    }
+
+
+    .save-button:hover {
+      transform: translateY(-1px);
+
+      box-shadow:
+        0 6px 16px var(--primary-glow);
+    }
+
+
+    .reset-button {
+      border: 1px solid var(--card-border);
+
+      background: transparent;
+
+      color: var(--text-main);
+    }
+
+
+    .reset-button:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+
+    .status-message {
+      color: var(--text-muted);
+
+      font-size: 0.75rem;
+    }
+
+
+    .status-message.success {
+      color: var(--accent-green);
+    }
+
+
+    /* Responsive */
+
+    @media (max-width: 700px) {
+
+      header {
+        padding: 1rem;
+      }
+
+
+      .settings-wrapper {
+        padding: 25px 15px 40px;
+      }
+
+
+      .setting-row {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 12px;
+
+        padding: 18px 0;
+      }
+
+
+      .range-control {
+        min-width: 100%;
+      }
+
+
+      input[type="range"] {
+        flex: 1;
+      }
+
+
+      .actions {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 15px;
+      }
+
+
+      .action-group {
+        width: 100%;
+      }
+
+
+      .button {
+        flex: 1;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+  <div class="app-container">
+
+
+    <!-- Header -->
+
+    <header>
+
+      <div class="brand-group">
+
+        <div class="logo">
+          SET
+        </div>
+
+        <div class="title-area">
+
+          <h1>
+            Editor Settings
+          </h1>
+
+          <p>
+            Customize your Monaco Editor experience
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <a
+        href="index.html"
+        class="back-button">
+
+        ← Back to Editor
+
+      </a>
+
+    </header>
+
+
+    <!-- Main Settings -->
+
+    <main class="settings-wrapper">
+
+
+      <div class="page-heading">
+
+        <h2>
+          Settings
+        </h2>
+
+        <p>
+          Configure the editor behavior and appearance.
+          Your preferences are saved locally.
+        </p>
+
+      </div>
+
+
+      <!-- Editor Settings -->
+
+      <section class="settings-section">
+
+        <div class="section-header">
+
+          <h3>
+            Editor
+          </h3>
+
+          <p>
+            Configure the appearance and behavior of the code editor.
+          </p>
+
+        </div>
+
+
+        <div class="settings-list">
+
+
+          <!-- Font Size -->
+
+          <div class="setting-row">
+
+            <div class="setting-info">
+
+              <span class="setting-title">
+                Font Size
+              </span>
+
+              <span class="setting-description">
+                Change the editor text size.
+              </span>
+
+            </div>
+
+
+            <div class="range-control">
+
+              <input
+                id="font-size"
+                type="range"
+                min="8"
+                max="32"
+                value="14">
+
+              <span
+                id="font-size-value"
+                class="range-value">
+                14px
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <!-- Font Family -->
+
+          <div class="setting-row">
+
+            <div class="setting-info">
+
+              <span class="setting-title">
+                Font Family
+              </span>
+
+              <span class="setting-description">
+                Select the font used inside the editor.
+              </span>
+
+            </div>
+
+
+            <select id="font-family">
+
+              <option value="Courier New">
+                Courier New
+              </option>
+
+              <option value="Consolas">
+                Consolas
+              </option>
+
+              <option value="Monaco">
+                Monaco
+              </option>
+
+              <option value="monospace">
+                Monospace
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <!-- Tab Size -->
+
+          <div class="setting-row">
+
+            <div class="setting-info">
+
+              <span class="setting-title">
+                Tab Size
+              </span>
+
+              <span class="setting-description">
+                Number of spaces used for indentation.
+              </span>
+
+            </div>
+
+
+            <select id="tab-size">
+
+              <option value="2">
+                2 Spaces
+              </option>
+
+              <option value="4">
+                4 Spaces
+              </option>
+
+              <option value="8">
+                8 Spaces
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <!-- Word Wrap -->
+
+          <div class="setting-row">
+
+            <div class="setting-info">
+
+              <span class="setting-title">
+                Word Wrap
+              </span>
+
+              <span class="setting-description">
+                Automatically wrap long lines.
+              </span>
+
+            </div>
+
+
+            <label class="toggle">
+
+              <input
+                id="word-wrap"
+                type="checkbox"
+                checked>
+
+              <span class="slider"></span>
+
+            </label>
+
+          </div>
+
+
+          <!-- Line Numbers -->
+
+          <div class="setting-row">
+
+            <div class="setting-info">
+
+              <span class="setting-title">
+                Line Numbers
+              </span>
+
+              <span class="setting-description">
+                Display line numbers beside the editor.
+              </span>
+
+            </div>
+
+
+            <label class="toggle">
+
+              <input
+                id="line-numbers"
+                type="checkbox"
+                checked>
+
+              <span class="slider"></span>
+
+            </label>
+
+          </div>
+
+
+          <!-- Minimap -->
+
+          <div class="setting-row">
+
+            <div class="setting-info">
+
+              <span class="setting-title">
+                Minimap
+              </span>
+
+              <span class="setting-description">
+                Display the code overview on the right side.
+              </span>
+
+            </div>
+
+
+            <label class="toggle">
+
+              <input
+                id="minimap"
+                type="checkbox">
+
+              <span class="slider"></span>
+
+            </label>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- Appearance -->
+
+      <section class="settings-section">
+
+        <div class="section-header">
+
+          <h3>
+            Appearance
+          </h3>
+
+          <p>
+            Customize the visual appearance of the editor.
+          </p>
+
+        </div>
+
+
+        <div class="settings-list">
+
+
+          <!-- Theme -->
+
+          <div class="setting-row">
+
+            <div class="setting-info">
+
+              <span class="setting-title">
+                Theme
+              </span>
+
+              <span class="setting-description">
+                Choose the editor color theme.
+              </span>
+
+            </div>
+
+
+            <select id="theme">
+
+              <option value="dark">
+                Dark
+              </option>
+
+              <option value="light">
+                Light
+              </option>
+
+              <option value="high-contrast">
+                High Contrast
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <!-- Smooth Scrolling -->
+
+          <div class="setting-row">
+
+            <div class="setting-info">
+
+              <span class="setting-title">
+                Smooth Scrolling
+              </span>
+
+              <span class="setting-description">
+                Enable smooth scrolling while navigating code.
+              </span>
+
+            </div>
+
+
+            <label class="toggle">
+
+              <input
+                id="smooth-scrolling"
+                type="checkbox"
+                checked>
+
+              <span class="slider"></span>
+
+            </label>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- Code Behavior -->
+
+      <section class="settings-section">
+
+        <div class="section-header">
+
+          <h3>
+            Code Behavior
+          </h3>
+
+          <p>
+            Configure automatic editor assistance.
+          </p>
+
+        </div>
+
+
+        <div class="settings-list">
+
+
+          <!-- Auto Closing Brackets -->
+
+          <div class="setting-row">
+
+            <div class="setting-info">
+
+              <span class="setting-title">
+                Auto Closing Brackets
+              </span>
+
+              <span class="setting-description">
+                Automatically insert closing brackets.
+              </span>
+
+            </div>
+
+
+            <label class="toggle">
+
+              <input
+                id="auto-closing-brackets"
+                type="checkbox"
+                checked>
+
+              <span class="slider"></span>
+
+            </label>
+
+          </div>
+
+
+          <!-- Auto Closing Quotes -->
+
+          <div class="setting-row">
+
+            <div class="setting-info">
+
+              <span class="setting-title">
+                Auto Closing Quotes
+              </span>
+
+              <span class="setting-description">
+                Automatically insert closing quotation marks.
+              </span>
+
+            </div>
+
+
+            <label class="toggle">
+
+              <input
+                id="auto-closing-quotes"
+                type="checkbox"
+                checked>
+
+              <span class="slider"></span>
+
+            </label>
+
+          </div>
+
+
+          <!-- Format On Paste -->
+
+          <div class="setting-row">
+
+            <div class="setting-info">
+
+              <span class="setting-title">
+                Format On Paste
+              </span>
+
+              <span class="setting-description">
+                Automatically format code when content is pasted.
+              </span>
+
+            </div>
+
+
+            <label class="toggle">
+
+              <input
+                id="format-on-paste"
+                type="checkbox">
+
+              <span class="slider"></span>
+
+            </label>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- Actions -->
+
+      <div class="actions">
+
+        <span
+          id="status-message"
+          class="status-message">
+        </span>
+
+
+        <div class="action-group">
+
+          <button
+            id="reset-button"
+            class="button reset-button"
+            type="button">
+
+            Reset Defaults
+
+          </button>
+
+
+          <button
+            id="save-button"
+            class="button save-button"
+            type="button">
+
+            Save Settings
+
+          </button>
+
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+
+  <script>
+
+    const SETTINGS_KEY =
+      "monaco-editor-settings";
+
+
+    const DEFAULT_SETTINGS = {
+
+      fontSize: 14,
+
+      fontFamily:
+        "Courier New",
+
+      tabSize: 2,
+
+      wordWrap: true,
+
+      lineNumbers: true,
+
+      minimap: false,
+
+      theme: "dark",
+
+      smoothScrolling: true,
+
+      autoClosingBrackets: true,
+
+      autoClosingQuotes: true,
+
+      formatOnPaste: false
+
+    };
+
+
+    const fontSizeInput =
+      document.getElementById(
+        "font-size"
+      );
+
+
+    const fontSizeValue =
+      document.getElementById(
+        "font-size-value"
+      );
+
+
+    function updateFontSizeLabel() {
+
+      fontSizeValue.textContent =
+        `${fontSizeInput.value}px`;
+
+    }
+
+
+    function getCurrentSettings() {
+
+      return {
+
+        fontSize:
+          Number(
+            fontSizeInput.value
+          ),
+
+        fontFamily:
+          document.getElementById(
+            "font-family"
+          ).value,
+
+        tabSize:
+          Number(
+            document.getElementById(
+              "tab-size"
+            ).value
+          ),
+
+        wordWrap:
+          document.getElementById(
+            "word-wrap"
+          ).checked,
+
+        lineNumbers:
+          document.getElementById(
+            "line-numbers"
+          ).checked,
+
+        minimap:
+          document.getElementById(
+            "minimap"
+          ).checked,
+
+        theme:
+          document.getElementById(
+            "theme"
+          ).value,
+
+        smoothScrolling:
+          document.getElementById(
+            "smooth-scrolling"
+          ).checked,
+
+        autoClosingBrackets:
+          document.getElementById(
+            "auto-closing-brackets"
+          ).checked,
+
+        autoClosingQuotes:
+          document.getElementById(
+            "auto-closing-quotes"
+          ).checked,
+
+        formatOnPaste:
+          document.getElementById(
+            "format-on-paste"
+          ).checked
+
+      };
+
+    }
+
+
+    function applySettings(settings) {
+
+      fontSizeInput.value =
+        settings.fontSize;
+
+
+      document.getElementById(
+        "font-family"
+      ).value =
+        settings.fontFamily;
+
+
+      document.getElementById(
+        "tab-size"
+      ).value =
+        settings.tabSize;
+
+
+      document.getElementById(
+        "word-wrap"
+      ).checked =
+        settings.wordWrap;
+
+
+      document.getElementById(
+        "line-numbers"
+      ).checked =
+        settings.lineNumbers;
+
+
+      document.getElementById(
+        "minimap"
+      ).checked =
+        settings.minimap;
+
+
+      document.getElementById(
+        "theme"
+      ).value =
+        settings.theme;
+
+
+      document.getElementById(
+        "smooth-scrolling"
+      ).checked =
+        settings.smoothScrolling;
+
+
+      document.getElementById(
+        "auto-closing-brackets"
+      ).checked =
+        settings.autoClosingBrackets;
+
+
+      document.getElementById(
+        "auto-closing-quotes"
+      ).checked =
+        settings.autoClosingQuotes;
+
+
+      document.getElementById(
+        "format-on-paste"
+      ).checked =
+        settings.formatOnPaste;
+
+
+      updateFontSizeLabel();
+
+    }
+
+
+    function loadSettings() {
+
+      const savedSettings =
+        localStorage.getItem(
+          SETTINGS_KEY
+        );
+
+
+      if (!savedSettings) {
+
+        applySettings(
+          DEFAULT_SETTINGS
+        );
+
+        return;
+
+      }
+
+
+      try {
+
+        const parsedSettings =
+          JSON.parse(
+            savedSettings
+          );
+
+
+        applySettings({
+
+          ...DEFAULT_SETTINGS,
+
+          ...parsedSettings
+
+        });
+
+      } catch (error) {
+
+        applySettings(
+          DEFAULT_SETTINGS
+        );
+
+      }
+
+    }
+
+
+    function showStatus(message) {
+
+      const statusMessage =
+        document.getElementById(
+          "status-message"
+        );
+
+
+      statusMessage.textContent =
+        message;
+
+
+      statusMessage.classList.add(
+        "success"
+      );
+
+
+      setTimeout(() => {
+
+        statusMessage.textContent =
+          "";
+
+        statusMessage.classList.remove(
+          "success"
+        );
+
+      }, 2500);
+
+    }
+
+
+    fontSizeInput.addEventListener(
+      "input",
+      updateFontSizeLabel
+    );
+
+
+    document
+      .getElementById(
+        "save-button"
+      )
+      .addEventListener(
+        "click",
+        () => {
+
+          const settings =
+            getCurrentSettings();
+
+
+          localStorage.setItem(
+            SETTINGS_KEY,
+            JSON.stringify(
+              settings
+            )
+          );
+
+
+          showStatus(
+            "Settings saved successfully."
+          );
+
+        }
+      );
+
+
+    document
+      .getElementById(
+        "reset-button"
+      )
+      .addEventListener(
+        "click",
+        () => {
+
+          applySettings(
+            DEFAULT_SETTINGS
+          );
+
+
+          localStorage.setItem(
+            SETTINGS_KEY,
+            JSON.stringify(
+              DEFAULT_SETTINGS
+            )
+          );
+
+
+          showStatus(
+            "Settings reset to defaults."
+          );
+
+        }
+      );
+
+
+    loadSettings();
+
+  </script>
+
+</body>
+
+</html>

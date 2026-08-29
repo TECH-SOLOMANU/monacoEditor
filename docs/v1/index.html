@@ -1,0 +1,1508 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Monaco Platform — Developer Workspace</title>
+
+  <meta name="description"
+    content="Monaco Platform — AI-driven browser development platform and engineering architecture.">
+
+
+  <!-- Google Fonts -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+
+
+  <style>
+    :root {
+      --bg: #070a11;
+      --bg-soft: #0b1019;
+      --panel: rgba(15, 21, 32, 0.72);
+      --panel-solid: #101722;
+
+      --border: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(255, 255, 255, 0.15);
+
+      --text: #f4f6fa;
+      --text-soft: #c2c9d5;
+      --muted: #7f8a9c;
+
+      --purple: #8b5cf6;
+      --purple-soft: rgba(139, 92, 246, 0.13);
+
+      --cyan: #06b6d4;
+      --cyan-soft: rgba(6, 182, 212, 0.10);
+
+      --green: #10b981;
+
+      --radius: 14px;
+    }
+
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+
+    body {
+      min-height: 100vh;
+
+      color: var(--text);
+
+      font-family:
+        "Inter",
+        sans-serif;
+
+      background:
+        radial-gradient(circle at 10% 5%,
+          rgba(139, 92, 246, 0.13),
+          transparent 30%),
+
+        radial-gradient(circle at 90% 15%,
+          rgba(6, 182, 212, 0.09),
+          transparent 28%),
+
+        radial-gradient(circle at 50% 100%,
+          rgba(139, 92, 246, 0.06),
+          transparent 35%),
+
+        var(--bg);
+
+      overflow-x: hidden;
+    }
+
+
+    /*
+     * Background grid
+     */
+
+    body::before {
+      content: "";
+
+      position: fixed;
+
+      inset: 0;
+
+      pointer-events: none;
+
+      opacity: 0.18;
+
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.025) 1px,
+          transparent 1px),
+
+        linear-gradient(90deg,
+          rgba(255, 255, 255, 0.025) 1px,
+          transparent 1px);
+
+      background-size:
+        48px 48px;
+
+      mask-image:
+        linear-gradient(to bottom,
+          black,
+          transparent 75%);
+    }
+
+
+    /*
+     * Header
+     */
+
+    .header {
+      position: sticky;
+
+      top: 0;
+
+      z-index: 100;
+
+      height: 70px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      padding:
+        0 2rem;
+
+      border-bottom:
+        1px solid var(--border);
+
+      background:
+        rgba(7, 10, 17, 0.78);
+
+      backdrop-filter:
+        blur(18px);
+
+      -webkit-backdrop-filter:
+        blur(18px);
+    }
+
+
+    .brand {
+      display: flex;
+
+      align-items: center;
+
+      gap: 0.75rem;
+
+      color: inherit;
+
+      text-decoration: none;
+    }
+
+
+    .brand-logo {
+      width: 38px;
+      height: 38px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      border-radius: 10px;
+
+      background:
+        linear-gradient(135deg,
+          var(--purple),
+          var(--cyan));
+
+      box-shadow:
+        0 8px 25px rgba(139, 92, 246, 0.2);
+
+      font-family:
+        "Outfit",
+        sans-serif;
+
+      font-size: 0.75rem;
+
+      font-weight: 800;
+    }
+
+
+    .brand-info {
+      display: flex;
+
+      flex-direction: column;
+
+      gap: 2px;
+    }
+
+
+    .brand-name {
+      font-family:
+        "Outfit",
+        sans-serif;
+
+      font-size: 0.95rem;
+
+      font-weight: 700;
+    }
+
+
+    .brand-subtitle {
+      color: var(--muted);
+
+      font-size: 0.62rem;
+    }
+
+
+    .header-link {
+      display: inline-flex;
+
+      align-items: center;
+
+      gap: 0.4rem;
+
+      color: var(--text-soft);
+
+      text-decoration: none;
+
+      font-size: 0.72rem;
+
+      font-weight: 600;
+
+      transition:
+        color 0.2s ease;
+    }
+
+
+    .header-link:hover {
+      color: white;
+    }
+
+
+    /*
+     * Main
+     */
+
+    .page {
+      position: relative;
+
+      z-index: 1;
+
+      width: min(1180px,
+          calc(100% - 2rem));
+
+      margin:
+        0 auto;
+
+      padding:
+        5rem 0 4rem;
+    }
+
+
+    /*
+     * Hero
+     */
+
+    .hero {
+      max-width: 850px;
+
+      margin:
+        0 auto 4rem;
+
+      text-align: center;
+    }
+
+
+    .eyebrow {
+      display: inline-flex;
+
+      align-items: center;
+
+      gap: 0.45rem;
+
+      padding:
+        0.38rem 0.7rem;
+
+      border:
+        1px solid rgba(139, 92, 246, 0.25);
+
+      border-radius: 999px;
+
+      background:
+        var(--purple-soft);
+
+      color:
+        #bcaeff;
+
+      font-size:
+        0.62rem;
+
+      font-weight:
+        700;
+
+      letter-spacing:
+        0.1em;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .eyebrow-dot {
+      width: 6px;
+      height: 6px;
+
+      border-radius: 50%;
+
+      background:
+        var(--green);
+
+      box-shadow:
+        0 0 10px rgba(16, 185, 129, 0.7);
+    }
+
+
+    .hero h1 {
+      margin:
+        1.25rem 0 1rem;
+
+      font-family:
+        "Outfit",
+        sans-serif;
+
+      font-size:
+        clamp(2.7rem,
+          7vw,
+          5.2rem);
+
+      line-height:
+        0.98;
+
+      letter-spacing:
+        -0.055em;
+
+      background:
+        linear-gradient(135deg,
+          #ffffff 20%,
+          #b8a8ff 58%,
+          #79e6f2 100%);
+
+      -webkit-background-clip:
+        text;
+
+      -webkit-text-fill-color:
+        transparent;
+    }
+
+
+    .hero-description {
+      max-width:
+        690px;
+
+      margin:
+        0 auto;
+
+      color:
+        var(--text-soft);
+
+      font-size:
+        0.98rem;
+
+      line-height:
+        1.8;
+    }
+
+
+    /*
+     * Quick actions
+     */
+
+    .quick-actions {
+      display: flex;
+
+      justify-content:
+        center;
+
+      flex-wrap:
+        wrap;
+
+      gap:
+        0.7rem;
+
+      margin-top:
+        1.8rem;
+    }
+
+
+    .quick-button {
+      min-height:
+        42px;
+
+      display: inline-flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      gap:
+        0.5rem;
+
+      padding:
+        0 1rem;
+
+      border:
+        1px solid var(--border);
+
+      border-radius:
+        9px;
+
+      background:
+        rgba(255, 255, 255, 0.035);
+
+      color:
+        var(--text-soft);
+
+      text-decoration:
+        none;
+
+      font-family:
+        "Outfit",
+        sans-serif;
+
+      font-size:
+        0.75rem;
+
+      font-weight:
+        600;
+
+      transition:
+        all 0.2s ease;
+    }
+
+
+    .quick-button:hover {
+      border-color:
+        var(--border-hover);
+
+      background:
+        rgba(255, 255, 255, 0.07);
+
+      color:
+        white;
+
+      transform:
+        translateY(-2px);
+    }
+
+
+    .quick-button.primary {
+      border-color:
+        transparent;
+
+      background:
+        linear-gradient(135deg,
+          var(--purple),
+          #6366f1);
+
+      color:
+        white;
+
+      box-shadow:
+        0 8px 25px rgba(99, 102, 241, 0.22);
+    }
+
+
+    .quick-button.extension {
+      border-color:
+        rgba(139, 92, 246, 0.25);
+
+      background:
+        linear-gradient(135deg,
+          rgba(139, 92, 246, 0.12),
+          rgba(6, 182, 212, 0.06));
+
+      color:
+        #d3caff;
+    }
+
+
+    /*
+     * Workspace cards
+     */
+
+    .section-label {
+      margin-bottom:
+        1rem;
+
+      color:
+        var(--muted);
+
+      font-size:
+        0.62rem;
+
+      font-weight:
+        700;
+
+      letter-spacing:
+        0.1em;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .workspace-grid {
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(3,
+          minmax(0, 1fr));
+
+      gap:
+        1rem;
+    }
+
+
+    .workspace-card {
+      position:
+        relative;
+
+      min-height:
+        255px;
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      padding:
+        1.4rem;
+
+      overflow:
+        hidden;
+
+      border:
+        1px solid var(--border);
+
+      border-radius:
+        var(--radius);
+
+      background:
+        linear-gradient(145deg,
+          rgba(255, 255, 255, 0.045),
+          rgba(255, 255, 255, 0.018));
+
+      text-decoration:
+        none;
+
+      color:
+        inherit;
+
+      transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+    }
+
+
+    .workspace-card::after {
+      content: "";
+
+      position:
+        absolute;
+
+      width:
+        170px;
+
+      height:
+        170px;
+
+      right:
+        -80px;
+
+      bottom:
+        -90px;
+
+      border-radius:
+        50%;
+
+      background:
+        rgba(139, 92, 246, 0.08);
+
+      filter:
+        blur(20px);
+
+      transition:
+        transform 0.3s ease;
+    }
+
+
+    .workspace-card:hover {
+      transform:
+        translateY(-5px);
+
+      border-color:
+        rgba(255, 255, 255, 0.16);
+
+      box-shadow:
+        0 18px 45px rgba(0, 0, 0, 0.25);
+    }
+
+
+    .workspace-card:hover::after {
+      transform:
+        scale(1.35);
+    }
+
+
+    .card-icon {
+      width: 46px;
+      height: 46px;
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      margin-bottom:
+        1.25rem;
+
+      border-radius:
+        11px;
+
+      background:
+        var(--purple-soft);
+
+      color:
+        #b9a8ff;
+    }
+
+
+    .card-icon.cyan {
+      background:
+        var(--cyan-soft);
+
+      color:
+        #68dce9;
+    }
+
+
+    .card-icon.green {
+      background:
+        rgba(16, 185, 129, 0.1);
+
+      color:
+        #5ee6b4;
+    }
+
+
+    .card-number {
+      position:
+        absolute;
+
+      top:
+        1.4rem;
+
+      right:
+        1.4rem;
+
+      color:
+        #4e596b;
+
+      font-family:
+        "JetBrains Mono",
+        monospace;
+
+      font-size:
+        0.65rem;
+    }
+
+
+    .workspace-card h2 {
+      margin:
+        0 0 0.55rem;
+
+      font-family:
+        "Outfit",
+        sans-serif;
+
+      font-size:
+        1.15rem;
+
+      letter-spacing:
+        -0.02em;
+    }
+
+
+    .workspace-card p {
+      color:
+        var(--muted);
+
+      font-size:
+        0.76rem;
+
+      line-height:
+        1.7;
+    }
+
+
+    .card-footer {
+      margin-top:
+        auto;
+
+      padding-top:
+        1.25rem;
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        space-between;
+
+      color:
+        #9fa9b9;
+
+      font-size:
+        0.68rem;
+
+      font-weight:
+        600;
+    }
+
+
+    .card-arrow {
+      font-size:
+        1rem;
+
+      transition:
+        transform 0.2s ease;
+    }
+
+
+    .workspace-card:hover .card-arrow {
+      transform:
+        translateX(4px);
+    }
+
+
+    /*
+     * Architecture overview
+     */
+
+    .overview {
+      margin-top:
+        3.5rem;
+
+      padding:
+        1.5rem;
+
+      border:
+        1px solid var(--border);
+
+      border-radius:
+        var(--radius);
+
+      background:
+        rgba(255, 255, 255, 0.025);
+    }
+
+
+    .overview-header {
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        space-between;
+
+      gap:
+        1rem;
+
+      margin-bottom:
+        1.2rem;
+    }
+
+
+    .overview-title {
+      font-family:
+        "Outfit",
+        sans-serif;
+
+      font-size:
+        1rem;
+
+      font-weight:
+        700;
+    }
+
+
+    .overview-status {
+      display:
+        inline-flex;
+
+      align-items:
+        center;
+
+      gap:
+        0.4rem;
+
+      color:
+        #69dcae;
+
+      font-size:
+        0.65rem;
+
+      font-weight:
+        600;
+    }
+
+
+    .status-dot {
+      width:
+        6px;
+
+      height:
+        6px;
+
+      border-radius:
+        50%;
+
+      background:
+        var(--green);
+    }
+
+
+    .architecture-flow {
+      display:
+        grid;
+
+      grid-template-columns:
+        1fr auto 1fr auto 1fr;
+
+      align-items:
+        center;
+
+      gap:
+        0.7rem;
+    }
+
+
+    .flow-item {
+      padding:
+        0.9rem;
+
+      border:
+        1px solid var(--border);
+
+      border-radius:
+        9px;
+
+      background:
+        rgba(0, 0, 0, 0.16);
+
+      text-align:
+        center;
+    }
+
+
+    .flow-item strong {
+      display:
+        block;
+
+      margin-bottom:
+        0.25rem;
+
+      font-family:
+        "Outfit",
+        sans-serif;
+
+      font-size:
+        0.75rem;
+    }
+
+
+    .flow-item span {
+      color:
+        var(--muted);
+
+      font-size:
+        0.6rem;
+    }
+
+
+    .flow-arrow {
+      color:
+        #586477;
+
+      font-size:
+        1rem;
+    }
+
+
+    /*
+     * Footer
+     */
+
+    .footer {
+      margin-top:
+        4rem;
+
+      padding-top:
+        1.5rem;
+
+      border-top:
+        1px solid var(--border);
+
+      display:
+        flex;
+
+      justify-content:
+        space-between;
+
+      gap:
+        1rem;
+
+      color:
+        #657084;
+
+      font-size:
+        0.65rem;
+    }
+
+
+    .footer-code {
+      font-family:
+        "JetBrains Mono",
+        monospace;
+    }
+
+
+    /*
+     * Responsive
+     */
+
+    @media (max-width: 900px) {
+
+      .workspace-grid {
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .workspace-card {
+        min-height:
+          220px;
+      }
+
+
+      .architecture-flow {
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .flow-arrow {
+        transform:
+          rotate(90deg);
+      }
+
+    }
+
+
+    @media (max-width: 600px) {
+
+      .header {
+        padding:
+          0 1rem;
+      }
+
+
+      .header-link {
+        display:
+          none;
+      }
+
+
+      .page {
+        width:
+          min(100% - 1.25rem,
+            1180px);
+
+        padding-top:
+          3.5rem;
+      }
+
+
+      .hero {
+        margin-bottom:
+          3rem;
+      }
+
+
+      .hero h1 {
+        font-size:
+          2.65rem;
+      }
+
+
+      .hero-description {
+        font-size:
+          0.85rem;
+      }
+
+
+      .quick-actions {
+        flex-direction:
+          column;
+      }
+
+
+      .quick-button {
+        width:
+          100%;
+      }
+
+
+      .overview {
+        padding:
+          1rem;
+      }
+
+
+      .footer {
+        flex-direction:
+          column;
+      }
+
+    }
+  </style>
+
+</head>
+
+
+<body>
+
+
+  <!-- ====================================================== -->
+  <!-- HEADER -->
+  <!-- ====================================================== -->
+
+  <header class="header">
+
+
+    <a href="./index.html" class="brand">
+
+
+      <div class="brand-logo">
+        AI
+      </div>
+
+
+      <div class="brand-info">
+
+        <span class="brand-name">
+          Monaco Platform
+        </span>
+
+        <span class="brand-subtitle">
+          Browser-native development platform
+        </span>
+
+      </div>
+
+
+    </a>
+
+
+    <a href="./architecture.html" class="header-link">
+
+      Architecture
+      →
+
+    </a>
+
+  </header>
+
+
+  <!-- ====================================================== -->
+  <!-- MAIN -->
+  <!-- ====================================================== -->
+
+  <main class="page">
+
+
+    <!-- Hero -->
+
+    <section class="hero">
+
+
+      <span class="eyebrow">
+
+        <span class="eyebrow-dot"></span>
+
+        Developer Workspace
+
+      </span>
+
+
+      <h1>
+        Build. Explore.<br>
+        Create with Monaco.
+      </h1>
+
+
+      <p class="hero-description">
+
+        A browser-native development platform built around
+        Monaco Editor, designed to evolve from a code editor
+        into an AI-first engineering environment.
+
+      </p>
+
+
+      <!-- Quick Actions -->
+
+      <div class="quick-actions">
+
+
+        <a href="./architecture.html" class="quick-button primary">
+
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20">
+            </path>
+
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z">
+            </path>
+
+          </svg>
+
+          Read Architecture
+
+        </a>
+
+
+        <a href="./byExtension/index.html" class="quick-button extension">
+
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+
+            <rect x="3" y="3" width="7" height="7" rx="1.5">
+            </rect>
+
+            <rect x="14" y="3" width="7" height="7" rx="1.5">
+            </rect>
+
+            <rect x="3" y="14" width="7" height="7" rx="1.5">
+            </rect>
+
+            <rect x="14" y="14" width="7" height="7" rx="1.5">
+            </rect>
+
+          </svg>
+
+          By Extension
+
+        </a>
+
+
+        <a href="./liveTest/index.html" target="_blank" rel="noopener" class="quick-button">
+
+          Launch Live Demo ⚡
+
+        </a>
+
+      </div>
+
+    </section>
+
+
+    <!-- Workspace -->
+
+    <section>
+
+
+      <div class="section-label">
+        Explore the platform
+      </div>
+
+
+      <div class="workspace-grid">
+
+
+        <!-- Architecture -->
+
+        <a href="./architecture.html" class="workspace-card">
+
+
+          <span class="card-number">
+            01
+          </span>
+
+
+          <div class="card-icon">
+
+
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20">
+              </path>
+
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z">
+              </path>
+
+            </svg>
+
+
+          </div>
+
+
+          <h2>
+            Architecture
+          </h2>
+
+
+          <p>
+
+            Explore the complete engineering proposal,
+            technology decisions, system architecture,
+            roadmap, risks, and future vision.
+
+          </p>
+
+
+          <div class="card-footer">
+
+            <span>
+              12 engineering sections
+            </span>
+
+            <span class="card-arrow">
+              →
+            </span>
+
+          </div>
+
+
+        </a>
+
+
+        <!-- By Extension -->
+
+        <a href="./byExtension/index.html" class="workspace-card">
+
+
+          <span class="card-number">
+            02
+          </span>
+
+
+          <div class="card-icon cyan">
+
+
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+
+              <rect x="3" y="3" width="7" height="7" rx="1.5">
+              </rect>
+
+              <rect x="14" y="3" width="7" height="7" rx="1.5">
+              </rect>
+
+              <rect x="3" y="14" width="7" height="7" rx="1.5">
+              </rect>
+
+              <rect x="14" y="14" width="7" height="7" rx="1.5">
+              </rect>
+
+            </svg>
+
+
+          </div>
+
+
+          <h2>
+            By Extension
+          </h2>
+
+
+          <p>
+
+            Choose a development environment based on
+            the file extension you want to work with,
+            including HTML and JavaScript editors.
+
+          </p>
+
+
+          <div class="card-footer">
+
+            <span>
+              HTML · JavaScript
+            </span>
+
+            <span class="card-arrow">
+              →
+            </span>
+
+          </div>
+
+
+        </a>
+
+
+        <!-- Live Editor -->
+
+        <a href="./liveTest/index.html" target="_blank" rel="noopener" class="workspace-card">
+
+
+          <span class="card-number">
+            03
+          </span>
+
+
+          <div class="card-icon green">
+
+
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+
+              <polyline points="16 18 22 12 16 6">
+              </polyline>
+
+              <polyline points="8 6 2 12 8 18">
+              </polyline>
+
+            </svg>
+
+
+          </div>
+
+
+          <h2>
+            Live Editor
+          </h2>
+
+
+          <p>
+
+            Open the current Monaco prototype and
+            experiment with the browser-based editor
+            experience.
+
+          </p>
+
+
+          <div class="card-footer">
+
+            <span>
+              Interactive prototype
+            </span>
+
+            <span class="card-arrow">
+              →
+            </span>
+
+          </div>
+
+
+        </a>
+
+
+      </div>
+
+    </section>
+
+
+    <!-- Platform Flow -->
+
+    <section class="overview">
+
+
+      <div class="overview-header">
+
+
+        <div class="overview-title">
+          Platform Structure
+        </div>
+
+
+        <div class="overview-status">
+
+          <span class="status-dot"></span>
+
+          Prototype Active
+
+        </div>
+
+
+      </div>
+
+
+      <div class="architecture-flow">
+
+
+        <div class="flow-item">
+
+          <strong>
+            Architecture
+          </strong>
+
+          <span>
+            Research & Design
+          </span>
+
+        </div>
+
+
+        <span class="flow-arrow">
+          →
+        </span>
+
+
+        <div class="flow-item">
+
+          <strong>
+            By Extension
+          </strong>
+
+          <span>
+            Developer Tools
+          </span>
+
+        </div>
+
+
+        <span class="flow-arrow">
+          →
+        </span>
+
+
+        <div class="flow-item">
+
+          <strong>
+            Live Editor
+          </strong>
+
+          <span>
+            Monaco Prototype
+          </span>
+
+        </div>
+
+
+      </div>
+
+
+    </section>
+
+
+    <!-- Footer -->
+
+    <footer class="footer">
+
+
+      <span>
+        Monaco Platform · Engineering Architecture
+      </span>
+
+
+      <span class="footer-code">
+        Browser-native · AI-first · Extensible
+      </span>
+
+
+    </footer>
+
+
+  </main>
+
+
+</body>
+
+</html>
