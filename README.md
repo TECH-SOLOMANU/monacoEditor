@@ -61,5 +61,6 @@ monacoEditor/
 
 ## 📖 Complete Documentation Suite
 
+- [🌳 Babel AST Architecture Guide (`docs/babel_ast_guide.html`)](docs/babel_ast_guide.html) — Real-time AST parsing, marker injection & AST Inspector architecture.
 - [👨‍💻 Developer Guide (`dev.md`)](dev.md) — Technical architecture, AST marker integration & PR workflow.
 - [📖 User Operations Guide (`howto.md`)](howto.md) — Keyboard shortcuts, settings guide & drawer usage.
