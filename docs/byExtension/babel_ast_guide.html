@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Babel AST Parsing & Monaco Marker Architecture Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --card-bg: #111827;
+      --border: #1f2937;
+      --accent-purple: #c084fc;
+      --accent-blue: #38bdf8;
+      --accent-green: #34d399;
+      --accent-red: #f87171;
+      --text: #f3f4f6;
+      --text-muted: #9ca3af;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 0 0 60px 0;
+    }
+
+    .hero {
+      background: radial-gradient(circle at 50% 0%, rgba(192, 132, 252, 0.15), transparent 70%),
+                  linear-gradient(180deg, #111827 0%, #0b0f19 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 50px 20px 35px;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: rgba(192, 132, 252, 0.1);
+      border: 1px solid rgba(192, 132, 252, 0.3);
+      border-radius: 20px;
+      color: var(--accent-purple);
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+    .hero h1 {
+      font-size: 36px;
+      font-weight: 800;
+      margin: 0 0 10px;
+      background: linear-gradient(135deg, #ffffff, #c084fc, #38bdf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      font-size: 15px;
+      color: var(--text-muted);
+      max-width: 750px;
+      margin: 0 auto;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 35px auto 0;
+      padding: 0 20px;
+    }
+
+    .section-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 35px 0 18px;
+    }
+    .section-title span {
+      display: inline-flex;
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      background: rgba(192, 132, 252, 0.2);
+      color: var(--accent-purple);
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
+
+    pre {
+      margin: 0;
+      font-family: 'Fira Code', monospace;
+      font-size: 13px;
+      background: #080c14;
+      padding: 16px;
+      border-radius: 10px;
+      border: 1px solid #1f2937;
+      overflow-x: auto;
+      color: #e5e7eb;
+    }
+
+    .kw { color: #c084fc; font-weight: bold; }
+    .fn { color: #38bdf8; }
+    .str { color: #34d399; }
+    .cm { color: #6b7280; font-style: italic; }
+
+    .step-box {
+      border-left: 3px solid var(--accent-purple);
+      background: #0d1322;
+      padding: 16px 20px;
+      border-radius: 0 10px 10px 0;
+      margin-bottom: 16px;
+    }
+    .step-box h4 {
+      margin: 0 0 6px;
+      font-size: 16px;
+      color: var(--accent-purple);
+    }
+    .step-box p {
+      margin: 0;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="hero-badge">🌳 Technical Documentation</div>
+    <h1>Monaco Editor v8 — Babel AST Parsing Architecture</h1>
+    <p>Official technical specification explaining how <code>@babel/standalone</code> intercepts Monaco Editor keystrokes, builds an Abstract Syntax Tree (AST), generates error markers, and powers the AST Inspector Side Drawer.</p>
+  </header>
+
+  <div class="container">
+
+    <!-- 1. ARCHITECTURE FLOW -->
+    <div class="section-title">
+      <span>🔄</span> 1. Real-Time Parse Flow Architecture
+    </div>
+
+    <div class="step-box">
+      <h4>Step 1: Event Listener Trigger (`onDidChangeModelContent`)</h4>
+      <p>Whenever the user types or modifies code in Monaco Editor, the event handler calls <code>validateAndInspect(editor)</code>.</p>
+    </div>
+
+    <div class="step-box">
+      <h4>Step 2: `@babel/standalone` AST Transformation</h4>
+      <p><code>window.Babel.transform(code, { ast: true, sourceType: "module" })</code> parses the code into a full AST object or catches syntax errors.</p>
+    </div>
+
+    <div class="step-box">
+      <h4>Step 3: Monaco Model Markers Injection</h4>
+      <p>Error locations (<code>err.loc.line</code>, <code>err.loc.column</code>) are passed to <code>monaco.editor.setModelMarkers(model, "babel", markers)</code> to draw red squiggly underlines and hover tooltips.</p>
+    </div>
+
+    <div class="step-box">
+      <h4>Step 4: AST Inspector & Error Console Render</h4>
+      <p>The AST tree object (e.g. <code>VariableDeclaration</code>, <code>ImportDeclaration</code>) is formatted into JSON and rendered in the AST Side Drawer.</p>
+    </div>
+
+    <!-- 2. ACTUAL APP.JS IMPLEMENTATION CODE -->
+    <div class="section-title">
+      <span>💻</span> 2. Actual Code Implementation (`v8/jsFiles/app.js`)
+    </div>
+
+    <div class="card">
+      <pre><code><span class="cm">// Core AST Validation & Marker Function in app.js</span>
+<span class="kw">function</span> <span class="fn">validateAndInspect</span>(editorInstance) {
+  <span class="kw">const</span> model = editorInstance.<span class="fn">getModel</span>();
+  <span class="kw">if</span> (!model) <span class="kw">return</span>;
+
+  <span class="kw">const</span> code = editorInstance.<span class="fn">getValue</span>();
+  <span class="kw">const</span> markers = [];
+  <span class="kw">const</span> errorLogs = [];
+  <span class="kw">let</span> astData = <span class="kw">null</span>;
+
+  <span class="kw">if</span> (window.Babel) {
+    <span class="kw">try</span> {
+      <span class="kw">const</span> result = window.Babel.<span class="fn">transform</span>(code, {
+        ast: <span class="kw">true</span>,
+        code: <span class="kw">false</span>,
+        sourceType: <span class="str">"module"</span>
+      });
+
+      astData = result.ast;
+    } <span class="kw">catch</span> (err) {
+      <span class="kw">const</span> line = err.loc?.line || 1;
+      <span class="kw">const</span> col = err.loc?.column || 1;
+
+      <span class="cm">// Create Red Squiggly Underline Marker</span>
+      markers.<span class="fn">push</span>({
+        startLineNumber: line,
+        startColumn: col,
+        endLineNumber: line,
+        endColumn: col + 15,
+        message: <span class="str">`[Babel Parse Error] \${err.message}`</span>,
+        severity: window.monaco.MarkerSeverity.Error
+      });
+
+      errorLogs.<span class="fn">push</span>({ line, col, message: err.message });
+    }
+  }
+
+  <span class="cm">// Inject Error Markers into Monaco Editor</span>
+  window.monaco.editor.<span class="fn">setModelMarkers</span>(model, <span class="str">"babel"</span>, markers);
+
+  <span class="cm">// Render AST Drawer and Clickable Error Console</span>
+  <span class="fn">renderErrorConsole</span>(errorLogs);
+  <span class="fn">renderASTTree</span>(astData);
+}</code></pre>
+    </div>
+
+    <!-- 3. AST INSPECTOR DRAWER JSON STRUCTURE -->
+    <div class="section-title">
+      <span>🌳</span> 3. AST Inspector JSON Grouping Output
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h4 style="margin: 0 0 10px; color: var(--accent-blue);">Input JS Code in Monaco</h4>
+        <pre><code><span class="kw">import</span> express <span class="kw">from</span> <span class="str">'express'</span>;
+
+<span class="kw">const</span> router = express.<span class="fn">Router</span>();
+
+router.<span class="fn">get</span>(<span class="str">'/api'</span>, (req, res) => {
+  res.<span class="fn">json</span>({ status: <span class="str">"ok"</span> });
+});</code></pre>
+      </div>
+
+      <div class="card">
+        <h4 style="margin: 0 0 10px; color: var(--accent-purple);">AST Drawer Parsed Output</h4>
+        <pre><code>{
+  <span class="str">"type"</span>: <span class="str">"File"</span>,
+  <span class="str">"sourceType"</span>: <span class="str">"module"</span>,
+  <span class="str">"totalBodyStatements"</span>: 3,
+  <span class="str">"groupedByNodeType"</span>: {
+    <span class="str">"ImportDeclaration"</span>: [{ <span class="str">"startLine"</span>: 1, <span class="str">"endLine"</span>: 1 }],
+    <span class="str">"VariableDeclaration"</span>: [{ <span class="str">"startLine"</span>: 3, <span class="str">"endLine"</span>: 3 }],
+    <span class="str">"ExpressionStatement"</span>: [{ <span class="str">"startLine"</span>: 5, <span class="str">"endLine"</span>: 7 }]
+  }
+}</code></pre>
+      </div>
+    </div>
+
+    <footer style="text-align: center; margin-top: 40px; border-top: 1px solid var(--border); padding-top: 20px; font-size: 13px; color: var(--text-muted);">
+      © Monaco Editor v8 Suite — Official Babel AST Architecture Documentation
+    </footer>
+
+  </div>
+
+</body>
+</html>

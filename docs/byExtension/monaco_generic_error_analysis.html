@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monaco Editor Generic Language Diagnostics Analysis: JS vs HTML</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --card-bg: #111827;
+      --border: #1f2937;
+      --accent-purple: #c084fc;
+      --accent-blue: #38bdf8;
+      --accent-green: #34d399;
+      --accent-red: #f87171;
+      --accent-amber: #fbbf24;
+      --text: #f3f4f6;
+      --text-muted: #9ca3af;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 0 0 60px 0;
+    }
+
+    .hero {
+      background: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.15), transparent 70%),
+                  linear-gradient(180deg, #111827 0%, #0b0f19 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 60px 20px 40px;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: 20px;
+      color: var(--accent-blue);
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-size: 38px;
+      font-weight: 800;
+      margin: 0 0 12px;
+      background: linear-gradient(135deg, #ffffff, #38bdf8, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      font-size: 16px;
+      color: var(--text-muted);
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 40px auto 0;
+      padding: 0 20px;
+    }
+
+    .section-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 40px 0 20px;
+    }
+    .section-title span {
+      display: inline-flex;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: rgba(56, 189, 248, 0.2);
+      color: var(--accent-blue);
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
+
+    pre {
+      margin: 0;
+      font-family: 'Fira Code', monospace;
+      font-size: 13px;
+      background: #080c14;
+      padding: 16px;
+      border-radius: 10px;
+      border: 1px solid #1f2937;
+      overflow-x: auto;
+      color: #e5e7eb;
+    }
+
+    .kw { color: #c084fc; font-weight: bold; }
+    .fn { color: #38bdf8; }
+    .str { color: #34d399; }
+    .num { color: #f87171; }
+    .cm { color: #6b7280; font-style: italic; }
+
+    .step-box {
+      border-left: 3px solid var(--accent-blue);
+      background: #0d1322;
+      padding: 16px 20px;
+      border-radius: 0 10px 10px 0;
+      margin-bottom: 16px;
+    }
+    .step-box h4 {
+      margin: 0 0 6px;
+      font-size: 16px;
+      color: var(--accent-blue);
+    }
+    .step-box p {
+      margin: 0;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+      background: var(--card-bg);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    th, td {
+      padding: 14px 18px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+    th {
+      background: #1f2937;
+      color: #fff;
+      font-weight: 700;
+    }
+    td.prop { font-family: 'Fira Code', monospace; color: var(--accent-purple); font-weight: 600; }
+
+    .badge-error { background: rgba(248, 113, 113, 0.2); color: var(--accent-red); padding: 3px 10px; border-radius: 6px; font-weight: 700; font-size: 12px; border: 1px solid rgba(248, 113, 113, 0.3); }
+    .badge-warn { background: rgba(251, 191, 36, 0.2); color: var(--accent-amber); padding: 3px 10px; border-radius: 6px; font-weight: 700; font-size: 12px; border: 1px solid rgba(251, 191, 36, 0.3); }
+  </style>
+</head>
+<body>
+
+  <!-- HERO SECTION -->
+  <header class="hero">
+    <div class="hero-badge">⚡ Language-Agnostic Editor Architecture</div>
+    <h1>Monaco Editor Generic Diagnostics Analysis: JS vs HTML</h1>
+    <p>Official technical specification analyzing Monaco Editor's native, language-neutral error diagnostic system (<code>monaco.editor.onDidChangeMarkers</code>) across JavaScript and HTML code models without relying on language-specific compilers like Babel.</p>
+  </header>
+
+  <div class="container">
+
+    <!-- SECTION 1: ARCHITECTURAL OVERVIEW -->
+    <div class="section-title">
+      <span>🎯</span> 1. Architectural Foundation & Vision
+    </div>
+
+    <div class="card">
+      <p style="margin-top:0;">Compilers like Babel are specific only to JavaScript. To build a universal code editor suite capable of editing <strong>JavaScript, HTML, CSS, JSON, Python, C++</strong>, Monaco Editor abstracts diagnostic telemetry behind a standardized, language-agnostic interface: <code>monaco.editor.onDidChangeMarkers()</code>.</p>
+      
+      <div class="step-box">
+        <h4>Universal Marker Callback Interface (`IMarker`)</h4>
+        <p>Regardless of the active language, Monaco standardizes all error payloads into a unified object containing: <code>owner</code>, <code>severity</code>, <code>message</code>, <code>startLineNumber</code>, and <code>startColumn</code>.</p>
+      </div>
+
+      <pre><code><span class="cm">// Generic Monaco Diagnostic Event Listener (Works for JS, HTML, Python, CSS)</span>
+monaco.editor.<span class="fn">onDidChangeMarkers</span>((resources) => {
+  <span class="kw">const</span> model = monaco.editor.<span class="fn">getModel</span>(resources[0]);
+  <span class="kw">const</span> markers = monaco.editor.<span class="fn">getModelMarkers</span>({ resource: model.uri });
+
+  markers.<span class="fn">forEach</span>(marker => {
+    console.<span class="fn">log</span>(<span class="str">"Language Owner:"</span>, marker.owner);           <span class="cm">// "javascript" or "html"</span>
+    console.<span class="fn">log</span>(<span class="str">"Severity Code:"</span>, marker.severity);           <span class="cm">// 8 = Error, 4 = Warning</span>
+    console.<span class="fn">log</span>(<span class="str">"Diagnostic Text:"</span>, marker.message);          <span class="cm">// Human readable error</span>
+    console.<span class="fn">log</span>(<span class="str">"Coordinates:"</span>, <span class="str">`Line \${marker.startLineNumber}:\${marker.startColumn}`</span>);
+  });
+});</code></pre>
+    </div>
+
+    <!-- SECTION 2: PRACTICAL COMPARISON TEST (JS vs HTML) -->
+    <div class="section-title">
+      <span>🧪</span> 2. Practical Test: JavaScript Error vs HTML Error Payloads
+    </div>
+
+    <div class="grid-2">
+
+      <!-- JAVASCRIPT CARD -->
+      <div class="card">
+        <h3 style="margin: 0 0 10px; color: var(--accent-blue);">🩵 JavaScript Error Test (`.js`)</h3>
+        <p style="font-size:13px;color:var(--text-muted);margin-top:0;">Intentional Syntax Error: Incomplete expression on line 2.</p>
+        <pre><code><span class="kw">const</span> user = <span class="str">"KeshavSoft"</span>;
+<span class="kw">const</span> total = <span class="num">5</span> * 
+console.<span class="fn">log</span>(user);</code></pre>
+
+        <h4 style="font-size:13px;margin:16px 0 6px;color:#fff;">Raw Captured Monaco Marker Object:</h4>
+        <pre><code>{
+  <span class="str">"owner"</span>: <span class="str">"javascript"</span>,
+  <span class="str">"severity"</span>: <span class="num">8</span>, <span class="cm">// MarkerSeverity.Error</span>
+  <span class="str">"message"</span>: <span class="str">"Expression expected."</span>,
+  <span class="str">"startLineNumber"</span>: 2,
+  <span class="str">"startColumn"</span>: 17,
+  <span class="str">"endLineNumber"</span>: 2,
+  <span class="str">"endColumn"</span>: 17,
+  <span class="str">"code"</span>: <span class="str">"1109"</span>
+}</code></pre>
+      </div>
+
+      <!-- HTML CARD -->
+      <div class="card">
+        <h3 style="margin: 0 0 10px; color: var(--accent-amber);">🧡 HTML Error Test (`.html`)</h3>
+        <p style="font-size:13px;color:var(--text-muted);margin-top:0;">Intentional Structural Error: Unclosed <code>&lt;h2&gt;</code> tag on line 2.</p>
+        <pre><code>&lt;div class=<span class="str">"card"</span>&gt;
+  &lt;h2&gt;Unclosed Title Tag Example
+&lt;/div&gt;</code></pre>
+
+        <h4 style="font-size:13px;margin:16px 0 6px;color:#fff;">Raw Captured Monaco Marker Object:</h4>
+        <pre><code>{
+  <span class="str">"owner"</span>: <span class="str">"html"</span>,
+  <span class="str">"severity"</span>: <span class="num">4</span>, <span class="cm">// MarkerSeverity.Warning</span>
+  <span class="str">"message"</span>: <span class="str">"Tag 'h2' is unclosed."</span>,
+  <span class="str">"startLineNumber"</span>: 2,
+  <span class="str">"startColumn"</span>: 3,
+  <span class="str">"endLineNumber"</span>: 2,
+  <span class="str">"endColumn"</span>: 5,
+  <span class="str">"code"</span>: <span class="str">"html-unclosed-tag"</span>
+}</code></pre>
+      </div>
+
+    </div>
+
+    <!-- SECTION 3: KEY DIAGNOSTIC VARIATION MATRIX -->
+    <div class="section-title">
+      <span>📊</span> 3. Key Diagnostic Variation Matrix
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Marker Property</th>
+          <th>JavaScript Behavior (`.js`)</th>
+          <th>HTML Behavior (`.html`)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="prop">owner</td>
+          <td><code>"javascript"</code> (TypeScript/JS Language Worker)</td>
+          <td><code>"html"</code> (HTML Service Worker)</td>
+        </tr>
+        <tr>
+          <td class="prop">severity</td>
+          <td><span class="badge-error">8 (Error)</span> — Halts JavaScript runtime script execution</td>
+          <td><span class="badge-warn">4 (Warning)</span> — Browser DOM auto-heals unclosed tags</td>
+        </tr>
+        <tr>
+          <td class="prop">message type</td>
+          <td><strong>Grammatical AST Expectation</strong><br>e.g., <code>"Expression expected"</code>, <code>"';' expected"</code></td>
+          <td><strong>DOM Structure & Tag Balance</strong><br>e.g., <code>"Tag 'h2' is unclosed"</code>, <code>"Doctype missing"</code></td>
+        </tr>
+        <tr>
+          <td class="prop">error code</td>
+          <td>TypeScript Compiler numeric code (e.g. <code>1109</code>)</td>
+          <td>HTML Service rule identifier (e.g. <code>html-unclosed-tag</code>)</td>
+        </tr>
+        <tr>
+          <td class="prop">location precision</td>
+          <td>Exact unexpected token index coordinate</td>
+          <td>Element start tag bracket coordinate</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- SECTION 4: FUTURE MULTI-LANGUAGE EXTENSIBILITY -->
+    <div class="section-title">
+      <span>🌐</span> 4. Extensibility to Other Languages (Python, C++, CSS, JSON)
+    </div>
+
+    <div class="card">
+      <p style="margin-top:0;">Because Monaco standardizes error coordinates (line number and column) into a language-neutral <code>IMarker</code> object, our editor UI drawers (Error Console, Jump-to-Line buttons, Line Count) are <strong>100% reusable across any programming language</strong>:</p>
+      <ul>
+        <li><strong>Built-in Language Workers</strong>: JS, HTML, CSS, JSON generate markers out-of-the-box.</li>
+        <li><strong>External Languages (Python / C++)</strong>: Local linters or Language Server Protocol (LSP) workers emit markers directly via <code>monaco.editor.setModelMarkers(model, "python", markers)</code>.</li>
+      </ul>
+    </div>
+
+    <footer style="margin-top:40px;text-align:center;color:var(--text-muted);font-size:13px;border-top:1px solid var(--border);padding-top:20px;">
+      © Monaco Editor Generic Diagnostics Analysis Specification — Official Documentation
+    </footer>
+
+  </div>
+
+</body>
+</html>
