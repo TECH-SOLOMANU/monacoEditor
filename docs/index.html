@@ -1,1656 +1,1228 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Beautiful documentation portal for the KeshavSoft Monaco Editor project." />
+  <title>Monaco Editor — Developer Workspace Documentation</title>
 
-  <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0">
-
-  <title>Monaco Platform — Developer Workspace</title>
-
-  <meta
-    name="description"
-    content="Monaco Platform — AI-driven browser development platform and engineering architecture.">
-
-
-  <!-- Google Fonts -->
-
-  <link
-    rel="preconnect"
-    href="https://fonts.googleapis.com">
-
-  <link
-    rel="preconnect"
-    href="https://fonts.gstatic.com"
-    crossorigin>
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
-    rel="stylesheet">
-
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
-
     :root {
-      --bg: #070a11;
-      --bg-soft: #0b1019;
-      --panel: rgba(15, 21, 32, 0.72);
-      --panel-solid: #101722;
-
-      --border: rgba(255, 255, 255, 0.08);
-      --border-hover: rgba(255, 255, 255, 0.15);
-
-      --text: #f4f6fa;
-      --text-soft: #c2c9d5;
-      --muted: #7f8a9c;
-
+      --bg: #070a12;
+      --panel: #0e1420;
+      --panel-2: #121a28;
+      --panel-3: #182235;
+      --border: rgba(255,255,255,.09);
+      --text: #f6f8fc;
+      --muted: #9aa6ba;
+      --soft: #cbd5e1;
       --purple: #8b5cf6;
-      --purple-soft: rgba(139, 92, 246, 0.13);
-
+      --purple-2: #6366f1;
       --cyan: #06b6d4;
-      --cyan-soft: rgba(6, 182, 212, 0.10);
-
       --green: #10b981;
-
-      --radius: 14px;
+      --red: #ef4444;
+      --yellow: #f59e0b;
+      --shadow: 0 25px 80px rgba(0,0,0,.35);
+      --radius: 18px;
     }
 
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-
-    html {
-      scroll-behavior: smooth;
-    }
-
+    html { scroll-behavior: smooth; }
 
     body {
       min-height: 100vh;
-
       color: var(--text);
-
-      font-family:
-        "Inter",
-        sans-serif;
-
+      font-family: Inter, sans-serif;
       background:
-        radial-gradient(
-          circle at 10% 5%,
-          rgba(139, 92, 246, 0.13),
-          transparent 30%
-        ),
-
-        radial-gradient(
-          circle at 90% 15%,
-          rgba(6, 182, 212, 0.09),
-          transparent 28%
-        ),
-
-        radial-gradient(
-          circle at 50% 100%,
-          rgba(139, 92, 246, 0.06),
-          transparent 35%
-        ),
-
+        radial-gradient(circle at 10% 5%, rgba(139,92,246,.18), transparent 28%),
+        radial-gradient(circle at 90% 25%, rgba(6,182,212,.12), transparent 25%),
+        radial-gradient(circle at 50% 100%, rgba(99,102,241,.10), transparent 35%),
         var(--bg);
-
+      line-height: 1.65;
       overflow-x: hidden;
     }
 
+    a { color: inherit; }
 
-    /*
-     * Background grid
-     */
-
-    body::before {
-      content: "";
-
+    .grid-bg {
       position: fixed;
-
       inset: 0;
-
       pointer-events: none;
-
-      opacity: 0.18;
-
+      opacity: .22;
       background-image:
-        linear-gradient(
-          rgba(255, 255, 255, 0.025) 1px,
-          transparent 1px
-        ),
-
-        linear-gradient(
-          90deg,
-          rgba(255, 255, 255, 0.025) 1px,
-          transparent 1px
-        );
-
-      background-size:
-        48px 48px;
-
-      mask-image:
-        linear-gradient(
-          to bottom,
-          black,
-          transparent 75%
-        );
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(to bottom, black, transparent 90%);
     }
 
+    .container {
+      width: min(1120px, calc(100% - 40px));
+      margin: auto;
+    }
 
-    /*
-     * Header
-     */
-
-    .header {
+    /* NAV */
+    nav {
       position: sticky;
-
       top: 0;
-
       z-index: 100;
-
-      height: 70px;
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: space-between;
-
-      padding:
-        0 2rem;
-
-      border-bottom:
-        1px solid var(--border);
-
-      background:
-        rgba(7, 10, 17, 0.78);
-
-      backdrop-filter:
-        blur(18px);
-
-      -webkit-backdrop-filter:
-        blur(18px);
+      border-bottom: 1px solid var(--border);
+      background: rgba(7,10,18,.78);
+      backdrop-filter: blur(18px);
     }
 
+    .nav-inner {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
 
     .brand {
       display: flex;
-
       align-items: center;
-
-      gap: 0.75rem;
-
-      color: inherit;
-
+      gap: 12px;
       text-decoration: none;
     }
 
-
-    .brand-logo {
-      width: 38px;
-      height: 38px;
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: center;
-
-      border-radius: 10px;
-
-      background:
-        linear-gradient(
-          135deg,
-          var(--purple),
-          var(--cyan)
-        );
-
-      box-shadow:
-        0 8px 25px
-        rgba(139, 92, 246, 0.2);
-
-      font-family:
-        "Outfit",
-        sans-serif;
-
-      font-size: 0.75rem;
-
+    .brand-icon {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      font-family: Outfit, sans-serif;
       font-weight: 800;
+      font-size: 12px;
+      background: linear-gradient(135deg, var(--purple), var(--cyan));
+      box-shadow: 0 8px 28px rgba(139,92,246,.28);
     }
 
-
-    .brand-info {
-      display: flex;
-
-      flex-direction: column;
-
-      gap: 2px;
+    .brand strong {
+      display: block;
+      font-family: Outfit, sans-serif;
+      font-size: 1rem;
     }
 
-
-    .brand-name {
-      font-family:
-        "Outfit",
-        sans-serif;
-
-      font-size: 0.95rem;
-
-      font-weight: 700;
-    }
-
-
-    .brand-subtitle {
+    .brand span {
+      display: block;
       color: var(--muted);
-
-      font-size: 0.62rem;
+      font-size: .68rem;
     }
 
-
-    .header-link {
-      display: inline-flex;
-
+    .nav-links {
+      display: flex;
       align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
 
-      gap: 0.4rem;
-
-      color: var(--text-soft);
-
+    .nav-links a {
+      padding: 8px 11px;
+      border-radius: 8px;
+      color: var(--muted);
+      font-size: .74rem;
       text-decoration: none;
-
-      font-size: 0.72rem;
-
-      font-weight: 600;
-
-      transition:
-        color 0.2s ease;
+      transition: .2s;
     }
 
-
-    .header-link:hover {
+    .nav-links a:hover {
       color: white;
+      background: rgba(255,255,255,.06);
     }
 
-
-    /*
-     * Main
-     */
-
-    .page {
-      position: relative;
-
-      z-index: 1;
-
-      width: min(
-        1180px,
-        calc(100% - 2rem)
-      );
-
-      margin:
-        0 auto;
-
-      padding:
-        5rem 0 4rem;
-    }
-
-
-    /*
-     * Hero
-     */
-
+    /* HERO */
     .hero {
-      max-width: 850px;
-
-      margin:
-        0 auto 4rem;
-
+      position: relative;
+      padding: 100px 0 80px;
       text-align: center;
     }
 
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 13px;
+      border: 1px solid rgba(139,92,246,.28);
+      border-radius: 999px;
+      background: rgba(139,92,246,.08);
+      color: #c4b5fd;
+      font-size: .73rem;
+      font-weight: 600;
+    }
+
+    .pulse {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 12px rgba(16,185,129,.8);
+    }
+
+    h1 {
+      margin: 24px auto 0;
+      max-width: 900px;
+      font-family: Outfit, sans-serif;
+      font-size: clamp(3rem, 7vw, 5.8rem);
+      line-height: .98;
+      letter-spacing: -3.5px;
+    }
+
+    .gradient {
+      background: linear-gradient(135deg, #fff 18%, #c4b5fd 52%, #67e8f9 92%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      max-width: 730px;
+      margin: 25px auto 0;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .actions {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 12px 18px;
+      border-radius: 9px;
+      text-decoration: none;
+      font-size: .78rem;
+      font-weight: 700;
+      border: 1px solid var(--border);
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--purple), var(--purple-2));
+      box-shadow: 0 10px 30px rgba(139,92,246,.25);
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,.04);
+      color: var(--soft);
+    }
+
+    /* HERO EDITOR MOCKUP */
+    .editor-window {
+      margin: 55px auto 0;
+      max-width: 980px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.11);
+      border-radius: 18px;
+      background: #090d15;
+      box-shadow: var(--shadow);
+      text-align: left;
+    }
+
+    .window-top {
+      height: 48px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 16px;
+      border-bottom: 1px solid var(--border);
+      background: #0d121c;
+    }
+
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot.red { background: #ff5f57; }
+    .dot.yellow { background: #febc2e; }
+    .dot.green { background: #28c840; }
+
+    .tab {
+      margin-left: 16px;
+      padding: 7px 12px;
+      border: 1px solid var(--border);
+      border-bottom: 0;
+      border-radius: 8px 8px 0 0;
+      background: #121a27;
+      color: #dbe4f0;
+      font: 600 .7rem monospace;
+    }
+
+    .window-body {
+      display: grid;
+      grid-template-columns: 54px 1fr 280px;
+      min-height: 330px;
+    }
+
+    .line-numbers {
+      padding: 20px 12px;
+      text-align: right;
+      color: #4d5a6d;
+      background: #0a0f17;
+      font: .72rem/1.9 monospace;
+      border-right: 1px solid rgba(255,255,255,.05);
+    }
+
+    .code {
+      padding: 20px 22px;
+      font: .78rem/1.9 monospace;
+      color: #dbe4ef;
+      overflow: hidden;
+      background:
+        linear-gradient(90deg, rgba(139,92,246,.025), transparent);
+    }
+
+    .kw { color: #c084fc; }
+    .fn { color: #67e8f9; }
+    .str { color: #86efac; }
+    .var { color: #f8fafc; }
+    .comment { color: #64748b; font-style: italic; }
+
+    .inspector {
+      padding: 20px;
+      border-left: 1px solid var(--border);
+      background: #0c121c;
+    }
+
+    .inspector-title {
+      color: #e2e8f0;
+      font: 700 .75rem Outfit, sans-serif;
+      margin-bottom: 14px;
+    }
+
+    .tree {
+      font: .68rem/1.9 monospace;
+      color: #a8b4c7;
+    }
+
+    .tree .node { color: #c4b5fd; }
+    .tree .child { padding-left: 15px; }
+
+    /* SECTIONS */
+    section { padding: 78px 0; }
+
+    .section-heading {
+      max-width: 720px;
+      margin-bottom: 30px;
+    }
 
     .eyebrow {
-      display: inline-flex;
-
-      align-items: center;
-
-      gap: 0.45rem;
-
-      padding:
-        0.38rem
-        0.7rem;
-
-      border:
-        1px solid
-        rgba(139, 92, 246, 0.25);
-
-      border-radius: 999px;
-
-      background:
-        var(--purple-soft);
-
-      color:
-        #bcaeff;
-
-      font-size:
-        0.62rem;
-
-      font-weight:
-        700;
-
-      letter-spacing:
-        0.1em;
-
-      text-transform:
-        uppercase;
+      color: #a78bfa;
+      text-transform: uppercase;
+      letter-spacing: 1.8px;
+      font-size: .68rem;
+      font-weight: 800;
     }
 
-
-    .eyebrow-dot {
-      width: 6px;
-      height: 6px;
-
-      border-radius: 50%;
-
-      background:
-        var(--green);
-
-      box-shadow:
-        0 0 10px
-        rgba(16, 185, 129, 0.7);
+    h2 {
+      margin-top: 8px;
+      font: 700 clamp(2rem, 4vw, 3rem)/1.1 Outfit, sans-serif;
+      letter-spacing: -1.2px;
     }
 
-
-    .hero h1 {
-      margin:
-        1.25rem 0 1rem;
-
-      font-family:
-        "Outfit",
-        sans-serif;
-
-      font-size:
-        clamp(
-          2.7rem,
-          7vw,
-          5.2rem
-        );
-
-      line-height:
-        0.98;
-
-      letter-spacing:
-        -0.055em;
-
-      background:
-        linear-gradient(
-          135deg,
-          #ffffff 20%,
-          #b8a8ff 58%,
-          #79e6f2 100%
-        );
-
-      -webkit-background-clip:
-        text;
-
-      -webkit-text-fill-color:
-        transparent;
+    .section-heading p {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: .9rem;
     }
 
-
-    .hero-description {
-      max-width:
-        690px;
-
-      margin:
-        0 auto;
-
-      color:
-        var(--text-soft);
-
-      font-size:
-        0.98rem;
-
-      line-height:
-        1.8;
+    /* STORY */
+    .story-grid {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 20px;
     }
 
+    .card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: linear-gradient(145deg, rgba(255,255,255,.045), rgba(255,255,255,.018));
+      box-shadow: 0 18px 55px rgba(0,0,0,.16);
+    }
 
-    /*
-     * Quick actions
-     */
+    .story {
+      padding: 30px;
+    }
 
-    .quick-actions {
+    .story p {
+      color: var(--muted);
+      font-size: .88rem;
+      margin-top: 14px;
+    }
+
+    .quote {
+      margin-top: 24px;
+      padding: 18px;
+      border-left: 3px solid var(--purple);
+      border-radius: 0 10px 10px 0;
+      background: rgba(139,92,246,.07);
+      color: #ddd6fe;
+      font-size: .85rem;
+    }
+
+    .flow {
+      padding: 26px;
       display: flex;
-
-      justify-content:
-        center;
-
-      flex-wrap:
-        wrap;
-
-      gap:
-        0.7rem;
-
-      margin-top:
-        1.8rem;
+      flex-direction: column;
+      justify-content: center;
+      gap: 9px;
     }
 
-
-    .quick-button {
-      min-height:
-        42px;
-
-      display: inline-flex;
-
-      align-items:
-        center;
-
-      justify-content:
-        center;
-
-      gap:
-        0.5rem;
-
-      padding:
-        0 1rem;
-
-      border:
-        1px solid
-        var(--border);
-
-      border-radius:
-        9px;
-
-      background:
-        rgba(255, 255, 255, 0.035);
-
-      color:
-        var(--text-soft);
-
-      text-decoration:
-        none;
-
-      font-family:
-        "Outfit",
-        sans-serif;
-
-      font-size:
-        0.75rem;
-
-      font-weight:
-        600;
-
-      transition:
-        all 0.2s ease;
+    .flow-step {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: rgba(255,255,255,.025);
     }
 
-
-    .quick-button:hover {
-      border-color:
-        var(--border-hover);
-
-      background:
-        rgba(255, 255, 255, 0.07);
-
-      color:
-        white;
-
-      transform:
-        translateY(-2px);
+    .flow-icon {
+      width: 32px;
+      height: 32px;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      border-radius: 9px;
+      background: rgba(139,92,246,.13);
+      color: #c4b5fd;
+      font-size: .75rem;
+      font-weight: 800;
     }
 
-
-    .quick-button.primary {
-      border-color:
-        transparent;
-
-      background:
-        linear-gradient(
-          135deg,
-          var(--purple),
-          #6366f1
-        );
-
-      color:
-        white;
-
-      box-shadow:
-        0 8px 25px
-        rgba(99, 102, 241, 0.22);
+    .flow-step strong {
+      display: block;
+      font-size: .78rem;
     }
 
-
-    .quick-button.extension {
-      border-color:
-        rgba(139, 92, 246, 0.25);
-
-      background:
-        linear-gradient(
-          135deg,
-          rgba(139, 92, 246, 0.12),
-          rgba(6, 182, 212, 0.06)
-        );
-
-      color:
-        #d3caff;
+    .flow-step span {
+      display: block;
+      color: var(--muted);
+      font-size: .66rem;
     }
 
-
-    /*
-     * Workspace cards
-     */
-
-    .section-label {
-      margin-bottom:
-        1rem;
-
-      color:
-        var(--muted);
-
-      font-size:
-        0.62rem;
-
-      font-weight:
-        700;
-
-      letter-spacing:
-        0.1em;
-
-      text-transform:
-        uppercase;
+    .arrow-down {
+      text-align: center;
+      color: #526078;
+      font-size: .75rem;
     }
 
-
-    .workspace-grid {
-      display:
-        grid;
-
-      grid-template-columns:
-        repeat(
-          3,
-          minmax(0, 1fr)
-        );
-
-      gap:
-        1rem;
+    /* FEATURES */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
     }
 
-
-    .workspace-card {
-      position:
-        relative;
-
-      min-height:
-        255px;
-
-      display:
-        flex;
-
-      flex-direction:
-        column;
-
-      padding:
-        1.4rem;
-
-      overflow:
-        hidden;
-
-      border:
-        1px solid
-        var(--border);
-
-      border-radius:
-        var(--radius);
-
-      background:
-        linear-gradient(
-          145deg,
-          rgba(255,255,255,0.045),
-          rgba(255,255,255,0.018)
-        );
-
-      text-decoration:
-        none;
-
-      color:
-        inherit;
-
-      transition:
-        transform 0.25s ease,
-        border-color 0.25s ease,
-        box-shadow 0.25s ease;
+    .feature-card {
+      padding: 23px;
+      min-height: 190px;
     }
 
+    .feature-icon {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 17px;
+      border-radius: 11px;
+      color: white;
+      background: linear-gradient(135deg, rgba(139,92,246,.35), rgba(6,182,212,.18));
+      border: 1px solid var(--border);
+    }
 
-    .workspace-card::after {
+    .feature-card h3 {
+      font: 600 1rem Outfit, sans-serif;
+    }
+
+    .feature-card p {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: .76rem;
+    }
+
+    /* ARCHITECTURE */
+    .architecture {
+      padding: 30px;
+    }
+
+    .architecture pre {
+      margin-top: 22px;
+      padding: 24px;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: #090e16;
+      color: #cbd5e1;
+      font: .76rem/1.8 monospace;
+    }
+
+    .architecture .accent { color: #c084fc; }
+    .architecture .cyan { color: #67e8f9; }
+    .architecture .green { color: #86efac; }
+
+    /* VERSION */
+    .timeline {
+      position: relative;
+      display: grid;
+      gap: 14px;
+    }
+
+    .timeline::before {
       content: "";
-
-      position:
-        absolute;
-
-      width:
-        170px;
-
-      height:
-        170px;
-
-      right:
-        -80px;
-
-      bottom:
-        -90px;
-
-      border-radius:
-        50%;
-
-      background:
-        rgba(139, 92, 246, 0.08);
-
-      filter:
-        blur(20px);
-
-      transition:
-        transform 0.3s ease;
+      position: absolute;
+      left: 17px;
+      top: 20px;
+      bottom: 20px;
+      width: 1px;
+      background: linear-gradient(var(--purple), var(--cyan));
+      opacity: .5;
     }
 
-
-    .workspace-card:hover {
-      transform:
-        translateY(-5px);
-
-      border-color:
-        rgba(255, 255, 255, 0.16);
-
-      box-shadow:
-        0 18px 45px
-        rgba(0, 0, 0, 0.25);
+    .version {
+      position: relative;
+      display: grid;
+      grid-template-columns: 36px 100px 1fr;
+      align-items: start;
+      gap: 14px;
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: rgba(255,255,255,.025);
     }
 
-
-    .workspace-card:hover::after {
-      transform:
-        scale(1.35);
+    .version-dot {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      z-index: 1;
+      border-radius: 50%;
+      background: #121a27;
+      border: 1px solid rgba(139,92,246,.45);
+      color: #c4b5fd;
+      font-size: .68rem;
+      font-weight: 800;
     }
 
+    .version strong { font: 600 .85rem Outfit, sans-serif; padding-top: 7px; }
+    .version p { color: var(--muted); font-size: .74rem; }
 
-    .card-icon {
-      width: 46px;
-      height: 46px;
-
-      display:
-        flex;
-
-      align-items:
-        center;
-
-      justify-content:
-        center;
-
-      margin-bottom:
-        1.25rem;
-
-      border-radius:
-        11px;
-
-      background:
-        var(--purple-soft);
-
-      color:
-        #b9a8ff;
+    /* STACK */
+    .stack-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
     }
 
-
-    .card-icon.cyan {
-      background:
-        var(--cyan-soft);
-
-      color:
-        #68dce9;
+    .stack-item {
+      padding: 22px 18px;
+      text-align: center;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: rgba(255,255,255,.025);
     }
 
-
-    .card-icon.green {
-      background:
-        rgba(16, 185, 129, 0.1);
-
-      color:
-        #5ee6b4;
+    .stack-item .big {
+      font: 700 1.05rem Outfit, sans-serif;
     }
 
-
-    .card-number {
-      position:
-        absolute;
-
-      top:
-        1.4rem;
-
-      right:
-        1.4rem;
-
-      color:
-        #4e596b;
-
-      font-family:
-        "JetBrains Mono",
-        monospace;
-
-      font-size:
-        0.65rem;
+    .stack-item small {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: .65rem;
     }
 
-
-    .workspace-card h2 {
-      margin:
-        0 0 0.55rem;
-
-      font-family:
-        "Outfit",
-        sans-serif;
-
-      font-size:
-        1.15rem;
-
-      letter-spacing:
-        -0.02em;
+    /* REPO */
+    .repo-layout {
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      gap: 18px;
     }
 
-
-    .workspace-card p {
-      color:
-        var(--muted);
-
-      font-size:
-        0.76rem;
-
-      line-height:
-        1.7;
+    .repo-tree, .quick-start {
+      padding: 27px;
     }
 
-
-    .card-footer {
-      margin-top:
-        auto;
-
-      padding-top:
-        1.25rem;
-
-      display:
-        flex;
-
-      align-items:
-        center;
-
-      justify-content:
-        space-between;
-
-      color:
-        #9fa9b9;
-
-      font-size:
-        0.68rem;
-
-      font-weight:
-        600;
+    .repo-tree pre {
+      margin-top: 16px;
+      font: .72rem/1.85 monospace;
+      color: #aebbd0;
+      overflow-x: auto;
     }
 
-
-    .card-arrow {
-      font-size:
-        1rem;
-
-      transition:
-        transform 0.2s ease;
+    .quick-start pre {
+      margin-top: 16px;
+      padding: 18px;
+      border-radius: 10px;
+      background: #080c13;
+      color: #d7e0ed;
+      font: .74rem/1.9 monospace;
     }
 
+    .cmd { color: #86efac; }
+    .muted { color: #64748b; }
 
-    .workspace-card:hover
-    .card-arrow {
-      transform:
-        translateX(4px);
+    /* LINKS */
+    .link-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
     }
 
-
-    /*
-     * Architecture overview
-     */
-
-    .overview {
-      margin-top:
-        3.5rem;
-
-      padding:
-        1.5rem;
-
-      border:
-        1px solid
-        var(--border);
-
-      border-radius:
-        var(--radius);
-
-      background:
-        rgba(255, 255, 255, 0.025);
+    .link-card {
+      padding: 20px;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: rgba(255,255,255,.025);
+      transition: .2s;
     }
 
-
-    .overview-header {
-      display:
-        flex;
-
-      align-items:
-        center;
-
-      justify-content:
-        space-between;
-
-      gap:
-        1rem;
-
-      margin-bottom:
-        1.2rem;
+    .link-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(139,92,246,.35);
+      background: rgba(139,92,246,.06);
     }
 
-
-    .overview-title {
-      font-family:
-        "Outfit",
-        sans-serif;
-
-      font-size:
-        1rem;
-
-      font-weight:
-        700;
+    .link-card strong {
+      font: 600 .85rem Outfit, sans-serif;
     }
 
-
-    .overview-status {
-      display:
-        inline-flex;
-
-      align-items:
-        center;
-
-      gap:
-        0.4rem;
-
-      color:
-        #69dcae;
-
-      font-size:
-        0.65rem;
-
-      font-weight:
-        600;
+    .link-card span {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: .68rem;
     }
 
-
-    .status-dot {
-      width:
-        6px;
-
-      height:
-        6px;
-
-      border-radius:
-        50%;
-
-      background:
-        var(--green);
+    /* FOOTER */
+    footer {
+      padding: 55px 0 35px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--muted);
     }
 
-
-    .architecture-flow {
-      display:
-        grid;
-
-      grid-template-columns:
-        1fr auto 1fr auto 1fr;
-
-      align-items:
-        center;
-
-      gap:
-        0.7rem;
+    footer strong {
+      color: white;
+      font-family: Outfit, sans-serif;
     }
 
+    footer p { font-size: .72rem; margin-top: 7px; }
 
-    .flow-item {
-      padding:
-        0.9rem;
-
-      border:
-        1px solid
-        var(--border);
-
-      border-radius:
-        9px;
-
-      background:
-        rgba(0, 0, 0, 0.16);
-
-      text-align:
-        center;
+    /* RESPONSIVE */
+    @media (max-width: 850px) {
+      .nav-links { display: none; }
+      .story-grid, .repo-layout { grid-template-columns: 1fr; }
+      .feature-grid { grid-template-columns: repeat(2, 1fr); }
+      .stack-grid { grid-template-columns: repeat(2, 1fr); }
+      .link-grid { grid-template-columns: 1fr; }
+      .window-body { grid-template-columns: 45px 1fr; }
+      .inspector { display: none; }
     }
 
-
-    .flow-item strong {
-      display:
-        block;
-
-      margin-bottom:
-        0.25rem;
-
-      font-family:
-        "Outfit",
-        sans-serif;
-
-      font-size:
-        0.75rem;
+    @media (max-width: 560px) {
+      .container { width: min(100% - 26px, 1120px); }
+      .hero { padding-top: 70px; }
+      h1 { letter-spacing: -2px; }
+      .feature-grid, .stack-grid { grid-template-columns: 1fr; }
+      .version { grid-template-columns: 36px 1fr; }
+      .version strong { display: none; }
+      section { padding: 58px 0; }
     }
-
-
-    .flow-item span {
-      color:
-        var(--muted);
-
-      font-size:
-        0.6rem;
-    }
-
-
-    .flow-arrow {
-      color:
-        #586477;
-
-      font-size:
-        1rem;
-    }
-
-
-    /*
-     * Footer
-     */
-
-    .footer {
-      margin-top:
-        4rem;
-
-      padding-top:
-        1.5rem;
-
-      border-top:
-        1px solid
-        var(--border);
-
-      display:
-        flex;
-
-      justify-content:
-        space-between;
-
-      gap:
-        1rem;
-
-      color:
-        #657084;
-
-      font-size:
-        0.65rem;
-    }
-
-
-    .footer-code {
-      font-family:
-        "JetBrains Mono",
-        monospace;
-    }
-
-
-    /*
-     * Responsive
-     */
-
-    @media (max-width: 900px) {
-
-      .workspace-grid {
-        grid-template-columns:
-          1fr;
-      }
-
-
-      .workspace-card {
-        min-height:
-          220px;
-      }
-
-
-      .architecture-flow {
-        grid-template-columns:
-          1fr;
-      }
-
-
-      .flow-arrow {
-        transform:
-          rotate(90deg);
-      }
-
-    }
-
-
-    @media (max-width: 600px) {
-
-      .header {
-        padding:
-          0 1rem;
-      }
-
-
-      .header-link {
-        display:
-          none;
-      }
-
-
-      .page {
-        width:
-          min(
-            100% - 1.25rem,
-            1180px
-          );
-
-        padding-top:
-          3.5rem;
-      }
-
-
-      .hero {
-        margin-bottom:
-          3rem;
-      }
-
-
-      .hero h1 {
-        font-size:
-          2.65rem;
-      }
-
-
-      .hero-description {
-        font-size:
-          0.85rem;
-      }
-
-
-      .quick-actions {
-        flex-direction:
-          column;
-      }
-
-
-      .quick-button {
-        width:
-          100%;
-      }
-
-
-      .overview {
-        padding:
-          1rem;
-      }
-
-
-      .footer {
-        flex-direction:
-          column;
-      }
-
-    }
-
   </style>
-
 </head>
 
-
 <body>
+  <div class="grid-bg"></div>
 
+  <nav>
+    <div class="container nav-inner">
+      <a class="brand" href="#top">
+        <div class="brand-icon">&lt;/&gt;</div>
+        <div>
+          <strong>monacoEditor</strong>
+          <span>KeshavSoft Developer Workspace</span>
+        </div>
+      </a>
 
-  <!-- ====================================================== -->
-  <!-- HEADER -->
-  <!-- ====================================================== -->
-
-  <header class="header">
-
-
-    <a
-      href="./index.html"
-      class="brand">
-
-
-      <div class="brand-logo">
-        AI
+      <div class="nav-links">
+        <a href="#story">Story</a>
+        <a href="#features">Features</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#versions">Versions</a>
+        <a href="#setup">Setup</a>
       </div>
+    </div>
+  </nav>
 
+  <main id="top">
 
-      <div class="brand-info">
-
-        <span class="brand-name">
-          Monaco Platform
-        </span>
-
-        <span class="brand-subtitle">
-          Browser-native development platform
-        </span>
-
-      </div>
-
-
-    </a>
-
-
-    <a
-      href="./architecture.html"
-      class="header-link">
-
-      Architecture
-      →
-
-    </a>
-
-  </header>
-
-
-  <!-- ====================================================== -->
-  <!-- MAIN -->
-  <!-- ====================================================== -->
-
-  <main class="page">
-
-
-    <!-- Hero -->
-
+    <!-- HERO -->
     <section class="hero">
+      <div class="container">
+        <div class="badge">
+          <span class="pulse"></span>
+          Browser-based developer workspace
+        </div>
 
+        <h1>
+          From a simple editor to a
+          <span class="gradient">developer platform.</span>
+        </h1>
 
-      <span class="eyebrow">
+        <p>
+          <b>Monaco Editor</b> is the editing engine. Around it, this project
+          builds diagnostics, Babel parsing, AST inspection, error navigation,
+          live preview, settings, file tabs and a versioned documentation system.
+        </p>
 
-        <span class="eyebrow-dot"></span>
+        <div class="actions">
+          <a class="btn btn-primary" href="https://keshavsoft.github.io/monacoEditor/" target="_blank">
+            🚀 Open Live Editor
+          </a>
+          <a class="btn btn-secondary" href="https://github.com/keshavsoft/monacoEditor" target="_blank">
+            ◇ View GitHub
+          </a>
+          <a class="btn btn-secondary" href="https://keshavsoft.github.io/monacoEditor/docs/byExtension/" target="_blank">
+            📖 Documentation
+          </a>
+          
+           <a class="btn btn-secondary" href="./liveTest/index.html" target="_blank">
+             ⚡Launch Live Demo
+          </a>
+          <a class="btn btn-secondary" href="./byExtension/index.html" target="_blank">
+            📖 By Extension
+          </a>
+        </div>
 
-        Developer Workspace
+        <!-- Visual editor mockup -->
+        <div class="editor-window">
+          <div class="window-top">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+            <div class="tab">end-points.js</div>
+          </div>
 
-      </span>
+          <div class="window-body">
+            <div class="line-numbers">
+              1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10
+            </div>
 
+            <div class="code">
+              <span class="kw">const</span> <span class="var">router</span> =
+              <span class="fn">express.Router</span>();<br><br>
 
-      <h1>
-        Build. Explore.<br>
-        Create with Monaco.
-      </h1>
+              <span class="router">router</span>.<span class="fn">get</span>(
+              <span class="str">"/showAll"</span>, (<span class="var">req</span>,
+              <span class="var">res</span>) =&gt; {<br>
+              &nbsp;&nbsp;<span class="var">res</span>.<span class="fn">json</span>({<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;<span class="var">message</span>:
+              <span class="str">"Hello from Monaco"</span><br>
+              &nbsp;&nbsp;});<br>
+              });<br><br>
 
+              <span class="comment">// Edit → Validate → Inspect → Preview</span>
+            </div>
 
-      <p class="hero-description">
-
-        A browser-native development platform built around
-        Monaco Editor, designed to evolve from a code editor
-        into an AI-first engineering environment.
-
-      </p>
-
-
-      <!-- Quick Actions -->
-
-      <div class="quick-actions">
-
-
-        <a
-          href="./architecture.html"
-          class="quick-button primary">
-
-          <svg
-            width="15"
-            height="15"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2">
-
-            <path
-              d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20">
-            </path>
-
-            <path
-              d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z">
-            </path>
-
-          </svg>
-
-          Read Architecture
-
-        </a>
-
-
-        <a
-          href="./byExtension/index.html"
-          class="quick-button extension">
-
-          <svg
-            width="15"
-            height="15"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.8">
-
-            <rect
-              x="3"
-              y="3"
-              width="7"
-              height="7"
-              rx="1.5">
-            </rect>
-
-            <rect
-              x="14"
-              y="3"
-              width="7"
-              height="7"
-              rx="1.5">
-            </rect>
-
-            <rect
-              x="3"
-              y="14"
-              width="7"
-              height="7"
-              rx="1.5">
-            </rect>
-
-            <rect
-              x="14"
-              y="14"
-              width="7"
-              height="7"
-              rx="1.5">
-            </rect>
-
-          </svg>
-
-          By Extension
-
-        </a>
-
-
-        <a
-          href="./liveTest/index.html"
-          target="_blank"
-          rel="noopener"
-          class="quick-button">
-
-          Launch Live Demo ⚡
-
-        </a>
-
+            <div class="inspector">
+              <div class="inspector-title">AST Inspector</div>
+              <div class="tree">
+                <div class="node">▾ Program</div>
+                <div class="child">▾ VariableDeclaration</div>
+                <div class="child">▾ CallExpression</div>
+                <div class="child">▾ ExpressionStatement</div>
+                <div class="child">▾ ArrowFunctionExpression</div>
+                <div class="child">▾ ObjectExpression</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-
     </section>
 
+    <!-- STORY -->
+    <section id="story">
+      <div class="container">
+        <div class="section-heading">
+          <div class="eyebrow">01 · The Story</div>
+          <h2>Why does this repository exist?</h2>
+          <p>
+            The easiest way to understand the project is to follow its evolution.
+            It started with Monaco as a browser editor and progressively added the
+            tools developers need around the editing experience.
+          </p>
+        </div>
 
-    <!-- Workspace -->
+        <div class="story-grid">
+          <article class="card story">
+            <h3 style="font:700 1.35rem Outfit,sans-serif;">The central idea</h3>
+            <p>
+              A code editor is only the center of a developer workflow. Once the
+              developer starts typing, the application also needs to understand
+              the source, identify problems, explain those problems, inspect the
+              syntax tree, manage files and show the result.
+            </p>
 
+            <p>
+              This repository connects those responsibilities around the Monaco
+              Editor engine. Babel provides JavaScript parsing and AST information,
+              while the application converts parser results into Monaco markers,
+              error panels and inspection tools.
+            </p>
+
+            <div class="quote">
+              <b>Simple mental model:</b><br>
+              Monaco edits the code. Babel understands the code. The application
+              connects the two.
+            </div>
+          </article>
+
+          <div class="card flow">
+            <div class="flow-step">
+              <div class="flow-icon">01</div>
+              <div><strong>Write or load source</strong><span>Editor model / file buffer</span></div>
+            </div>
+            <div class="arrow-down">↓</div>
+            <div class="flow-step">
+              <div class="flow-icon">02</div>
+              <div><strong>Monaco Editor</strong><span>Editing, cursor, syntax UI</span></div>
+            </div>
+            <div class="arrow-down">↓</div>
+            <div class="flow-step">
+              <div class="flow-icon">03</div>
+              <div><strong>Babel validation</strong><span>Parse errors + AST</span></div>
+            </div>
+            <div class="arrow-down">↓</div>
+            <div class="flow-step">
+              <div class="flow-icon">04</div>
+              <div><strong>Developer feedback</strong><span>Markers, console, AST, preview</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section id="features">
+      <div class="container">
+        <div class="section-heading">
+          <div class="eyebrow">02 · Capabilities</div>
+          <h2>What can the workspace do?</h2>
+          <p>
+            The current architecture goes beyond displaying a textarea. It creates
+            a feedback loop between source code, diagnostics and developer actions.
+          </p>
+        </div>
+
+        <div class="feature-grid">
+          <article class="card feature-card">
+            <div class="feature-icon">⌨</div>
+            <h3>Monaco Editing</h3>
+            <p>VS Code's browser editing engine provides syntax highlighting, cursor management, models and editor behavior.</p>
+          </article>
+
+          <article class="card feature-card">
+            <div class="feature-icon">!</div>
+            <h3>Live Diagnostics</h3>
+            <p>Babel parse errors are converted into Monaco model markers and shown as red squiggly underlines.</p>
+          </article>
+
+          <article class="card feature-card">
+            <div class="feature-icon">?</div>
+            <h3>Hover Errors</h3>
+            <p>Move over a marked location to read the parser error message and understand where the problem occurred.</p>
+          </article>
+
+          <article class="card feature-card">
+            <div class="feature-icon">◇</div>
+            <h3>AST Inspector</h3>
+            <p>Inspect the live Babel AST structure and understand how source code becomes a tree of syntax nodes.</p>
+          </article>
+
+          <article class="card feature-card">
+            <div class="feature-icon">↳</div>
+            <h3>Error Console</h3>
+            <p>Errors can be collected in a panel and clicked to reveal the corresponding line directly in the editor.</p>
+          </article>
+
+          <article class="card feature-card">
+            <div class="feature-icon">◫</div>
+            <h3>Live Preview</h3>
+            <p>Advanced versions introduce a split preview workflow so source editing and rendered output can be viewed together.</p>
+          </article>
+
+          <article class="card feature-card">
+            <div class="feature-icon">＋</div>
+            <h3>Multi-file Tabs</h3>
+            <p>Version 8 introduces an in-memory multi-file workspace with tabs and a new-file action.</p>
+          </article>
+
+          <article class="card feature-card">
+            <div class="feature-icon">⚙</div>
+            <h3>Persistent Settings</h3>
+            <p>Editor preferences such as font, tab size, wrapping, minimap and line numbers can be stored locally.</p>
+          </article>
+
+          <article class="card feature-card">
+            <div class="feature-icon">↓</div>
+            <h3>Copy & Download</h3>
+            <p>Source can be copied to the clipboard or exported through the browser's Blob/download APIs.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ARCHITECTURE -->
+    <section id="architecture">
+      <div class="container">
+        <div class="section-heading">
+          <div class="eyebrow">03 · Architecture</div>
+          <h2>How the pieces work together</h2>
+          <p>
+            The repository separates editor setup, data, themes and user-facing
+            features so the application can evolve without putting everything in one file.
+          </p>
+        </div>
+
+        <div class="card architecture">
+<pre>
+<span class="accent">Developer</span>
+    │
+    ├── Type / Load JavaScript
+    │
+    ▼
+<span class="cyan">Monaco Editor</span>
+    │
+    ├── editor.getValue()
+    ├── onDidChangeModelContent()
+    └── editor model
+    │
+    ▼
+<span class="accent">@babel/standalone</span>
+    │
+    ├── Parse JavaScript
+    ├── Generate AST
+    └── Report syntax errors
+    │
+    ├──────────────────────┐
+    ▼                      ▼
+<span class="green">Monaco Markers</span>          <span class="green">AST Inspector</span>
+    │                      │
+    ├── Red squiggles       └── Program / Nodes
+    ├── Hover tooltip
+    └── Error Console
+    │
+    ▼
+<span class="cyan">Developer fixes code</span>
+    │
+    └───────────────► validation repeats
+</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- REPOSITORY -->
+    <section id="repository">
+      <div class="container">
+        <div class="section-heading">
+          <div class="eyebrow">04 · Repository</div>
+          <h2>Where should you look in the code?</h2>
+          <p>
+            You do not need to understand every folder at once. Start from the entry point,
+            then follow the editor setup and feature modules.
+          </p>
+        </div>
+
+        <div class="repo-layout">
+          <div class="card repo-tree">
+            <h3 style="font:700 1.1rem Outfit,sans-serif;">Project map</h3>
+<pre>
+monacoEditor/
+│
+├── index.html
+├── style.css
+├── README.md
+├── dev.md
+├── howto.md
+│
+├── js/
+│   ├── app.js
+│   ├── core/
+│   │   ├── editor-data.js
+│   │   ├── editor-setup.js
+│   │   └── editor-theme.js
+│   │
+│   ├── features/
+│   │   ├── clipboard.js
+│   │   ├── download.js
+│   │   └── toast.js
+│   │
+│   └── samples/
+│       └── end-points.js
+│
+├── docs/
+│   └── byExtension/
+│
+└── v1 ... v8/
+</pre>
+          </div>
+
+          <div class="card quick-start">
+            <h3 style="font:700 1.1rem Outfit,sans-serif;">Recommended reading order</h3>
+            <p style="color:var(--muted);font-size:.76rem;margin-top:8px;">
+              Follow the browser behavior while reading the source.
+            </p>
+<pre>
+<span class="muted"># 1. Application shell</span>
+<span class="cmd">open</span> index.html
+
+<span class="muted"># 2. Entry point</span>
+<span class="cmd">open</span> js/app.js
+
+<span class="muted"># 3. Monaco initialization</span>
+<span class="cmd">open</span> js/core/editor-setup.js
+
+<span class="muted"># 4. Default editor data</span>
+<span class="cmd">open</span> js/core/editor-data.js
+
+<span class="muted"># 5. Theme</span>
+<span class="cmd">open</span> js/core/editor-theme.js
+
+<span class="muted"># 6. User features</span>
+<span class="cmd">open</span> js/features/
+
+<span class="muted"># 7. Advanced architecture</span>
+<span class="cmd">study</span> docs/byExtension/v8/
+</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VERSIONS -->
+    <section id="versions">
+      <div class="container">
+        <div class="section-heading">
+          <div class="eyebrow">05 · Evolution</div>
+          <h2>From v1 to the Ultimate Workspace</h2>
+          <p>
+            The version folders tell the story of how the project grew feature by feature.
+          </p>
+        </div>
+
+        <div class="timeline">
+          <div class="version">
+            <div class="version-dot">1–3</div>
+            <strong>Foundation</strong>
+            <p>Single-page Monaco editor, AMD loading, custom dark theme, sample source, clipboard copy and Blob download.</p>
+          </div>
+
+          <div class="version">
+            <div class="version-dot">4–5</div>
+            <strong>Modular</strong>
+            <p>Core editor setup, features and sample code were separated into reusable modules.</p>
+          </div>
+
+          <div class="version">
+            <div class="version-dot">6</div>
+            <strong>Diagnostics</strong>
+            <p>Babel Standalone was introduced for JavaScript parsing, with line/column errors mapped to Monaco markers and hover tooltips.</p>
+          </div>
+
+          <div class="version">
+            <div class="version-dot">7</div>
+            <strong>byExtension</strong>
+            <p>A more organized extension-oriented portal, settings persistence, HTML/JS areas and live HTML statistics.</p>
+          </div>
+
+          <div class="version">
+            <div class="version-dot">8</div>
+            <strong>Ultimate</strong>
+            <p>Live split preview, AST Inspector, clickable Error Console, quick presets and VS Code-style multi-file tabs.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STACK -->
     <section>
+      <div class="container">
+        <div class="section-heading">
+          <div class="eyebrow">06 · Technology</div>
+          <h2>The technology stack</h2>
+        </div>
 
-
-      <div class="section-label">
-        Explore the platform
+        <div class="stack-grid">
+          <div class="stack-item">
+            <div class="big">Monaco</div>
+            <small>Browser code editor engine</small>
+          </div>
+          <div class="stack-item">
+            <div class="big">Babel</div>
+            <small>JS parser & AST</small>
+          </div>
+          <div class="stack-item">
+            <div class="big">JavaScript</div>
+            <small>Application logic</small>
+          </div>
+          <div class="stack-item">
+            <div class="big">HTML / CSS</div>
+            <small>Workspace interface</small>
+          </div>
+          <div class="stack-item">
+            <div class="big">Require.js</div>
+            <small>AMD Monaco loading</small>
+          </div>
+          <div class="stack-item">
+            <div class="big">FileReader</div>
+            <small>Browser file loading</small>
+          </div>
+          <div class="stack-item">
+            <div class="big">Blob API</div>
+            <small>Source exporting</small>
+          </div>
+          <div class="stack-item">
+            <div class="big">localStorage</div>
+            <small>Settings persistence</small>
+          </div>
+        </div>
       </div>
-
-
-      <div class="workspace-grid">
-
-
-        <!-- Architecture -->
-
-        <a
-          href="./architecture.html"
-          class="workspace-card">
-
-
-          <span class="card-number">
-            01
-          </span>
-
-
-          <div class="card-icon">
-
-
-            <svg
-              width="21"
-              height="21"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.7">
-
-              <path
-                d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20">
-              </path>
-
-              <path
-                d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z">
-              </path>
-
-            </svg>
-
-
-          </div>
-
-
-          <h2>
-            Architecture
-          </h2>
-
-
-          <p>
-
-            Explore the complete engineering proposal,
-            technology decisions, system architecture,
-            roadmap, risks, and future vision.
-
-          </p>
-
-
-          <div class="card-footer">
-
-            <span>
-              12 engineering sections
-            </span>
-
-            <span class="card-arrow">
-              →
-            </span>
-
-          </div>
-
-
-        </a>
-
-
-        <!-- By Extension -->
-
-        <a
-          href="./byExtension/index.html"
-          class="workspace-card">
-
-
-          <span class="card-number">
-            02
-          </span>
-
-
-          <div class="card-icon cyan">
-
-
-            <svg
-              width="21"
-              height="21"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.7">
-
-              <rect
-                x="3"
-                y="3"
-                width="7"
-                height="7"
-                rx="1.5">
-              </rect>
-
-              <rect
-                x="14"
-                y="3"
-                width="7"
-                height="7"
-                rx="1.5">
-              </rect>
-
-              <rect
-                x="3"
-                y="14"
-                width="7"
-                height="7"
-                rx="1.5">
-              </rect>
-
-              <rect
-                x="14"
-                y="14"
-                width="7"
-                height="7"
-                rx="1.5">
-              </rect>
-
-            </svg>
-
-
-          </div>
-
-
-          <h2>
-            By Extension
-          </h2>
-
-
-          <p>
-
-            Choose a development environment based on
-            the file extension you want to work with,
-            including HTML and JavaScript editors.
-
-          </p>
-
-
-          <div class="card-footer">
-
-            <span>
-              HTML · JavaScript
-            </span>
-
-            <span class="card-arrow">
-              →
-            </span>
-
-          </div>
-
-
-        </a>
-
-
-        <!-- Live Editor -->
-
-        <a
-          href="./liveTest/index.html"
-          target="_blank"
-          rel="noopener"
-          class="workspace-card">
-
-
-          <span class="card-number">
-            03
-          </span>
-
-
-          <div class="card-icon green">
-
-
-            <svg
-              width="21"
-              height="21"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.7">
-
-              <polyline
-                points="16 18 22 12 16 6">
-              </polyline>
-
-              <polyline
-                points="8 6 2 12 8 18">
-              </polyline>
-
-            </svg>
-
-
-          </div>
-
-
-          <h2>
-            Live Editor
-          </h2>
-
-
-          <p>
-
-            Open the current Monaco prototype and
-            experiment with the browser-based editor
-            experience.
-
-          </p>
-
-
-          <div class="card-footer">
-
-            <span>
-              Interactive prototype
-            </span>
-
-            <span class="card-arrow">
-              →
-            </span>
-
-          </div>
-
-
-        </a>
-
-
-      </div>
-
     </section>
 
-
-    <!-- Platform Flow -->
-
-    <section class="overview">
-
-
-      <div class="overview-header">
-
-
-        <div class="overview-title">
-          Platform Structure
+    <!-- SETUP -->
+    <section id="setup">
+      <div class="container">
+        <div class="section-heading">
+          <div class="eyebrow">07 · Run It</div>
+          <h2>Start the project locally</h2>
+          <p>
+            This is a browser application. A simple static HTTP server is enough
+            for the documented development workflow.
+          </p>
         </div>
 
+        <div class="repo-layout">
+          <div class="card quick-start">
+            <h3 style="font:700 1.1rem Outfit,sans-serif;">Local server</h3>
+<pre>
+<span class="cmd">git clone</span> https://github.com/keshavsoft/monacoEditor.git
 
-        <div class="overview-status">
+<span class="cmd">cd</span> monacoEditor
 
-          <span class="status-dot"></span>
+<span class="cmd">python -m http.server</span> 3005
+</pre>
+          </div>
 
-          Prototype Active
-
+          <div class="card story">
+            <h3 style="font:700 1.1rem Outfit,sans-serif;">Then open</h3>
+            <p>
+              Main editor:
+            </p>
+            <p><code>http://localhost:3005/index.html</code></p>
+            <p style="margin-top:13px;">
+              Documentation portal:
+            </p>
+            <p><code>http://localhost:3005/docs/byExtension/</code></p>
+            <p style="margin-top:13px;">
+              Version 8:
+            </p>
+            <p><code>http://localhost:3005/docs/byExtension/v8/jsFiles/index.html</code></p>
+          </div>
         </div>
-
-
       </div>
-
-
-      <div class="architecture-flow">
-
-
-        <div class="flow-item">
-
-          <strong>
-            Architecture
-          </strong>
-
-          <span>
-            Research & Design
-          </span>
-
-        </div>
-
-
-        <span class="flow-arrow">
-          →
-        </span>
-
-
-        <div class="flow-item">
-
-          <strong>
-            By Extension
-          </strong>
-
-          <span>
-            Developer Tools
-          </span>
-
-        </div>
-
-
-        <span class="flow-arrow">
-          →
-        </span>
-
-
-        <div class="flow-item">
-
-          <strong>
-            Live Editor
-          </strong>
-
-          <span>
-            Monaco Prototype
-          </span>
-
-        </div>
-
-
-      </div>
-
-
     </section>
 
+    <!-- DOCUMENTATION LINKS -->
+    <section>
+      <div class="container">
+        <div class="section-heading">
+          <div class="eyebrow">08 · Explore</div>
+          <h2>Open the project resources</h2>
+        </div>
 
-    <!-- Footer -->
+        <div class="link-grid">
+          <a class="link-card" href="https://github.com/keshavsoft/monacoEditor" target="_blank">
+            <strong>◇ GitHub Repository</strong>
+            <span>Source code, versions and project history</span>
+          </a>
 
-    <footer class="footer">
+          <a class="link-card" href="https://keshavsoft.github.io/monacoEditor/" target="_blank">
+            <strong>🚀 Live Editor</strong>
+            <span>Open the browser-based editor</span>
+          </a>
 
+          <a class="link-card" href="https://keshavsoft.github.io/monacoEditor/docs/byExtension/" target="_blank">
+            <strong>📖 Documentation Portal</strong>
+            <span>Versioned documentation and extension portal</span>
+          </a>
 
-      <span>
-        Monaco Platform · Engineering Architecture
-      </span>
+          <a class="link-card" href="https://keshavsoft.github.io/monacoEditor/byExtension/v8/" target="_blank">
+            <strong>⚡ Version 8</strong>
+            <span>AST, preview, error console and multi-file workspace</span>
+          </a>
 
+          <a class="link-card" href="https://keshavsoft.github.io/monacoEditor/byExtension/babel_ast_guide.html" target="_blank">
+            <strong>🌳 Babel AST Guide</strong>
+            <span>Understand parsing and AST inspection</span>
+          </a>
 
-      <span class="footer-code">
-        Browser-native · AI-first · Extensible
-      </span>
+          <a class="link-card" href="https://keshavsoft.github.io/monacoEditor/byExtension/monaco_generic_error_analysis.html" target="_blank">
+            <strong>🔴 Diagnostics Guide</strong>
+            <span>Understand error markers and diagnostic flow</span>
+          </a>
+        </div>
+      </div>
+    </section>
 
+    <!-- FINAL -->
+    <section>
+      <div class="container">
+        <div class="card story" style="text-align:center;padding:50px 30px;">
+          <div class="eyebrow">The Core Philosophy</div>
+          <h2>Don't just edit code. Understand it.</h2>
+          <p style="max-width:700px;margin:15px auto 0;">
+            Monaco provides the editing experience. Babel gives the application
+            a structural understanding of JavaScript. The surrounding modules turn
+            that information into diagnostics, navigation, inspection, preview and
+            workspace features.
+          </p>
 
-    </footer>
-
+          <div class="actions">
+            <a class="btn btn-primary" href="https://keshavsoft.github.io/monacoEditor/" target="_blank">
+              🚀 Try the Workspace
+            </a>
+            <a class="btn btn-secondary" href="https://github.com/keshavsoft/monacoEditor" target="_blank">
+              ◇ Explore Source
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
 
   </main>
 
-
+  <footer>
+    <div class="container">
+      <strong>⚡ KeshavSoft Monaco Editor</strong>
+      <p>Edit · Validate · Inspect · Preview · Export</p>
+      <p>Built with HTML5, CSS3, JavaScript, Monaco Editor and Babel Standalone.</p>
+    </div>
+  </footer>
 </body>
-
 </html>
