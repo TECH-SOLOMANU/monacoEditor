@@ -11,6 +11,7 @@
 | 🏠 **Main Official Website** | [https://keshavsoft.github.io/monacoEditor/](https://keshavsoft.github.io/monacoEditor/) | Official project homepage & standalone editor |
 | 📁 **byExtension Portal** | [https://keshavsoft.github.io/monacoEditor/byExtension/](https://keshavsoft.github.io/monacoEditor/byExtension/index.html) | Master extension selector portal hub |
 | 🩵 **Version 8 (Ultimate Suite)** | [https://keshavsoft.github.io/monacoEditor/byExtension/v8/](https://keshavsoft.github.io/monacoEditor/byExtension/v8/jsFiles/index.html) | AST Inspector, Live Preview, Error Console & Multi-Tabs |
+| 📊 **Online vs Monaco v8 Benchmarking** | [https://keshavsoft.github.io/monacoEditor/byExtension/online_vs_our_monaco_editor.html](https://keshavsoft.github.io/monacoEditor/byExtension/online_vs_our_monaco_editor.html) | Industry comparative analysis matrix (Playground, ASTExplorer, CodePen vs v8) |
 | ⚙️ **Generic Diagnostics Analysis** | [https://keshavsoft.github.io/monacoEditor/byExtension/monaco_generic_error_analysis.html](https://keshavsoft.github.io/monacoEditor/byExtension/monaco_generic_error_analysis.html) | Language-agnostic Monaco error diagnostic specification (JS vs HTML) |
 | 🌳 **Babel AST Architecture Guide** | [https://keshavsoft.github.io/monacoEditor/byExtension/babel_ast_guide.html](https://keshavsoft.github.io/monacoEditor/byExtension/babel_ast_guide.html) | Live interactive Babel AST architecture specification |
 | 💜 **Version 7 (byExtension)** | [https://keshavsoft.github.io/monacoEditor/byExtension/v7/](https://keshavsoft.github.io/monacoEditor/byExtension/v7/jsFiles/index.html) | Modular `byExtension` suite with `settings.html` |
@@ -40,10 +41,12 @@ monacoEditor/
 ├── howto.md                         # End-User Operations & Shortcuts Guide
 ├── style.css                        # Glassmorphism Dark Layout Stylesheet
 ├── docs/
+│   ├── online_vs_our_monaco_editor.html # Online Editors vs Monaco v8 Comparative Analysis
 │   ├── monaco_generic_error_analysis.html  # Generic Diagnostic Specification (JS vs HTML)
 │   ├── babel_ast_guide.html         # Babel AST Architecture Guide
 │   └── byExtension/                 # GitHub Pages Live Deployment Directory
 │       ├── index.html               # Main Portal Page (with Version 1 to Version 8 links)
+│       ├── online_vs_our_monaco_editor.html # Live Comparative Analysis Specification
 │       ├── monaco_generic_error_analysis.html  # Live Generic Diagnostic Analysis Page
 │       ├── babel_ast_guide.html     # Live Babel AST Guide Page
 │       ├── v7/                      # Version 7 byExtension Suite
@@ -63,6 +66,7 @@ monacoEditor/
 
 ## 📖 Complete Documentation Suite
 
+- [📊 Online Editors vs Monaco v8 Benchmarking (Live Site)](https://keshavsoft.github.io/monacoEditor/byExtension/online_vs_our_monaco_editor.html) — Comparative feature matrix (Playground, ASTExplorer, CodePen vs v8).
 - [⚙️ Monaco Generic Diagnostics Analysis (Live Site)](https://keshavsoft.github.io/monacoEditor/byExtension/monaco_generic_error_analysis.html) — Generic error marker analysis (JS vs HTML) & multi-language architecture.
 - [🌳 Babel AST Architecture Guide (Live Site)](https://keshavsoft.github.io/monacoEditor/byExtension/babel_ast_guide.html) — Technical AST parsing, marker injection & AST Inspector architecture.
 - [👨‍💻 Developer Guide (`dev.md`)](dev.md) — Technical architecture, AST marker integration & PR workflow.
