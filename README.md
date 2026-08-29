@@ -11,6 +11,7 @@
 | 🏠 **Main Official Website** | [https://keshavsoft.github.io/monacoEditor/](https://keshavsoft.github.io/monacoEditor/) | Official project homepage & standalone editor |
 | 📁 **byExtension Portal** | [https://keshavsoft.github.io/monacoEditor/byExtension/](https://keshavsoft.github.io/monacoEditor/byExtension/index.html) | Master extension selector portal hub |
 | 🩵 **Version 8 (Ultimate Suite)** | [https://keshavsoft.github.io/monacoEditor/byExtension/v8/](https://keshavsoft.github.io/monacoEditor/byExtension/v8/jsFiles/index.html) | AST Inspector, Live Preview, Error Console & Multi-Tabs |
+| 🌳 **Babel AST Architecture Guide** | [https://keshavsoft.github.io/monacoEditor/byExtension/babel_ast_guide.html](https://keshavsoft.github.io/monacoEditor/byExtension/babel_ast_guide.html) | Live interactive Babel AST architecture specification |
 | 💜 **Version 7 (byExtension)** | [https://keshavsoft.github.io/monacoEditor/byExtension/v7/](https://keshavsoft.github.io/monacoEditor/byExtension/v7/jsFiles/index.html) | Modular `byExtension` suite with `settings.html` |
 | 🔴 **Version 6 (Hover Errors)** | [https://keshavsoft.github.io/monacoEditor/v6/](https://keshavsoft.github.io/monacoEditor/v6/index.html) | Out-of-the-box JS error markers & hover tooltips |
 
@@ -61,6 +62,6 @@ monacoEditor/
 
 ## 📖 Complete Documentation Suite
 
-- [🌳 Babel AST Architecture Guide (`docs/babel_ast_guide.html`)](docs/babel_ast_guide.html) — Real-time AST parsing, marker injection & AST Inspector architecture.
+- [🌳 Babel AST Architecture Guide (Live Site)](https://keshavsoft.github.io/monacoEditor/byExtension/babel_ast_guide.html) — Technical AST parsing, marker injection & AST Inspector architecture.
 - [👨‍💻 Developer Guide (`dev.md`)](dev.md) — Technical architecture, AST marker integration & PR workflow.
 - [📖 User Operations Guide (`howto.md`)](howto.md) — Keyboard shortcuts, settings guide & drawer usage.
