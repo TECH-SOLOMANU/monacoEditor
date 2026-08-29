@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Online Editors vs Monaco v8 Master Suite — Comparative Analysis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #070a12;
+      --card-bg: #0d1322;
+      --border: #1f2937;
+      --accent-purple: #c084fc;
+      --accent-blue: #38bdf8;
+      --accent-cyan: #06b6d4;
+      --accent-green: #34d399;
+      --accent-red: #f87171;
+      --accent-amber: #fbbf24;
+      --text: #f3f4f6;
+      --text-muted: #9ca3af;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 0 0 70px 0;
+    }
+
+    .hero {
+      background: radial-gradient(circle at 50% 0%, rgba(6, 182, 212, 0.15), transparent 70%),
+                  linear-gradient(180deg, #0f172a 0%, #070a12 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 60px 20px 40px;
+      text-align: center;
+    }
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: rgba(6, 182, 212, 0.1);
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      border-radius: 20px;
+      color: var(--accent-cyan);
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-size: 38px;
+      font-weight: 800;
+      margin: 0 0 12px;
+      background: linear-gradient(135deg, #ffffff, #38bdf8, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      font-size: 16px;
+      color: var(--text-muted);
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    .container {
+      max-width: 1180px;
+      margin: 40px auto 0;
+      padding: 0 20px;
+    }
+
+    .section-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 40px 0 20px;
+    }
+    .section-title span {
+      display: inline-flex;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: rgba(6, 182, 212, 0.15);
+      color: var(--accent-cyan);
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    /* FEATURE COMPARISON TABLE */
+    .table-wrapper {
+      overflow-x: auto;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      margin-bottom: 30px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 14px;
+    }
+    th, td {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+    }
+    th {
+      background: #111827;
+      color: #ffffff;
+      font-weight: 700;
+    }
+    th.highlight-col, td.highlight-col {
+      background: rgba(6, 182, 212, 0.08);
+      border-left: 1px solid rgba(6, 182, 212, 0.2);
+      border-right: 1px solid rgba(6, 182, 212, 0.2);
+    }
+
+    .tool-link-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      color: var(--accent-blue);
+      text-decoration: none;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+    .tool-link-btn:hover { text-decoration: underline; }
+
+    .status-check { color: var(--accent-green); font-weight: bold; }
+    .status-cross { color: var(--accent-red); opacity: 0.6; }
+    .feature-name { font-weight: 600; color: #f3f4f6; }
+
+    /* DEEP COMPARISON CARDS */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
+
+    .tool-box {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px;
+      background: #090d16;
+      display: flex;
+      flex-direction: column;
+    }
+    .tool-box h4 {
+      margin: 0 0 8px;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #ffffff;
+    }
+    .tool-box p {
+      margin: 0 0 16px;
+      font-size: 14px;
+      color: var(--text-muted);
+      flex: 1;
+    }
+    .tag-list {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .tag-item {
+      font-size: 11px;
+      background: #161e2e;
+      color: #cbd5e1;
+      padding: 3px 8px;
+      border-radius: 4px;
+      border: 1px solid #1f2937;
+    }
+
+    .ext-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 9px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      background: rgba(56, 189, 248, 0.1);
+      color: var(--accent-blue);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      transition: all 0.2s ease;
+    }
+    .ext-btn:hover {
+      background: var(--accent-blue);
+      color: #000000;
+    }
+
+    .our-spotlight {
+      background: linear-gradient(180deg, rgba(6, 182, 212, 0.1) 0%, rgba(139, 92, 246, 0.05) 100%);
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      border-radius: 16px;
+      padding: 26px;
+      margin-bottom: 30px;
+    }
+    .our-spotlight h3 {
+      margin: 0 0 10px;
+      font-size: 22px;
+      color: #ffffff;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 50px;
+      padding-top: 25px;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO HEADER -->
+  <header class="hero">
+    <div class="hero-pill">📊 Industry Benchmarking & Live Links</div>
+    <h1>Standard Online Editors vs Monaco v8 Master Suite</h1>
+    <p>A comprehensive architectural breakdown with direct live website links comparing existing web editors (Microsoft Monaco Playground, ASTExplorer, CodePen, StackBlitz) against our 5-in-1 Monaco Master Workstation.</p>
+  </header>
+
+  <div class="container">
+
+    <!-- SECTION 1: MASTER FEATURE COMPARISON MATRIX WITH LIVE LINKS -->
+    <div class="section-title">
+      <span>📊</span> 1. Comprehensive Feature Comparison Matrix & Live Links
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Capability / Feature</th>
+            <th>
+              Microsoft Playground<br>
+              <a href="https://microsoft.github.io/monaco-editor/playground.html" target="_blank" class="tool-link-btn">🔗 Open Live ↗</a>
+            </th>
+            <th>
+              ASTExplorer.net<br>
+              <a href="https://astexplorer.net/" target="_blank" class="tool-link-btn">🔗 Open Live ↗</a>
+            </th>
+            <th>
+              CodePen / JSFiddle<br>
+              <a href="https://codepen.io/pen/" target="_blank" class="tool-link-btn">🔗 Open Live ↗</a>
+            </th>
+            <th>
+              StackBlitz<br>
+              <a href="https://stackblitz.com/" target="_blank" class="tool-link-btn">🔗 Open Live ↗</a>
+            </th>
+            <th class="highlight-col">
+              ✨ Our Monaco v8 Suite<br>
+              <a href="v8/jsFiles/index.html" class="tool-link-btn" style="color: var(--accent-cyan);">🚀 Launch Suite ↗</a>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="feature-name">Editor Core Engine</td>
+            <td>Monaco Engine</td>
+            <td>CodeMirror / Monaco</td>
+            <td>CodeMirror / Ace</td>
+            <td>Monaco Engine</td>
+            <td class="highlight-col"><strong>Monaco v0.45.0</strong></td>
+          </tr>
+          <tr>
+            <td class="feature-name">Architecture & Dependencies</td>
+            <td>Static AMD Loader</td>
+            <td>React Web App</td>
+            <td>Web iFrame Sandbox</td>
+            <td>Node.js Web Container</td>
+            <td class="highlight-col"><strong>Pure Standalone (Zero NPM/React)</strong></td>
+          </tr>
+          <tr>
+            <td class="feature-name">Babel AST Inspector Drawer</td>
+            <td class="status-cross">❌ None</td>
+            <td class="status-check">✅ Full AST JSON</td>
+            <td class="status-cross">❌ None</td>
+            <td class="status-cross">❌ None</td>
+            <td class="highlight-col"><span class="status-check">✅ Real-Time AST Tree Drawer</span></td>
+          </tr>
+          <tr>
+            <td class="feature-name">Live Split-Screen Preview</td>
+            <td class="status-cross">❌ None</td>
+            <td class="status-cross">❌ None</td>
+            <td class="status-check">✅ Basic Render</td>
+            <td class="status-check">✅ Dev Server</td>
+            <td class="highlight-col"><span class="status-check">✅ 0ms Split-Mode CSS + Layout</span></td>
+          </tr>
+          <tr>
+            <td class="feature-name">Clickable Error Console (Jump-to-Line)</td>
+            <td class="status-cross">❌ Output Log Only</td>
+            <td class="status-cross">❌ None</td>
+            <td class="status-cross">❌ Output Log Only</td>
+            <td class="status-cross">❌ Console Output</td>
+            <td class="highlight-col"><span class="status-check">✅ Direct Jump-to-Line Drawer</span></td>
+          </tr>
+          <tr>
+            <td class="feature-name">Multi-File VS Code Tabs (+)</td>
+            <td class="status-cross">❌ Single File</td>
+            <td class="status-cross">❌ Single File</td>
+            <td class="status-cross">❌ Single File</td>
+            <td class="status-check">✅ Heavy File Tree</td>
+            <td class="highlight-col"><span class="status-check">✅ VS Code Tabs with (+) System</span></td>
+          </tr>
+          <tr>
+            <td class="feature-name">In-Browser Red Error Markers</td>
+            <td class="status-cross">❌ Basic TS Only</td>
+            <td class="status-cross">❌ None</td>
+            <td class="status-cross">❌ None</td>
+            <td class="status-check">✅ Full Worker Linter</td>
+            <td class="highlight-col"><span class="status-check">✅ `@babel/standalone` Squigglies</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SECTION 2: OUR 5-IN-1 ADVANTAGE SPOTLIGHT -->
+    <div class="our-spotlight">
+      <h3>🚀 Why Our Monaco v8 Master Suite is Unique</h3>
+      <p style="margin: 0 0 16px; color: var(--text-muted);">Existing web tools force developers to compromise: <code>ASTExplorer</code> provides great AST trees but no render previews; <code>CodePen</code> provides previews but no AST drawers; <code>StackBlitz</code> is powerful but requires heavy Node.js web containers. <strong>Monaco v8 consolidates all 5 core tools into one standalone, zero-dependency browser application:</strong></p>
+      
+      <div class="grid-2">
+        <div style="background: rgba(0, 0, 0, 0.3); padding: 16px; border-radius: 10px; border: 1px solid var(--border);">
+          <strong style="color: var(--accent-cyan);">1. 0ms Split Preview</strong>: Uses explicit CSS grid and pixel layout calculations so the editor shrinks instantly without requiring F12 or window resize events.
+        </div>
+        <div style="background: rgba(0, 0, 0, 0.3); padding: 16px; border-radius: 10px; border: 1px solid var(--border);">
+          <strong style="color: var(--accent-purple);">2. Language-Agnostic Telemetry</strong>: Listens directly to <code>monaco.editor.onDidChangeMarkers()</code> to extract error coordinates across JS, HTML, CSS, and JSON.
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 3: INDIVIDUAL ONLINE TOOL BREAKDOWN WITH DIRECT BUTTONS -->
+    <div class="section-title">
+      <span>🔍</span> 3. Detailed Breakdown & Direct Live Website Links
+    </div>
+
+    <div class="grid-2">
+
+      <div class="tool-box">
+        <h4>Microsoft Monaco Playground</h4>
+        <p>Official Microsoft sandbox designed to test Monaco API calls. It allows running small JS code snippets.</p>
+        <div class="tag-list">
+          <span class="tag-item">Single File Only</span>
+          <span class="tag-item">No HTML Render</span>
+          <span class="tag-item">No AST Tree</span>
+        </div>
+        <a href="https://microsoft.github.io/monaco-editor/playground.html" target="_blank" class="ext-btn">🔗 Launch Microsoft Monaco Playground ↗</a>
+      </div>
+
+      <div class="tool-box">
+        <h4>ASTExplorer.net</h4>
+        <p>Industry-standard web tool for inspecting Abstract Syntax Trees across Babel, ESLint, and TypeScript parsers.</p>
+        <div class="tag-list">
+          <span class="tag-item">Great AST Viewer</span>
+          <span class="tag-item">No Execution Output</span>
+          <span class="tag-item">No Multi-Tabs</span>
+        </div>
+        <a href="https://astexplorer.net/" target="_blank" class="ext-btn">🔗 Launch ASTExplorer.net ↗</a>
+      </div>
+
+      <div class="tool-box">
+        <h4>CodePen / JSFiddle</h4>
+        <p>Popular web sandboxes for testing frontend HTML, CSS, and JS snippets with live iframe previews.</p>
+        <div class="tag-list">
+          <span class="tag-item">Live Preview</span>
+          <span class="tag-item">No AST Drawer</span>
+          <span class="tag-item">No Hover Error Markers</span>
+        </div>
+        <a href="https://codepen.io/pen/" target="_blank" class="ext-btn">🔗 Launch CodePen Editor ↗</a>
+      </div>
+
+      <div class="tool-box">
+        <h4>StackBlitz Cloud IDE</h4>
+        <p>Powerful web containers running WebContainers / Node.js inside Chrome to build full React/Next.js apps.</p>
+        <div class="tag-list">
+          <span class="tag-item">Heavy Web Container</span>
+          <span class="tag-item">Long Initialization</span>
+          <span class="tag-item">No AST Inspector</span>
+        </div>
+        <a href="https://stackblitz.com/" target="_blank" class="ext-btn">🔗 Launch StackBlitz Cloud IDE ↗</a>
+      </div>
+
+    </div>
+
+    <footer>
+      <p>© Monaco Editor Comparative Analysis Specification — Standalone Master Suite</p>
+    </footer>
+
+  </div>
+
+</body>
+</html>
