@@ -196,6 +196,7 @@
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
       gap: 18px;
+      margin-bottom: 45px;
     }
 
     .card {
@@ -271,6 +272,35 @@
     .arrow { transition: transform 0.2s ease; }
     .card:hover .arrow { transform: translateX(4px); }
 
+    /* VERSION TIMELINE LIST */
+    .timeline-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+    }
+    .v-item {
+      background: rgba(15, 21, 35, 0.6);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      text-decoration: none;
+      color: var(--text);
+      transition: all 0.2s ease;
+    }
+    .v-item:hover {
+      background: rgba(21, 30, 48, 0.85);
+      border-color: var(--border-glow);
+      transform: translateY(-2px);
+    }
+    .v-num {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--blue);
+    }
+    .v-title { font-family: var(--font-head); font-size: 14px; font-weight: 700; color: #fff; margin: 4px 0 2px; }
+    .v-desc { font-size: 11.5px; color: var(--subtext); margin: 0; }
+
     /* Footer */
     footer {
       text-align: center;
@@ -310,9 +340,9 @@
         <p>We are building a standalone, zero-dependency browser code editor environment. The platform decouples heavy server dependencies and brings real-time 0ms split previews, Babel AST parsing, and clickable error diagnostics straight into the browser.</p>
       </div>
 
-      <!-- Section Title -->
+      <!-- Section Title 1: Core Modules -->
       <div class="section-title">
-        📁 Platform Modules & Documentation
+        📁 Core Modules & Documentation
       </div>
 
       <!-- Grid Links -->
@@ -396,6 +426,61 @@
           </div>
         </a>
 
+      </div>
+
+      <!-- Section Title 2: Version Evolution Timeline -->
+      <div class="section-title">
+        📜 Versions Evolution Story (v1 → v8 Index Pages)
+      </div>
+
+      <div class="timeline-grid">
+        <a href="byExtension/v1/index.html" class="v-item">
+          <div class="v-num">VERSION 01</div>
+          <div class="v-title">Foundation</div>
+          <div class="v-desc">Monaco standalone initialization & AMD loader.</div>
+        </a>
+
+        <a href="byExtension/v2/index.html" class="v-item">
+          <div class="v-num">VERSION 02</div>
+          <div class="v-title">Settings</div>
+          <div class="v-desc">Editor settings persistence & local storage.</div>
+        </a>
+
+        <a href="byExtension/v3/index.html" class="v-item">
+          <div class="v-num">VERSION 03</div>
+          <div class="v-title">Themes</div>
+          <div class="v-desc">Multi-theme engine & enhanced toolbar.</div>
+        </a>
+
+        <a href="byExtension/v4/index.html" class="v-item">
+          <div class="v-num">VERSION 04</div>
+          <div class="v-title">Modular</div>
+          <div class="v-desc">Separated JS application architecture.</div>
+        </a>
+
+        <a href="byExtension/v5/index.html" class="v-item">
+          <div class="v-num">VERSION 05</div>
+          <div class="v-title">Export</div>
+          <div class="v-desc">FileReader local upload & Blob file export.</div>
+        </a>
+
+        <a href="byExtension/v6/index.html" class="v-item">
+          <div class="v-num">VERSION 06</div>
+          <div class="v-title">Diagnostics</div>
+          <div class="v-desc">Babel Standalone syntax error squigglies.</div>
+        </a>
+
+        <a href="byExtension/v7/index.html" class="v-item">
+          <div class="v-num">VERSION 07</div>
+          <div class="v-title">byExtension</div>
+          <div class="v-desc">Extension-focused HTML & JS environments.</div>
+        </a>
+
+        <a href="byExtension/v8/index.html" class="v-item">
+          <div class="v-num">VERSION 08</div>
+          <div class="v-title">Master Suite</div>
+          <div class="v-desc">0ms Live split preview, AST & Error console.</div>
+        </a>
       </div>
 
     </div>
