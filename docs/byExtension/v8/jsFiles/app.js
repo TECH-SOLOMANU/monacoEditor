@@ -193,33 +193,48 @@ function updateLivePreview(code) {
   const previewIframe = document.getElementById("preview-iframe");
   if (!previewIframe) return;
 
-  const doc = previewIframe.contentDocument || previewIframe.contentWindow.document;
-  doc.open();
-  doc.write(`
+  const safeCode = code
+    .replace(/^import\s+[\s\S]*?from\s+['"][^'"]+['"];?/gm, '')
+    .replace(/^import\s+['"][^'"]+['"];?/gm, '')
+    .replace(/^export\s+[\s\S]*?;/gm, '')
+    .replace(/\bconst\b/g, 'var')
+    .replace(/\blet\b/g, 'var');
+
+  const htmlContent = `
     <!DOCTYPE html>
     <html>
     <head>
-      <style>body { font-family: monospace; background: #1e1e1e; color: #d4d4d4; padding: 15px; }</style>
+      <meta charset="UTF-8">
+      <style>
+        body { font-family: monospace; background: #0d1117; color: #f0f6fc; padding: 15px; margin: 0; }
+        .log { padding: 6px 10px; background: #161b22; color: #38bdf8; border-radius: 6px; margin-bottom: 6px; border: 1px solid #30363d; font-size: 13px; word-break: break-all; }
+        .err { color: #f87171; font-weight: bold; margin-top: 10px; font-size: 12px; }
+        .ok { color: #34d399; font-weight: bold; margin-top: 10px; font-size: 12px; }
+      </style>
     </head>
     <body>
-      <h3>Console Output Log</h3>
-      <div id="output">Running script...</div>
+      <h3 style="color:#8b949e;font-size:12px;margin:0 0 10px 0;border-bottom:1px solid #21262d;padding-bottom:6px;">Console Output Log</h3>
+      <div id="out"></div>
       <script>
-        const output = document.getElementById("output");
-        console.log = (...args) => {
-          output.innerHTML += "<div>> " + args.join(" ") + "</div>";
-        };
-        try {
-          ${code}
-          output.innerHTML += "<div style='color:#4ec9b0;'>✔ Script Executed Successfully</div>";
-        } catch(err) {
-          output.innerHTML += "<div style='color:#f14c4c;'>❌ Execution Error: " + err.message + "</div>";
-        }
+        (function() {
+          var out = document.getElementById("out");
+          console.log = function(...args) {
+            var str = args.map(function(a) { return typeof a === 'object' ? JSON.stringify(a) : String(a); }).join(" ");
+            if (out) out.innerHTML += "<div class='log'>> " + str + "</div>";
+          };
+          try {
+            ${safeCode}
+            if (out) out.innerHTML += "<div class='ok'>✔ Script Executed Successfully</div>";
+          } catch(e) {
+            if (out) out.innerHTML += "<div class='err'>❌ Execution Error: " + e.message + "</div>";
+          }
+        })();
       </script>
     </body>
     </html>
-  `);
-  doc.close();
+  `;
+
+  previewIframe.srcdoc = htmlContent;
 }
 
 // Switch active file tab
@@ -320,10 +335,24 @@ function bootstrap() {
     });
 
     // 3. Live Preview Drawer Handler
+    const workspace = document.querySelector(".workspace");
     const previewContainer = document.getElementById("preview-container");
+
     document.getElementById("toggle-preview-btn")?.addEventListener("click", () => {
-      previewContainer?.classList.toggle("open");
-      editor.layout();
+      const isSplit = workspace?.classList.toggle("split-mode");
+      if (previewContainer) {
+        previewContainer.classList.toggle("open", isSplit);
+      }
+
+      if (editor && workspace) {
+        const w = isSplit ? Math.floor(workspace.clientWidth / 2) : workspace.clientWidth;
+        const h = workspace.clientHeight;
+        editor.layout({ width: w, height: h });
+      }
+
+      if (isSplit) {
+        updateLivePreview(editor ? editor.getValue() : "");
+      }
     });
 
     // 4. Error Console Drawer Handlers

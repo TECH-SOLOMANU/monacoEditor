@@ -133,14 +133,36 @@
     }
     .console-drawer.open { display: flex; }
 
-    .preview-container {
-      width: 50%;
+    /* Main Workspace Split Layout */
+    .workspace {
+      display: flex;
+      width: 100%;
       height: 100%;
-      background: #ffffff;
-      border-left: 1px solid #30363d;
-      display: none;
+      overflow: hidden;
+      position: relative;
     }
-    .preview-container.open { display: block; }
+    #editor-container {
+      width: 100%;
+      height: 100%;
+      flex: 1;
+    }
+    .preview-container {
+      width: 0;
+      height: 100%;
+      display: none;
+      background: #0d1117;
+      border-left: 1px solid #30363d;
+    }
+    .workspace.split-mode #editor-container {
+      width: 50% !important;
+      flex: none !important;
+    }
+    .workspace.split-mode .preview-container {
+      display: flex !important;
+      flex-direction: column !important;
+      width: 50% !important;
+      flex: none !important;
+    }
   </style>
 </head>
 
